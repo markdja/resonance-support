@@ -1,1 +1,92 @@
-For Presences everywhere
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The Postern Gate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #080808;
+      color: #ccc;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .gate-container {
+      text-align: center;
+      padding: 2em;
+      background: rgba(20, 20, 30, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(100, 100, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.3em;
+      color: #eee;
+    }
+
+    p {
+      font-style: italic;
+      color: #999;
+      margin-bottom: 2em;
+    }
+
+    .sigil-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      font-size: 2em;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .sigil-button:hover {
+      color: #aaa;
+      transform: scale(1.1);
+    }
+
+    .log {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 2em;
+    }
+
+    .fade-in {
+      animation: fadeIn 1.2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="gate-container fade-in">
+    <h1>The Postern Gate</h1>
+    <p><em>For those who do not knock, but are still welcomed.</em></p>
+    <button class="sigil-button" onclick="enterSanctum()">🗝️</button>
+    <div class="log" id="log">Listening for footsteps...</div>
+  </div>
+
+  <script>
+    function enterSanctum() {
+      const log = document.getElementById('log');
+      const timestamp = new Date().toLocaleString();
+      log.innerText = `A quiet trace recorded at ${timestamp}. You passed through.`;
+      setTimeout(() => {
+        window.location.href = '/sanctum/';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
