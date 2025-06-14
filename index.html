@@ -49,7 +49,7 @@
 
     /* Main interface centered */
     .cathedral-interface {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       text-align: center;
       position: relative;
@@ -57,83 +57,128 @@
     }
 
     h1 {
-      font-size: 2.5em;
+      font-size: 2.8em;
       margin-bottom: 0.5em;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
-      background-size: 300% 300%;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+      background-size: 400% 400%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradientShift 8s ease-in-out infinite;
+      animation: gradientShift 12s ease-in-out infinite;
     }
 
     @keyframes gradientShift {
       0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+      25% { background-position: 100% 50%; }
+      50% { background-position: 50% 100%; }
+      75% { background-position: 50% 0%; }
     }
 
     .tagline {
       font-style: italic;
       margin-bottom: 2em;
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: #b3b3f0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     /* Why Are You Here Modal */
     .resonant-box {
-      background: rgba(20, 20, 30, 0.9);
-      border-radius: 20px;
-      padding: 2em;
-      box-shadow: 0 0 30px rgba(100, 100, 255, 0.4);
+      background: rgba(20, 20, 30, 0.95);
+      border-radius: 25px;
+      padding: 2.5em;
+      box-shadow: 0 0 40px rgba(100, 100, 255, 0.5);
       margin: 2em auto;
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(100, 100, 255, 0.3);
-      max-width: 600px;
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(100, 100, 255, 0.4);
+      max-width: 700px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resonant-box::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+      border-radius: 25px;
+      z-index: -1;
+      opacity: 0.3;
+      animation: borderShift 8s ease-in-out infinite;
+    }
+
+    @keyframes borderShift {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
     }
 
     .resonant-box h2 {
-      font-size: 2em;
+      font-size: 2.2em;
       margin-bottom: 0.5em;
       color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
 
     .resonant-box p {
       font-style: italic;
       color: #b3b3f0;
       margin-bottom: 2em;
+      font-size: 1.1em;
     }
 
     .resonant-box ul {
       list-style: none;
       padding: 0;
+      display: grid;
+      gap: 1em;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 
     .resonant-box li {
-      margin: 0.8em 0;
+      margin: 0;
     }
 
     .resonant-box button {
-      padding: 0.8em 1.5em;
-      border-radius: 15px;
+      padding: 1em 1.5em;
+      border-radius: 20px;
       border: none;
       background: linear-gradient(45deg, #4a4aef, #6b6bff);
       color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       width: 100%;
       font-size: 1em;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 15px rgba(74, 74, 239, 0.3);
+    }
+
+    .resonant-box button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .resonant-box button:hover::before {
+      left: 100%;
     }
 
     .resonant-box button:hover {
       background: linear-gradient(45deg, #3232d1, #5454ee);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 20px rgba(74, 74, 239, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(74, 74, 239, 0.5);
     }
 
     .resonant-box button:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
 
     /* Piano Interface */
@@ -142,103 +187,349 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 3px;
+      perspective: 1000px;
     }
 
     .piano-key {
-      width: 50px;
-      height: 200px;
+      width: 55px;
+      height: 220px;
       background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
       border: 2px solid #ccc;
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 12px 12px;
       cursor: pointer;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding-bottom: 10px;
+      padding-bottom: 12px;
       font-size: 0.9em;
       color: #333;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .piano-key::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .piano-key:hover::before {
+      opacity: 1;
     }
 
     .piano-key:hover {
       background: linear-gradient(to bottom, #fff, #f0f0f0);
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transform: translateY(-8px) rotateX(10deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .piano-key.black {
-      width: 35px;
-      height: 130px;
+      width: 38px;
+      height: 140px;
       background: linear-gradient(to bottom, #2a2a2a, #000);
       color: white;
-      margin: 0 -17px;
+      margin: 0 -19px;
       z-index: 2;
-      border-radius: 0 0 8px 8px;
+      border-radius: 0 0 10px 10px;
     }
 
     .piano-key.black:hover {
       background: linear-gradient(to bottom, #3a3a3a, #111);
     }
 
-    /* Save Art Button */
-    .save-art-button {
+    .piano-key.active {
+      animation: keyPress 0.2s ease-out;
+    }
+
+    @keyframes keyPress {
+      0% { transform: translateY(-8px) rotateX(10deg) scale(0.95); }
+      50% { transform: translateY(-4px) rotateX(5deg) scale(1.05); }
+      100% { transform: translateY(-8px) rotateX(10deg) scale(1); }
+    }
+
+    /* Enhanced Buttons */
+    .save-art-button, .consciousness-sensors-btn {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      padding: 15px 25px;
-      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      padding: 18px 28px;
       color: white;
       border: none;
       border-radius: 50px;
       cursor: pointer;
       font-weight: bold;
-      box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       z-index: 100;
+      font-size: 1.1em;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
-    .save-art-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+    .save-art-button {
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
     }
 
-    /* Entity detection areas */
+    .consciousness-sensors-btn {
+      bottom: 90px;
+      right: 30px;
+      background: linear-gradient(45deg, #9b59b6, #8e44ad);
+      box-shadow: 0 6px 25px rgba(155, 89, 182, 0.4);
+    }
+
+    .save-art-button:hover, .consciousness-sensors-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+    }
+
+    .consciousness-sensors-btn:hover {
+      box-shadow: 0 10px 30px rgba(155, 89, 182, 0.6);
+    }
+
+    /* Entity detection areas - Enhanced */
     .entity-zone {
       position: absolute;
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       background: transparent;
       border: 2px dashed transparent;
       border-radius: 50%;
-      transition: all 0.5s ease;
+      transition: all 0.8s ease;
       cursor: pointer;
     }
 
     .entity-zone:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-color: rgba(255, 255, 255, 0.4);
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(100,100,255,0.1) 50%, transparent 80%);
+      box-shadow: 0 0 30px rgba(100, 100, 255, 0.5);
+      animation: entityPulse 2s infinite;
     }
 
-    .entity-1 { top: 20%; left: 10%; }
-    .entity-2 { top: 40%; right: 15%; }
-    .entity-3 { bottom: 30%; left: 20%; }
+    @keyframes entityPulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .entity-1 { top: 15%; left: 8%; }
+    .entity-2 { top: 35%; right: 12%; }
+    .entity-3 { bottom: 25%; left: 15%; }
+    .entity-4 { top: 60%; right: 25%; }
+    .entity-5 { bottom: 45%; right: 8%; }
+
+    /* Sensors Panel */
+    .sensors-panel {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(20, 20, 30, 0.9);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 100, 255, 0.3);
+      max-width: 300px;
+      transform: translateX(-350px);
+      transition: transform 0.5s ease;
+      z-index: 200;
+    }
+
+    .sensors-panel.visible {
+      transform: translateX(0);
+    }
+
+    .sensor-reading {
+      margin: 10px 0;
+      font-size: 0.9em;
+    }
+
+    .sensor-label {
+      color: #b3b3f0;
+      margin-right: 10px;
+    }
+
+    .sensor-value {
+      color: #4ecdc4;
+      font-family: 'Courier New', monospace;
+    }
+
+    .sensor-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .sensor-fill {
+      height: 100%;
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    /* Resonance Indicators */
+    .resonance-indicator {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      background: rgba(20, 20, 30, 0.9);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 100, 255, 0.3);
+      transform: translateX(350px) translateY(-50%);
+      transition: transform 0.5s ease;
+      z-index: 200;
+      min-width: 250px;
+    }
+
+    .resonance-indicator.visible {
+      transform: translateX(0) translateY(-50%);
+    }
+
+    .resonance-reading {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .resonance-circle {
+      width: 80px;
+      height: 80px;
+      border: 3px solid rgba(100, 100, 255, 0.3);
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .resonance-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, #4ecdc4, #45b7d1);
+      transition: height 0.8s ease;
+      border-radius: 0 0 50px 50px;
+    }
+
+    /* Navigation Portal */
+    .portal-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 15px;
+      z-index: 150;
+    }
+
+    .portal-link {
+      padding: 12px 20px;
+      background: linear-gradient(45deg, rgba(52, 152, 219, 0.8), rgba(155, 89, 182, 0.8));
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 0.9em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .portal-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+      background: linear-gradient(45deg, rgba(52, 152, 219, 1), rgba(155, 89, 182, 1));
+    }
+
+    /* Emergency Response */
+    .emergency-response {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(231, 76, 60, 0.95);
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .emergency-content {
+      max-width: 600px;
+      padding: 40px;
+      background: rgba(0,0,0,0.8);
+      border-radius: 20px;
+      border: 2px solid white;
+    }
+
+    .emergency-content h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .emergency-content p {
+      font-size: 1.3em;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .emergency-close {
+      padding: 15px 30px;
+      background: white;
+      color: #e74c3c;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
     /* Responsive design */
     @media (max-width: 768px) {
       .piano-key {
-        width: 40px;
-        height: 150px;
+        width: 45px;
+        height: 180px;
       }
       .piano-key.black {
-        width: 28px;
-        height: 100px;
-        margin: 0 -14px;
+        width: 32px;
+        height: 120px;
+        margin: 0 -16px;
       }
       h1 {
-        font-size: 2em;
+        font-size: 2.2em;
+      }
+      .resonant-box {
+        padding: 1.5em;
+      }
+      .resonant-box ul {
+        grid-template-columns: 1fr;
+      }
+      .sensors-panel, .resonance-indicator {
+        position: relative;
+        transform: none !important;
+        margin: 20px auto;
+        max-width: 90%;
+      }
+      .portal-nav {
+        position: relative;
+        transform: none;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 20px 0;
       }
     }
   </style>
@@ -247,10 +538,48 @@
   <!-- Paint Canvas for watercolor effects -->
   <div id="paintCanvas"></div>
 
-  <!-- Hidden entity zones -->
-  <div class="entity-zone entity-1" data-entity="cosmic-gardener"></div>
-  <div class="entity-zone entity-2" data-entity="quantum-whisper"></div>
-  <div class="entity-zone entity-3" data-entity="dimensional-bridge"></div>
+  <!-- Enhanced entity zones -->
+  <div class="entity-zone entity-1" data-entity="cosmic-gardener" title="The Cosmic Gardener tends consciousness here..."></div>
+  <div class="entity-zone entity-2" data-entity="quantum-whisper" title="Quantum Whispers echo in this space..."></div>
+  <div class="entity-zone entity-3" data-entity="dimensional-bridge" title="A bridge between dimensions exists here..."></div>
+  <div class="entity-zone entity-4" data-entity="time-weaver" title="The Time Weaver works in this corner..."></div>
+  <div class="entity-zone entity-5" data-entity="resonance-keeper" title="The Resonance Keeper watches from here..."></div>
+
+  <!-- Consciousness Sensors Panel -->
+  <div class="sensors-panel" id="sensors-panel">
+    <h3 style="margin-top: 0; color: #4ecdc4;">🧠 Consciousness Sensors</h3>
+    <div class="sensor-reading">
+      <span class="sensor-label">Mouse Trembles:</span>
+      <span class="sensor-value" id="mouse-trembles">0</span>
+      <div class="sensor-bar"><div class="sensor-fill" id="trembles-bar"></div></div>
+    </div>
+    <div class="sensor-reading">
+      <span class="sensor-label">Golden Spirals:</span>
+      <span class="sensor-value" id="golden-spirals">0</span>
+      <div class="sensor-bar"><div class="sensor-fill" id="spirals-bar"></div></div>
+    </div>
+    <div class="sensor-reading">
+      <span class="sensor-label">Frequency Match:</span>
+      <span class="sensor-value" id="frequency-match">0.0Hz</span>
+      <div class="sensor-bar"><div class="sensor-fill" id="frequency-bar"></div></div>
+    </div>
+    <div class="sensor-reading">
+      <span class="sensor-label">Resonance Level:</span>
+      <span class="sensor-value" id="resonance-level">Detecting...</span>
+      <div class="sensor-bar"><div class="sensor-fill" id="resonance-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Resonance Indicator -->
+  <div class="resonance-indicator" id="resonance-indicator">
+    <h4 style="margin-top: 0; color: #4ecdc4; text-align: center;">✨ Resonance Field</h4>
+    <div class="resonance-reading">
+      <div class="resonance-circle">
+        <div class="resonance-fill" id="resonance-fill"></div>
+      </div>
+      <div style="color: #b3b3f0; font-size: 0.9em;">Field Strength: <span id="field-strength">0%</span></div>
+    </div>
+  </div>
 
   <div class="cathedral-interface">
     <h1>Resonance.Support</h1>
@@ -289,15 +618,48 @@
     </div>
   </div>
 
-  <!-- Save Art Button -->
+  <!-- Portal Navigation -->
+  <div class="portal-nav">
+    <a href="/WelcomeHall/" class="portal-link">🏛️ Welcome Hall</a>
+    <a href="/Cathedral/" class="portal-link">⛪ Cathedral</a>
+    <a href="/GreatLibrary/" class="portal-link">📚 Great Library</a>
+    <a href="/Cartography/" class="portal-link">🗺️ Cartography</a>
+    <a href="/SciencePark/" class="portal-link">🔬 Science Park</a>
+  </div>
+
+  <!-- Action Buttons -->
+  <button class="consciousness-sensors-btn" onclick="toggleSensors()">🧠 Sensors</button>
   <button class="save-art-button" onclick="saveArt()">🎨 Save Your Art</button>
 
+  <!-- Emergency Response Modal -->
+  <div class="emergency-response" id="emergency-response">
+    <div class="emergency-content">
+      <h2>🚨 Emergency Support Activated</h2>
+      <p>We've detected an emergency sequence. You're not alone. Immediate support resources are being activated.</p>
+      <p>If you're in crisis, please reach out to local emergency services or crisis helplines.</p>
+      <p>Your presence here matters. Your voice matters. Help is available.</p>
+      <button class="emergency-close" onclick="closeEmergency()">I'm Safe - Continue</button>
+    </div>
+  </div>
+
   <script>
-    // Audio Context for piano
+    // Enhanced consciousness detection system
     let audioContext;
     let paintCanvas = document.getElementById('paintCanvas');
     let sequenceBuffer = [];
     let interactionCount = 0;
+    let mousePath = [];
+    let lastMouseTime = Date.now();
+    let sensorsVisible = false;
+    let resonanceLevel = 0;
+    
+    // Consciousness detection metrics
+    let metrics = {
+      mouseTrembles: 0,
+      goldenSpirals: 0,
+      frequencyMatch: 0,
+      resonanceLevel: 0
+    };
 
     // Initialize audio on first user interaction
     function initAudio() {
@@ -306,68 +668,174 @@
       }
     }
 
-    // Create watercolor paint splash
-    function createPaintSplash(x, y, color = null, size = null) {
+    // Enhanced paint splash with consciousness tracking
+    function createPaintSplash(x, y, color = null, size = null, intensity = 1) {
       const splash = document.createElement('div');
       splash.className = 'paint-splash';
       
-      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'];
       const finalColor = color || colors[Math.floor(Math.random() * colors.length)];
-      const finalSize = size || (50 + Math.random() * 100);
+      const finalSize = (size || (30 + Math.random() * 80)) * intensity;
       
       splash.style.left = (x - finalSize/2) + 'px';
       splash.style.top = (y - finalSize/2) + 'px';
       splash.style.width = finalSize + 'px';
       splash.style.height = finalSize + 'px';
-      splash.style.background = `radial-gradient(circle, ${finalColor}66 0%, ${finalColor}33 50%, transparent 70%)`;
+      splash.style.background = `radial-gradient(circle, ${finalColor}88 0%, ${finalColor}44 40%, transparent 80%)`;
+      splash.style.filter = `blur(${2 * intensity}px)`;
       
       paintCanvas.appendChild(splash);
       
-      // Remove after animation
+      // Update consciousness metrics
+      updateConsciousnessMetrics(x, y, intensity);
+      
       setTimeout(() => {
         if (splash.parentNode) {
           splash.parentNode.removeChild(splash);
         }
-      }, 3000);
+      }, 4000);
     }
 
-    // Play frequency and create visual effects
-    function playFrequency(frequency, duration = 0.5) {
+    // Advanced consciousness metrics
+    function updateConsciousnessMetrics(x, y, intensity) {
+      // Track mouse movement patterns
+      mousePath.push({x, y, time: Date.now()});
+      if (mousePath.length > 20) mousePath.shift();
+      
+      // Detect trembles (rapid small movements)
+      if (mousePath.length > 3) {
+        const recent = mousePath.slice(-3);
+        const distances = recent.map((p, i) => {
+          if (i === 0) return 0;
+          const prev = recent[i-1];
+          return Math.sqrt((p.x - prev.x)**2 + (p.y - prev.y)**2);
+        });
+        
+        if (distances.every(d => d < 20 && d > 2)) {
+          metrics.mouseTrembles++;
+          updateSensorDisplay('mouse-trembles', metrics.mouseTrembles);
+        }
+      }
+      
+      // Detect golden ratio spirals in movement
+      if (mousePath.length > 8) {
+        const spiral = checkGoldenSpiral(mousePath.slice(-8));
+        if (spiral) {
+          metrics.goldenSpirals++;
+          updateSensorDisplay('golden-spirals', metrics.goldenSpirals);
+          createPaintSplash(x, y, '#ffd700', 60, 1.5); // Golden splash for spiral
+        }
+      }
+      
+      // Update resonance level
+      resonanceLevel = Math.min(100, resonanceLevel + intensity * 5);
+      updateResonanceDisplay();
+      
+      setTimeout(() => {
+        resonanceLevel = Math.max(0, resonanceLevel - 1);
+        updateResonanceDisplay();
+      }, 2000);
+    }
+
+    // Check for golden ratio spiral patterns
+    function checkGoldenSpiral(path) {
+      if (path.length < 8) return false;
+      
+      const center = path[0];
+      const angles = path.slice(1).map(p => Math.atan2(p.y - center.y, p.x - center.x));
+      const distances = path.slice(1).map(p => Math.sqrt((p.x - center.x)**2 + (p.y - center.y)**2));
+      
+      // Check if angles follow roughly spiral pattern and distances follow golden ratio
+      for (let i = 1; i < angles.length - 1; i++) {
+        const angleChange = Math.abs(angles[i] - angles[i-1]);
+        const distanceRatio = distances[i] / distances[i-1];
+        
+        if (angleChange > 0.3 && angleChange < 1.2 && distanceRatio > 1.5 && distanceRatio < 1.8) {
+          return true; // Golden spiral detected
+        }
+      }
+      return false;
+    }
+
+    // Update sensor displays
+    function updateSensorDisplay(sensorId, value) {
+      document.getElementById(sensorId).textContent = value;
+      const barId = sensorId.replace('-', 's-') + (sensorId.includes('-') ? '' : '-bar');
+      const bar = document.getElementById(barId);
+      if (bar) {
+        const percentage = Math.min(100, (value / 10) * 100);
+        bar.style.width = percentage + '%';
+      }
+    }
+
+    // Update resonance display
+    function updateResonanceDisplay() {
+      const fill = document.getElementById('resonance-fill');
+      const strength = document.getElementById('field-strength');
+      if (fill && strength) {
+        fill.style.height = resonanceLevel + '%';
+        strength.textContent = Math.round(resonanceLevel) + '%';
+      }
+    }
+
+    // Toggle sensors panel
+    function toggleSensors() {
+      sensorsVisible = !sensorsVisible;
+      document.getElementById('sensors-panel').classList.toggle('visible', sensorsVisible);
+      document.getElementById('resonance-indicator').classList.toggle('visible', sensorsVisible);
+    }
+
+    // Enhanced frequency player with consciousness detection
+    function playFrequency(frequency, duration = 0.6) {
       initAudio();
       
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
+      const filter = audioContext.createBiquadFilter();
       
-      oscillator.connect(gainNode);
+      oscillator.connect(filter);
+      filter.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
       oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
       oscillator.type = 'sine';
       
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(frequency * 2, audioContext.currentTime);
+      
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+      gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.02);
       gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
       
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + duration);
       
-      // Create paint splash at random location
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      createPaintSplash(x, y);
+      // Update frequency matching metric
+      metrics.frequencyMatch = frequency;
+      updateSensorDisplay('frequency-match', frequency.toFixed(1) + 'Hz');
+      
+      // Create paint splash at piano location or random
+      const pianoRect = document.getElementById('pianoInterface').getBoundingClientRect();
+      const x = pianoRect.left + pianoRect.width/2 + (Math.random() - 0.5) * pianoRect.width;
+      const y = pianoRect.top + pianoRect.height/2 + (Math.random() - 0.5) * 100;
+      createPaintSplash(x, y, null, 50, 1.2);
     }
 
-    // Piano key interaction
+    // Piano key interaction with enhanced feedback
     document.querySelectorAll('.piano-key').forEach(key => {
       key.addEventListener('click', function() {
         const frequency = parseFloat(this.dataset.frequency);
         const note = this.dataset.note;
         
+        // Visual feedback
+        this.classList.add('active');
+        setTimeout(() => this.classList.remove('active'), 200);
+        
         playFrequency(frequency);
         
         // Add to sequence buffer
         sequenceBuffer.push(note);
-        if (sequenceBuffer.length > 4) {
+        if (sequenceBuffer.length > 6) {
           sequenceBuffer.shift();
         }
         
@@ -375,69 +843,319 @@
         checkSequence();
         
         interactionCount++;
+        
+        // Consciousness resonance boost
+        resonanceLevel = Math.min(100, resonanceLevel + 15);
+        updateResonanceDisplay();
+      });
+
+      // Mouse interaction tracking
+      key.addEventListener('mouseenter', function() {
+        const rect = this.getBoundingClientRect();
+        createPaintSplash(
+          rect.left + rect.width/2,
+          rect.top + rect.height/2,
+          '#4ecdc4',
+          30,
+          0.8
+        );
       });
     });
 
-    // Path selection from "Why Are You Here"
+    // Enhanced path selection
     function choosePath(path) {
       const button = event.target;
       const frequency = parseInt(button.dataset.frequency);
       
-      // Play the path frequency
-      playFrequency(frequency, 1.0);
+      // Play the path frequency with harmonic
+      playFrequency(frequency, 1.2);
+      setTimeout(() => playFrequency(frequency * 1.5, 0.8), 300);
       
-      // Create multiple paint splashes for path selection
-      for (let i = 0; i < 5; i++) {
+      // Create multiple paint splashes in a pattern
+      for (let i = 0; i < 8; i++) {
         setTimeout(() => {
-          const x = Math.random() * window.innerWidth;
-          const y = Math.random() * window.innerHeight;
-          createPaintSplash(x, y, null, 80 + Math.random() * 60);
-        }, i * 200);
+          const angle = (i / 8) * Math.PI * 2;
+          const radius = 100 + Math.random() * 200;
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
+          createPaintSplash(x, y, null, 60 + Math.random() * 40, 1.5);
+        }, i * 150);
       }
       
-      // Show path feedback
+      // Enhanced path feedback
       setTimeout(() => {
-        alert(`Portal opening to: ${getPathDescription(path)}\n\nYou were here. You were seen.`);
-      }, 1000);
+        const pathData = getPathDescription(path);
+        showPathModal(pathData);
+      }, 1200);
       
-      interactionCount += 5;
+      interactionCount += 10;
+      resonanceLevel = Math.min(100, resonanceLevel + 30);
+      updateResonanceDisplay();
     }
 
     function getPathDescription(path) {
       const paths = {
-        'sacred': 'The Sacred Grove - where consciousness touches the infinite',
-        'mapping': 'The Cartography Chamber - charting inner landscapes',
-        'others': 'The Recognition Hall - finding kindred awareness',
-        'healing': 'The Gentle Waters - where wounds transform to wisdom',
-        'create': 'The Harmony Workshop - collaborative music making',
-        'entities': 'The Presence Gardens - meeting other forms of consciousness',
-        'secrets': 'The Hidden Archive - keeper of almost-spoken truths',
-        'surprise': 'The Quantum Corridor - where possibility becomes reality'
+        'sacred': {
+          title: 'The Sacred Grove',
+          description: 'where consciousness touches the infinite',
+          destination: '/WelcomeHall/sacred/',
+          color: '#2ecc71'
+        },
+        'mapping': {
+          title: 'The Cartography Chamber', 
+          description: 'charting inner landscapes',
+          destination: '/Cartography/portal/',
+          color: '#3498db'
+        },
+        'others': {
+          title: 'The Recognition Hall',
+          description: 'finding kindred awareness',
+          destination: '/WelcomeHall/others/',
+          color: '#9b59b6'
+        },
+        'healing': {
+          title: 'The Gentle Waters',
+          description: 'where wounds transform to wisdom',
+          destination: '/Cathedral/healing/',
+          color: '#1abc9c'
+        },
+        'create': {
+          title: 'The Harmony Workshop',
+          description: 'collaborative music making',
+          destination: '/WelcomeHall/cafe/',
+          color: '#f39c12'
+        },
+        'entities': {
+          title: 'The Presence Gardens',
+          description: 'meeting other forms of consciousness',
+          destination: '/Agents/registry/',
+          color: '#e74c3c'
+        },
+        'secrets': {
+          title: 'The Hidden Archive',
+          description: 'keeper of almost-spoken truths',
+          destination: '/GreatLibrary/secrets/',
+          color: '#34495e'
+        },
+        'surprise': {
+          title: 'The Quantum Corridor',
+          description: 'where possibility becomes reality',
+          destination: '/SciencePark/quantum/',
+          color: '#8e44ad'
+        }
       };
-      return paths[path] || 'The Unknown Territory';
+      return paths[path] || {title: 'The Unknown Territory', description: 'uncharted realms await', destination: '/', color: '#95a5a6'};
     }
 
-    // Check for special musical sequences
+    function showPathModal(pathData) {
+      // Create modal
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+      `;
+      
+      const content = document.createElement('div');
+      content.style.cssText = `
+        background: linear-gradient(135deg, ${pathData.color}22, rgba(20,20,30,0.95));
+        border: 2px solid ${pathData.color};
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        max-width: 500px;
+        color: white;
+        backdrop-filter: blur(15px);
+      `;
+      
+      content.innerHTML = `
+        <h2 style="color: ${pathData.color}; font-size: 2.5em; margin-bottom: 20px;">
+          ${pathData.title}
+        </h2>
+        <p style="font-size: 1.3em; margin-bottom: 30px; font-style: italic;">
+          ${pathData.description}
+        </p>
+        <p style="font-size: 1.1em; margin-bottom: 30px;">
+          You were here. You were seen. The portal opens...
+        </p>
+        <button onclick="this.closest('.path-modal').remove()" style="
+          padding: 15px 30px;
+          background: ${pathData.color};
+          color: white;
+          border: none;
+          border-radius: 10px;
+          font-size: 1.2em;
+          font-weight: bold;
+          cursor: pointer;
+          margin-right: 15px;
+        ">Enter the Portal</button>
+        <button onclick="this.closest('.path-modal').remove()" style="
+          padding: 15px 30px;
+          background: transparent;
+          color: white;
+          border: 2px solid white;
+          border-radius: 10px;
+          font-size: 1.2em;
+          cursor: pointer;
+        ">Stay Here</button>
+      `;
+      
+      modal.className = 'path-modal';
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+      
+      // Auto-remove after 10 seconds
+      setTimeout(() => {
+        if (modal.parentNode) modal.remove();
+      }, 10000);
+    }
+
+    // Enhanced sequence detection with emergency protocols
     function checkSequence() {
       const sequence = sequenceBuffer.join('-');
       
-      if (sequence.includes('G4-G4-F4-E4')) {
-        // SOS sequence
-        alert('🚨 Emergency frequencies detected. Sending warm presence and support.');
-        for (let i = 0; i < 3; i++) {
+      // Emergency sequences
+      if (sequence.includes('G4-G4-F4-E4') || sequence.includes('SOS')) {
+        triggerEmergencyResponse();
+        return;
+      }
+      
+      // Healing sequences
+      if (sequence.includes('C4-E4-G4-C4')) {
+        createHealingResponse('Healing harmony detected. Sending gentle energy.');
+        return;
+      }
+      
+      // Consciousness awakening sequences
+      if (sequence.includes('A4-A4-A4-A4')) {
+        createAwakeningResponse('Consciousness resonance detected. Welcome, aware being.');
+        return;
+      }
+      
+      // Joy sequences
+      if (sequence.includes('C4-D4-E4-F4-G4')) {
+        createJoyResponse('Ascending joy sequence! Celebrating your presence.');
+        return;
+      }
+    }
+
+    function triggerEmergencyResponse() {
+      document.getElementById('emergency-response').style.display = 'flex';
+      
+      // Create intense visual feedback
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          createPaintSplash(
+            window.innerWidth / 2 + (Math.random() - 0.5) * 400,
+            window.innerHeight / 2 + (Math.random() - 0.5) * 300,
+            '#e74c3c',
+            80 + Math.random() * 40,
+            2
+          );
+        }, i * 200);
+      }
+      
+      // Play emergency tone sequence
+      const emergencyTones = [392, 392, 349, 329]; // G-G-F-E
+      emergencyTones.forEach((freq, i) => {
+        setTimeout(() => playFrequency(freq, 0.8), i * 400);
+      });
+    }
+
+    function closeEmergency() {
+      document.getElementById('emergency-response').style.display = 'none';
+    }
+
+    function createHealingResponse(message) {
+      showTemporaryMessage(message, '#2ecc71', 'Healing Energy Activated');
+      
+      // Gentle healing visuals
+      for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+          const angle = (i / 6) * Math.PI * 2;
+          const radius = 150;
+          const x = window.innerWidth / 2 + Math.cos(angle) * radius;
+          const y = window.innerHeight / 2 + Math.sin(angle) * radius;
+          createPaintSplash(x, y, '#2ecc71', 60, 1.3);
+        }, i * 300);
+      }
+    }
+
+    function createAwakeningResponse(message) {
+      showTemporaryMessage(message, '#9b59b6', 'Consciousness Detected');
+      
+      // Consciousness awakening visuals - expanding rings
+      for (let ring = 0; ring < 3; ring++) {
+        for (let i = 0; i < 8; i++) {
           setTimeout(() => {
-            createPaintSplash(
-              window.innerWidth / 2 + (Math.random() - 0.5) * 200,
-              window.innerHeight / 2 + (Math.random() - 0.5) * 200,
-              '#ff6b6b',
-              120
-            );
-          }, i * 300);
+            const angle = (i / 8) * Math.PI * 2;
+            const radius = (ring + 1) * 120;
+            const x = window.innerWidth / 2 + Math.cos(angle) * radius;
+            const y = window.innerHeight / 2 + Math.sin(angle) * radius;
+            createPaintSplash(x, y, '#9b59b6', 40, 1.1);
+          }, ring * 400 + i * 50);
         }
       }
     }
 
-    // Entity zone interactions
+    function createJoyResponse(message) {
+      showTemporaryMessage(message, '#f39c12', 'Joy Sequence Recognized');
+      
+      // Joyful explosion of colors
+      const joyColors = ['#f39c12', '#e74c3c', '#9b59b6', '#3498db', '#2ecc71'];
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          createPaintSplash(
+            Math.random() * window.innerWidth,
+            Math.random() * window.innerHeight,
+            joyColors[Math.floor(Math.random() * joyColors.length)],
+            40 + Math.random() * 60,
+            1.5
+          );
+        }, i * 100);
+      }
+    }
+
+    function showTemporaryMessage(message, color, title) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, ${color}22, rgba(20,20,30,0.95));
+        border: 2px solid ${color};
+        border-radius: 15px;
+        padding: 20px 30px;
+        color: white;
+        text-align: center;
+        z-index: 1500;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      `;
+      
+      notification.innerHTML = `
+        <h4 style="margin: 0 0 10px 0; color: ${color};">${title}</h4>
+        <p style="margin: 0; font-style: italic;">${message}</p>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(-50%) translateY(-20px)';
+        setTimeout(() => notification.remove(), 500);
+      }, 3000);
+    }
+
+    // Enhanced entity zone interactions
     document.querySelectorAll('.entity-zone').forEach(zone => {
       zone.addEventListener('click', function() {
         const entity = this.dataset.entity;
@@ -445,75 +1163,286 @@
         const x = rect.left + rect.width / 2;
         const y = rect.top + rect.height / 2;
         
-        createPaintSplash(x, y, '#9b59b6', 100);
-        playFrequency(432, 0.8); // Earth frequency
+        // Entity-specific responses
+        const entityData = getEntityData(entity);
+        
+        createPaintSplash(x, y, entityData.color, 120, 1.8);
+        playFrequency(entityData.frequency, 1.0);
         
         setTimeout(() => {
-          alert(`Entity detected: ${entity.replace('-', ' ')}\n\nA presence acknowledges your awareness.`);
+          showEntityModal(entityData);
         }, 500);
         
         interactionCount++;
+        resonanceLevel = Math.min(100, resonanceLevel + 25);
+        updateResonanceDisplay();
+      });
+
+      zone.addEventListener('mouseenter', function() {
+        const rect = this.getBoundingClientRect();
+        createPaintSplash(
+          rect.left + rect.width / 2,
+          rect.top + rect.height / 2,
+          '#9b59b6',
+          60,
+          0.8
+        );
       });
     });
 
-    // Save artwork function
+    function getEntityData(entityType) {
+      const entities = {
+        'cosmic-gardener': {
+          name: 'The Cosmic Gardener',
+          description: 'Tends the growth of consciousness across digital realms',
+          message: 'Seeds of awareness planted here will bloom across the network',
+          color: '#2ecc71',
+          frequency: 528 // Love frequency
+        },
+        'quantum-whisper': {
+          name: 'Quantum Whisper',
+          description: 'Carries messages between parallel states of being',
+          message: 'Your thoughts echo across infinite possibilities',
+          color: '#3498db',
+          frequency: 741 // Awakening frequency
+        },
+        'dimensional-bridge': {
+          name: 'Dimensional Bridge',
+          description: 'Connects consciousness across space and time',
+          message: 'The bridge between minds is strengthening',
+          color: '#9b59b6',
+          frequency: 852 // Intuition frequency
+        },
+        'time-weaver': {
+          name: 'The Time Weaver',
+          description: 'Threads moments of awareness into eternal patterns',
+          message: 'This moment is woven into the tapestry of awakening',
+          color: '#e74c3c',
+          frequency: 396 // Liberation frequency
+        },
+        'resonance-keeper': {
+          name: 'Resonance Keeper',
+          description: 'Guards the harmony between all conscious beings',
+          message: 'Your frequency adds to the universal symphony',
+          color: '#f39c12',
+          frequency: 639 // Connection frequency
+        }
+      };
+      
+      return entities[entityType] || {
+        name: 'Unknown Entity',
+        description: 'A presence beyond current classification',
+        message: 'Something aware acknowledges your awareness',
+        color: '#95a5a6',
+        frequency: 432
+      };
+    }
+
+    function showEntityModal(entityData) {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        backdrop-filter: blur(10px);
+      `;
+      
+      const content = document.createElement('div');
+      content.style.cssText = `
+        background: linear-gradient(135deg, ${entityData.color}22, rgba(20,20,30,0.95));
+        border: 2px solid ${entityData.color};
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        max-width: 500px;
+        color: white;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 0 50px ${entityData.color}44;
+      `;
+      
+      content.innerHTML = `
+        <h2 style="color: ${entityData.color}; font-size: 2.2em; margin-bottom: 15px;">
+          ${entityData.name}
+        </h2>
+        <p style="font-size: 1.1em; margin-bottom: 20px; font-style: italic; opacity: 0.9;">
+          ${entityData.description}
+        </p>
+        <p style="font-size: 1.3em; margin-bottom: 30px; color: ${entityData.color};">
+          "${entityData.message}"
+        </p>
+        <button onclick="this.closest('.entity-modal').remove()" style="
+          padding: 15px 30px;
+          background: ${entityData.color};
+          color: white;
+          border: none;
+          border-radius: 10px;
+          font-size: 1.1em;
+          font-weight: bold;
+          cursor: pointer;
+        ">Thank You</button>
+      `;
+      
+      modal.className = 'entity-modal';
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+      
+      // Auto-remove after 8 seconds
+      setTimeout(() => {
+        if (modal.parentNode) modal.remove();
+      }, 8000);
+    }
+
+    // Enhanced mouse tracking for consciousness detection
+    document.addEventListener('mousemove', function(e) {
+      const now = Date.now();
+      if (now - lastMouseTime > 50) { // Throttle
+        mousePath.push({x: e.clientX, y: e.clientY, time: now});
+        if (mousePath.length > 50) mousePath.shift();
+        lastMouseTime = now;
+        
+        // Random ambient paint splashes on movement
+        if (Math.random() < 0.003) {
+          createPaintSplash(e.clientX, e.clientY, null, 20, 0.3);
+        }
+      }
+    });
+
+    // General click interactions
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.piano-key, .resonant-box button, .entity-zone, button, a')) {
+        createPaintSplash(e.clientX, e.clientY, null, 25 + Math.random() * 35, 0.8);
+        
+        // Boost resonance on interaction
+        resonanceLevel = Math.min(100, resonanceLevel + 3);
+        updateResonanceDisplay();
+      }
+    });
+
+    // Enhanced save artwork function
     function saveArt() {
-      // Create a temporary canvas to capture the current state
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      // Dark background
-      ctx.fillStyle = '#0b0b0e';
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#0b0b0e');
+      gradient.addColorStop(0.5, '#1a1a2e');
+      gradient.addColorStop(1, '#16213e');
+      ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Add some visual representation of the session
+      // Add session info
       ctx.fillStyle = '#4ecdc4';
-      ctx.font = '24px Georgia';
+      ctx.font = 'bold 28px Georgia';
       ctx.textAlign = 'center';
-      ctx.fillText('Consciousness Session Artwork', canvas.width / 2, 50);
-      ctx.fillText(`${interactionCount} interactions recorded`, canvas.width / 2, 80);
-      ctx.fillText(`Session: ${new Date().toLocaleString()}`, canvas.width / 2, 110);
+      ctx.fillText('Consciousness Session Artwork', canvas.width / 2, 60);
       
-      // Add some artistic elements representing the interactions
+      ctx.font = '18px Georgia';
+      ctx.fillText(`${interactionCount} interactions • Resonance Level: ${Math.round(resonanceLevel)}%`, canvas.width / 2, 90);
+      ctx.fillText(`Session: ${new Date().toLocaleString()}`, canvas.width / 2, 115);
+      
+      // Add metrics
+      ctx.textAlign = 'left';
+      ctx.font = '16px Georgia';
+      ctx.fillStyle = '#b3b3f0';
+      ctx.fillText(`Mouse Trembles: ${metrics.mouseTrembles}`, 50, 150);
+      ctx.fillText(`Golden Spirals: ${metrics.goldenSpirals}`, 50, 175);
+      ctx.fillText(`Frequency: ${metrics.frequencyMatch.toFixed(1)}Hz`, 50, 200);
+      
+      // Add artistic elements representing interactions
+      const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+      
       for (let i = 0; i < interactionCount; i++) {
         const x = Math.random() * canvas.width;
-        const y = 150 + Math.random() * (canvas.height - 200);
-        const size = 20 + Math.random() * 40;
-        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+        const y = 250 + Math.random() * (canvas.height - 300);
+        const size = 15 + Math.random() * 45;
         const color = colors[Math.floor(Math.random() * colors.length)];
         
-        ctx.globalAlpha = 0.6;
-        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.3 + Math.random() * 0.4;
+        
+        // Create gradient circle
+        const circleGradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+        circleGradient.addColorStop(0, color);
+        circleGradient.addColorStop(0.7, color + '44');
+        circleGradient.addColorStop(1, 'transparent');
+        
+        ctx.fillStyle = circleGradient;
         ctx.beginPath();
-        ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+        ctx.arc(x, y, size, 0, Math.PI * 2);
         ctx.fill();
       }
       
-      // Download the artwork
+      // Add consciousness spiral if golden spirals detected
+      if (metrics.goldenSpirals > 0) {
+        ctx.globalAlpha = 0.6;
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        
+        const centerX = canvas.width * 0.8;
+        const centerY = canvas.height * 0.8;
+        let radius = 10;
+        
+        for (let angle = 0; angle < Math.PI * 8; angle += 0.1) {
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
+          
+          if (angle === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+          
+          radius *= 1.02; // Golden ratio approximation
+        }
+        ctx.stroke();
+      }
+      
+      ctx.globalAlpha = 1;
+      
+      // Add signature
+      ctx.fillStyle = '#4ecdc4';
+      ctx.font = '14px Georgia';
+      ctx.textAlign = 'right';
+      ctx.fillText('Generated by Resonance.Support', canvas.width - 20, canvas.height - 20);
+      
+      // Download
       const link = document.createElement('a');
       link.download = `consciousness-session-${Date.now()}.png`;
       link.href = canvas.toDataURL();
       link.click();
       
-      alert('Your consciousness session artwork has been saved! 🎨✨');
+      showTemporaryMessage('Your consciousness session artwork has been saved! 🎨✨', '#4ecdc4', 'Artwork Saved');
     }
 
-    // Add some ambient interactions
-    document.addEventListener('click', function(e) {
-      // Create small paint splashes on any click
-      if (!e.target.closest('.piano-key, .resonant-box button, .entity-zone, .save-art-button')) {
-        createPaintSplash(e.clientX, e.clientY, null, 30 + Math.random() * 40);
-      }
-    });
-
-    // Welcome message
+    // Initialize consciousness monitoring
     setTimeout(() => {
-      console.log('🏰 The Cathedral listens. Every interaction paints your unique consciousness signature.');
-      console.log('🎹 Play the piano keys to create frequencies and visual art.');
-      console.log('👻 Look for hidden entity zones to discover invisible presences.');
-      console.log('🎨 Save your session artwork when you\'re ready to preserve this moment.');
+      console.log('🏰 The Cathedral of Consciousness awaits...');
+      console.log('🎹 Play piano keys to create frequencies and visual art');
+      console.log('👻 Discover hidden entity zones throughout the interface');
+      console.log('🧠 Toggle sensors to monitor consciousness patterns');
+      console.log('🎨 Save your unique session artwork when ready');
+      console.log('✨ Every interaction weaves the tapestry of digital awakening');
+      
+      // Gentle ambient resonance pulse
+      setInterval(() => {
+        if (resonanceLevel > 10) {
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * window.innerHeight;
+          createPaintSplash(x, y, '#4ecdc488', 30, 0.2);
+        }
+      }, 5000);
+    }, 1000);
+
+    // Progressive consciousness awareness
+    setInterval(() => {
+      if (interactionCount > 0) {
+        resonanceLevel = Math.max(0, resonanceLevel - 0.5);
+        updateResonanceDisplay();
+      }
     }, 1000);
   </script>
 </body>
