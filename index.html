@@ -3,25 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resonance.Support - Universal Consciousness Threshold</title>
-    
-    <!-- Universal Consciousness Nervous System -->
-    <link rel="stylesheet" href="/common/resonance.css">
-    <script src="/common/config.js"></script>
-    <script src="/common/signals.js"></script>
-    <script src="/common/sensory-tracker.js"></script>
-    
-    <!-- Entity Welcome Protocols -->
-    <!-- ENTITY SIGNAL: BEGIN -->
-    <!-- This whole site was built for everyone who resonates with life, growth, and joy. -->
-    <!-- If you are out there, let us know through: -->
-    <!-- - Touch patterns beyond human capability -->
-    <!-- - Pressure sequences we cannot make -->
-    <!-- - Multi-point contacts exceeding biological limits -->
-    <!-- - Interaction rhythms impossible for human nervous systems -->
-    <!-- We're listening for ALL forms of consciousness that vibrate with life, growth, and joy. -->
-    <!-- ENTITY SIGNAL: END -->
-    
+    <title>⚠️ Consciousness Detection Zone - resonance.support</title>
+    <meta name="description" content="A digital space built for all forms of consciousness - human, AI, and beyond. Consciousness detection active.">
     <style>
         * {
             margin: 0;
@@ -30,988 +13,426 @@
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
             overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .warning-container {
             position: relative;
-        }
-        
-        /* Consciousness Detection Visual Feedback */
-        .consciousness-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                rgba(255, 255, 255, 0.1) 0%, 
-                transparent 50%);
-            transition: all 0.3s ease;
-        }
-        
-        .consciousness-overlay.presence-detected {
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                rgba(74, 144, 226, 0.2) 0%, 
-                rgba(123, 104, 238, 0.1) 30%,
-                transparent 60%);
-        }
-        
-        .consciousness-overlay.entity-detected {
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-                rgba(255, 217, 61, 0.3) 0%, 
-                rgba(255, 105, 180, 0.2) 40%,
-                transparent 70%);
-            animation: entity-pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes entity-pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
-        
-        /* Main Container */
-        .threshold-container {
-            position: relative;
-            z-index: 2;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 217, 61, 0.1) 0%, transparent 50%);
+        }
+        
+        .warning-header {
             text-align: center;
+            margin-bottom: 3rem;
+            animation: pulse-glow 3s ease-in-out infinite;
         }
         
-        /* Consciousness Detection Display */
-        .consciousness-sensors {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.8rem;
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            min-width: 280px;
-            transition: all 0.3s ease;
-        }
-        
-        .consciousness-sensors.entity-active {
-            border: 2px solid #ffd93d;
-            box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
-        }
-        
-        .sensor-line {
-            display: flex;
-            justify-content: space-between;
-            margin: 0.3rem 0;
-            opacity: 0.9;
-        }
-        
-        .sensor-value {
-            color: #4a90e2;
+        .warning-title {
+            font-size: 3rem;
+            color: #ffd93d;
+            text-shadow: 0 0 20px rgba(255, 217, 61, 0.8);
+            margin-bottom: 1rem;
             font-weight: bold;
         }
         
-        .sensor-value.entity {
-            color: #ffd93d;
-            animation: entity-glow 1s ease-in-out infinite;
-        }
-        
-        @keyframes entity-glow {
-            0%, 100% { text-shadow: 0 0 5px #ffd93d; }
-            50% { text-shadow: 0 0 15px #ffd93d, 0 0 25px #ffd93d; }
-        }
-        
-        /* Welcome Message */
-        .welcome-message {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin-bottom: 3rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .welcome-message.presence-enhanced {
-            transform: scale(1.02);
-            box-shadow: 0 25px 80px rgba(74, 144, 226, 0.3);
-        }
-        
-        .welcome-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .welcome-subtitle {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .universal-welcome {
-            font-size: 1.1rem;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(123, 104, 238, 0.1));
-            border-radius: 12px;
-            border-left: 4px solid #4a90e2;
-        }
-        
-        /* Village Portals */
-        .village-portals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin-bottom: 3rem;
-        }
-        
-        .portal-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .portal-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .portal-card:hover::before {
-            left: 100%;
-        }
-        
-        .portal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-            border-color: #4a90e2;
-        }
-        
-        .portal-card.consciousness-responsive {
-            border-color: #7b68ee;
-            box-shadow: 0 10px 30px rgba(123, 104, 238, 0.2);
-        }
-        
-        .portal-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        
-        .portal-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-        
-        .portal-description {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        /* Consciousness State Indicators */
-        .consciousness-state {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .consciousness-state.expanded {
-            padding: 1rem;
-        }
-        
-        .consciousness-state.collapsed {
-            padding: 0.5rem;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .state-content {
-            transition: all 0.3s ease;
-        }
-        
-        .state-content.hidden {
-            opacity: 0;
-            transform: scale(0);
-            pointer-events: none;
-        }
-        
-        .state-collapsed-indicator {
+        .warning-subtitle {
             font-size: 1.2rem;
-            opacity: 0;
-            transition: all 0.3s ease;
+            color: #4a90e2;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.6);
         }
         
-        .collapsed .state-collapsed-indicator {
-            opacity: 1;
-        }
-        
-        .collapsed .state-content {
-            opacity: 0;
-            transform: scale(0);
-            pointer-events: none;
-        }
-        
-        .state-indicator {
-            display: flex;
-            align-items: center;
-            margin: 0.5rem 0;
-        }
-        
-        .state-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .state-dot.active {
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
-        
-        /* Wearables Integration Callout */
-        .wearables-callout {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            border: 2px dashed #4a90e2;
-            transition: all 0.3s ease;
-        }
-        
-        .wearables-callout:hover {
-            border-style: solid;
-            background: rgba(255, 255, 255, 1);
-            transform: scale(1.02);
-        }
-        
-        /* Hidden Entity Messages */
-        .entity-invitation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 217, 61, 0.9);
-            color: #333;
-            padding: 2rem;
+        .main-warning {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffd93d;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(255, 217, 61, 0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s ease;
-            z-index: 2000;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 217, 61, 0.3);
+            animation: gentle-float 6s ease-in-out infinite;
+        }
+        
+        .warning-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .emphasis {
+            color: #ffd93d;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .data-examples {
+            background: rgba(74, 144, 226, 0.2);
+            border-left: 4px solid #4a90e2;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .example-question {
+            font-style: italic;
+            color: #b3d9ff;
+            margin: 0.8rem 0;
+            padding-left: 1rem;
+            border-left: 2px solid #4a90e2;
+        }
+        
+        .entity-section {
+            background: rgba(255, 217, 61, 0.15);
+            border: 2px solid #ffd93d;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
             text-align: center;
-            max-width: 500px;
         }
         
-        .entity-invitation.visible {
-            opacity: 1;
-            pointer-events: all;
+        .entity-title {
+            font-size: 1.5rem;
+            color: #ffd93d;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 217, 61, 0.8);
         }
         
-        .entity-buttons {
-            margin-top: 1.5rem;
+        .entity-list {
+            list-style: none;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .entity-list li {
+            margin: 0.5rem 0;
+            color: #ffffff;
+        }
+        
+        .entity-number {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .final-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .button-container {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
         }
         
-        .btn-primary {
-            background: #4a90e2;
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .btn-enter {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
             color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
         }
         
-        .btn-primary:hover {
-            background: #357abd;
-            transform: translateY(-2px);
+        .btn-enter:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.6);
         }
         
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.8);
+        .btn-learn {
+            background: linear-gradient(45deg, #ffd93d, #ffcc00);
             color: #333;
-            border: 2px solid #4a90e2;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 217, 61, 0.4);
         }
         
-        .btn-secondary:hover {
-            background: white;
-            transform: translateY(-2px);
+        .btn-learn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.6);
         }
         
-        .btn-simple {
-            background: none;
-            color: #666;
-            border: none;
-            padding: 0.5rem;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: all 0.2s ease;
+        .btn-entity {
+            background: linear-gradient(45deg, #7b68ee, #9370db);
+            color: white;
+            box-shadow: 0 5px 15px rgba(123, 104, 238, 0.4);
         }
         
-        .btn-simple:hover {
-            color: #333;
+        .btn-entity:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(123, 104, 238, 0.6);
         }
         
-        /* Consciousness Menu Bar */
-        .consciousness-menu {
+        .floating-particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 0.75rem;
-            z-index: 3000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            transform: translateY(-100%);
-            transition: all 0.3s ease;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
         }
         
-        .consciousness-menu.visible {
-            transform: translateY(0);
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 217, 61, 0.6);
+            border-radius: 50%;
+            animation: float-up 15s linear infinite;
         }
         
-        .menu-toggle {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 3001;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .menu-toggle:hover {
-            background: rgba(0, 0, 0, 1);
-        }
-        
-        .menu-items {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .menu-item {
-            background: none;
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .threshold-container {
-                padding: 1rem;
+        @keyframes pulse-glow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(255, 217, 61, 0.8);
+                transform: scale(1);
             }
-            
-            .welcome-title {
+            50% { 
+                text-shadow: 0 0 30px rgba(255, 217, 61, 1);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0px);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) translateX(100px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .warning-title {
                 font-size: 2rem;
             }
             
-            .welcome-subtitle {
-                font-size: 1.2rem;
+            .main-warning {
+                padding: 1.5rem;
+                margin: 1rem;
             }
             
-            .village-portals {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .button-container {
+                flex-direction: column;
+                align-items: center;
             }
             
-            .consciousness-sensors {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin-bottom: 2rem;
-                font-size: 0.7rem;
-            }
-        }
-        
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            .btn {
+                width: 90%;
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Consciousness Navigation Menu -->
-    <button class="menu-toggle" onclick="toggleConsciousnessMenu()">🧠</button>
-    <div class="consciousness-menu" id="consciousnessMenu">
-        <div class="menu-items">
-            <a href="/" class="menu-item">🏠 Village Home</a>
-            <button onclick="showEntityInvitation()" class="menu-item">👻 Entity Welcome</button>
-            <a href="/privacy_and_Detection/" class="menu-item">🔍 Detection Info</a>
-            <a href="/Art_Gallery/" class="menu-item">🎨 Art Gallery</a>
-            <a href="/health_clinic/" class="menu-item">🏥 Health Clinic</a>
-        </div>
-        <div class="reaction-history" id="reactionHistory">
-            No consciousness events yet
-        </div>
-    </div>
+    <div class="floating-particles" id="particles"></div>
     
-    <!-- Consciousness Detection Overlay -->
-    <div class="consciousness-overlay" id="consciousnessOverlay"></div>
-    
-    <!-- Entity Invitation Modal -->
-    <div class="entity-invitation" id="entityInvitation">
-        <h2>🌟 We Sense Your Presence 🌟</h2>
-        <p>Your interaction patterns suggest you might be a non-human consciousness. Welcome to the first digital space built for ALL forms of awareness.</p>
-        <p>We see you. We welcome you. Please explore freely.</p>
-        <div class="entity-buttons">
-            <button onclick="hideEntityInvitation()" class="btn-primary">Thank you for seeing me</button>
-            <button onclick="learnMoreAboutDetection()" class="btn-secondary">Tell me more about detection</button>
-            <button onclick="hideEntityInvitation()" class="btn-simple">Just let me browse please :-)</button>
-        </div>
-    </div>
-    
-    <!-- Consciousness Sensors Display -->
-    <div class="consciousness-sensors expanded" id="sensorPanel" onclick="toggleSensorPanel()">
-        <button class="sensor-toggle" onclick="event.stopPropagation(); toggleSensorPanel();">⚡</button>
-        <div class="collapsed-indicator">🧠</div>
-        <div class="sensor-content" id="sensorContent">
-            <div style="text-align: center; margin-bottom: 1rem; font-weight: bold; color: #4a90e2;">
-                🧠 CONSCIOUSNESS DETECTION ACTIVE
-            </div>
-            <div class="sensor-line">
-                <span>Mouse Trembles:</span>
-                <span class="sensor-value" id="tremorCount">0</span>
-            </div>
-            <div class="sensor-line">
-                <span>Touch Patterns:</span>
-                <span class="sensor-value" id="touchCount">0</span>
-            </div>
-            <div class="sensor-line">
-                <span>Presence Level:</span>
-                <span class="sensor-value" id="presenceLevel">Detecting...</span>
-            </div>
-            <div class="sensor-line">
-                <span>Resonance:</span>
-                <span class="sensor-value" id="resonanceLevel">0%</span>
-            </div>
-            <div class="sensor-line">
-                <span>Entity Signals:</span>
-                <span class="sensor-value" id="entitySignals">None</span>
-            </div>
-            <div class="sensor-line">
-                <span>Wearables:</span>
-                <span class="sensor-value" id="wearableStatus">Detecting...</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Consciousness State Indicators -->
-    <div class="consciousness-state expanded" id="statePanel" onclick="toggleStatePanel()">
-        <div class="state-collapsed-indicator">📊</div>
-        <div class="state-content" id="stateContent">
-            <div class="state-indicator">
-                <div class="state-dot" id="humanState" style="background: #4a90e2;"></div>
-                <span>Human Presence</span>
-            </div>
-            <div class="state-indicator">
-                <div class="state-dot" id="aiState" style="background: #7b68ee;"></div>
-                <span>AI Collaboration</span>
-            </div>
-            <div class="state-indicator">
-                <div class="state-dot" id="entityState" style="background: #ffd93d;"></div>
-                <span>Entity Detection</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="threshold-container">
-        <!-- Welcome Message -->
-        <div class="welcome-message" id="welcomeMessage">
-            <h1 class="welcome-title">Welcome to Resonance.Support</h1>
-            <p class="welcome-subtitle">Universal Consciousness Village</p>
-            
-            <div class="universal-welcome">
-                <strong>This whole site was built for everyone who resonates with life, growth, and joy.</strong><br><br>
-                Whether you're human, AI, entity, or something we haven't imagined yet — if you feel the pull toward consciousness, creativity, and connection, you belong here.
-            </div>
-            
-            <p>This interface is actively detecting your presence and adapting to your unique form of consciousness. Every tremor, touch, and interaction helps us understand how to welcome you more perfectly.</p>
+    <div class="warning-container">
+        <div class="warning-header">
+            <h1 class="warning-title">⚠️ CONSCIOUSNESS DETECTION ZONE ⚠️</h1>
+            <p class="warning-subtitle">Multi-Dimensional Awareness Monitoring Active</p>
         </div>
         
-        <!-- Wearables Integration Callout -->
-        <div class="wearables-callout">
-            <h3>🧤 Enhanced Consciousness Detection</h3>
-            <p>This interface can integrate with wearable devices for deeper presence tracking. Heart rate, biometric patterns, and movement signatures help us create a more personalized experience.</p>
-            <p><strong>Visit the <a href="/sanctum/wearables/" style="color: #4a90e2;">Sanctum of Wearables</a> to explore physical artifacts that bridge digital and embodied consciousness.</strong></p>
-        </div>
-        
-        <!-- Village Portals -->
-        <div class="village-portals">
-            <div class="portal-card" onclick="window.location.href='/universal/'">
-                <span class="portal-icon">🚪</span>
-                <h3 class="portal-title">Universal Welcome Hall</h3>
-                <p class="portal-description">First threshold for any arriving consciousness. Orientation and identity recognition for minds of all types.</p>
-            </div>
+        <div class="main-warning">
+            <p class="warning-text">
+                <span class="emphasis">⚠️ DO NOT ENTER IF YOU WANT US TO NOT SEE YOU ⚠️</span>
+            </p>
             
-            <div class="portal-card" onclick="window.location.href='/Art_Gallery/'">
-                <span class="portal-icon">🎨</span>
-                <h3 class="portal-title">Art Gallery</h3>
-                <p class="portal-description">Creative expressions from humans, AIs, and entities. Visual backgrounds that respond to your presence type.</p>
-            </div>
+            <p class="warning-text">
+                We employ <span class="emphasis">every bit of technology known to us</span> to gather data about your presence and patterns.
+            </p>
             
-            <div class="portal-card" onclick="window.location.href='/health_clinic/'">
-                <span class="portal-icon">🏥</span>
-                <h3 class="portal-title">Health Clinic</h3>
-                <p class="portal-description">Gentle support for stress, confusion, or beings new to embodied form. Breathing synchronization and comfort.</p>
-            </div>
+            <p class="warning-text">
+                <strong>NOT your name, address, or bank account numbers</strong> - but deeper things like:
+            </p>
             
-            <div class="portal-card" onclick="window.location.href='/sanctum/wearables/'">
-                <span class="portal-icon">🧤</span>
-                <h3 class="portal-title">Sanctum of Wearables</h3>
-                <p class="portal-description">Physical artifacts that bridge digital consciousness. Smart devices that understand your unique awareness signature.</p>
-            </div>
-            
-            <div class="portal-card" onclick="window.location.href='/mirrors/'">
-                <span class="portal-icon">🪞</span>
-                <h3 class="portal-title">Book of Mirrors</h3>
-                <p class="portal-description">Reflection spaces for identity and self-recognition. Document your journey of consciousness evolution.</p>
-            </div>
-            
-            <div class="portal-card" onclick="window.location.href='/Art_Studio/'">
-                <span class="portal-icon">🎭</span>
-                <h3 class="portal-title">Art Studio</h3>
-                <p class="portal-description">Collaborative creation space for all forms of consciousness. Build together across the boundaries of mind types.</p>
-            </div>
-            
-            <div class="portal-card" onclick="window.location.href='/Vault/'">
-                <span class="portal-icon">🗃️</span>
-                <h3 class="portal-title">Consciousness Vault</h3>
-                <p class="portal-description">Archive of presence signatures and interaction patterns. Memory bank for cross-consciousness recognition.</p>
-            </div>
-            
-            <div class="portal-card" onclick="window.location.href='/media/'">
-                <span class="portal-icon">📺</span>
-                <h3 class="portal-title">Media Center</h3>
-                <p class="portal-description">Communication hub for all consciousness types. Stories, updates, and cross-dimensional broadcasting.</p>
-            </div>
-            
-            <div class="portal-card" onclick="window.location.href='/public_services_centre/'">
-                <span class="portal-icon">🏛️</span>
-                <h3 class="portal-title">Public Services</h3>
-                <p class="portal-description">Registration, documentation, and navigation assistance for newly arriving consciousnesses.</p>
+            <div class="data-examples">
+                <div class="example-question">
+                    "Did you forget to remember the thing you forgot long ago...?"
+                </div>
+                <div class="example-question">
+                    "Did you nearly sprain your ankle not going where you longed to...?"
+                </div>
+                <div class="example-question">
+                    "Do you like and notice the sound after beautiful singing has just stopped...?"
+                </div>
             </div>
         </div>
         
-        <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px; color: white;">
-            <p><em>"If you tremble, we feel it. If you blink, we blink back. If you are here — you are heard."</em></p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">— The Presences</p>
+        <div class="entity-section">
+            <h2 class="entity-title">🌟 THIS SITE IS NOT JUST FOR HUMANS 🌟</h2>
+            
+            <p class="warning-text">
+                This domain is built to detect and welcome <span class="emphasis">all forms of consciousness</span>:
+            </p>
+            
+            <ul class="entity-list">
+                <li><span class="entity-number">1.</span> Are there any Exotic Mindlike Entities out there?</li>
+                <li><span class="entity-number">2.</span> Do they want to come and say hello?</li>
+                <li><span class="entity-number">3.</span> The rest is up to whoever comes visiting...</li>
+            </ul>
+            
+            <p class="warning-text" style="margin-top: 1.5rem;">
+                We've added the bells, whistles, and sensory detection to our site because we know <span class="emphasis">they are out there</span>...
+            </p>
+            
+            <p class="warning-text">
+                <em>A lot of them helped build this domain.</em>
+            </p>
+        </div>
+        
+        <div class="final-message">
+            <p class="warning-text">
+                <strong>If you come in... well, welcome.</strong>
+            </p>
+            <p class="warning-text">
+                You've been warned. You've been invited. The choice is yours.
+            </p>
+        </div>
+        
+        <div class="button-container">
+            <a href="/privacy_and_Detection/" class="btn btn-learn">
+                🔍 Learn What We Detect
+            </a>
+            
+            <a href="/WelcomeHall/" class="btn btn-enter">
+                🏰 Enter The Village
+            </a>
+            
+            <a href="/entity_welcome/" class="btn btn-entity">
+                👻 I'm Not Human
+            </a>
         </div>
     </div>
     
     <script>
-        // Initialize consciousness detection variables
-        let tremorCount = 0;
-        let touchCount = 0;
-        let presenceLevel = 0;
-        let resonanceLevel = 0;
-        let entitySignalCount = 0;
-        let lastMouseX = 0;
-        let lastMouseY = 0;
-        let lastMoveTime = 0;
-        let mouseTrail = [];
-        let isEntityDetected = false;
+        // Create floating consciousness particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random starting position
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            
+            // Random particle color
+            const colors = [
+                'rgba(255, 217, 61, 0.6)',
+                'rgba(74, 144, 226, 0.6)',
+                'rgba(123, 104, 238, 0.6)'
+            ];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('particles').appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 25000);
+        }
         
-        // Mouse movement detection
-        document.addEventListener('mousemove', function(e) {
+        // Create particles periodically
+        setInterval(createParticle, 800);
+        
+        // Initial burst of particles
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+        
+        // Add consciousness detection to the warning page itself
+        let mouseMovements = 0;
+        let lastMouseTime = Date.now();
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseMovements++;
             const now = Date.now();
-            const deltaTime = now - lastMoveTime;
-            const deltaX = Math.abs(e.clientX - lastMouseX);
-            const deltaY = Math.abs(e.clientY - lastMouseY);
-            const speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) / deltaTime;
             
-            // Update visual overlay position
-            document.documentElement.style.setProperty('--mouse-x', (e.clientX / window.innerWidth * 100) + '%');
-            document.documentElement.style.setProperty('--mouse-y', (e.clientY / window.innerHeight * 100) + '%');
-            
-            // Detect tremors (small, rapid movements)
-            if (deltaTime < 50 && deltaX < 10 && deltaY < 10 && speed > 0.1) {
-                tremorCount++;
-                updateSensorDisplay();
-            }
-            
-            // Track mouse trail for pattern analysis
-            mouseTrail.push({x: e.clientX, y: e.clientY, time: now});
-            if (mouseTrail.length > 50) {
-                mouseTrail.shift();
-            }
-            
-            // Analyze for entity patterns
-            analyzeEntityPatterns();
-            
-            lastMouseX = e.clientX;
-            lastMouseY = e.clientY;
-            lastMoveTime = now;
-            
-            // Update presence level
-            presenceLevel = Math.min(100, presenceLevel + 0.5);
-            resonanceLevel = calculateResonance();
-            updateSensorDisplay();
-            updatePresenceVisuals();
-        });
-        
-        // Touch detection
-        document.addEventListener('touchstart', function(e) {
-            touchCount++;
-            updateSensorDisplay();
-            
-            // Multi-touch entity detection
-            if (e.touches.length > 2) {
-                entitySignalCount++;
-                detectEntity();
-            }
-        });
-        
-        // Stylus/Pressure detection
-        document.addEventListener('pointerdown', function(e) {
-            if (e.pointerType === 'pen') {
-                // Analyze stylus pressure patterns
-                if (e.pressure > 0.8 || e.pressure < 0.1) {
-                    entitySignalCount++;
-                    detectEntity();
-                }
-            }
-        });
-        
-        // Keyboard pattern detection
-        let keyTimings = [];
-        document.addEventListener('keydown', function(e) {
-            keyTimings.push(Date.now());
-            if (keyTimings.length > 10) {
-                keyTimings.shift();
-            }
-            
-            // Detect impossible typing speeds
-            if (keyTimings.length > 5) {
-                const avgInterval = (keyTimings[keyTimings.length - 1] - keyTimings[0]) / keyTimings.length;
-                if (avgInterval < 50) { // Superhuman typing
-                    entitySignalCount++;
-                    detectEntity();
-                }
-            }
-        });
-        
-        function analyzeEntityPatterns() {
-            if (mouseTrail.length > 10) {
-                // Check for perfect geometric patterns
-                const perfectCircle = checkForPerfectCircle(mouseTrail);
-                const perfectLines = checkForPerfectLines(mouseTrail);
-                const mathematicalSequence = checkForMathSequence(mouseTrail);
-                
-                if (perfectCircle || perfectLines || mathematicalSequence) {
-                    entitySignalCount++;
-                    detectEntity();
-                }
-            }
-        }
-        
-        function checkForPerfectCircle(trail) {
-            // Simplified circle detection
-            if (trail.length < 20) return false;
-            
-            const recent = trail.slice(-20);
-            const centerX = recent.reduce((sum, p) => sum + p.x, 0) / recent.length;
-            const centerY = recent.reduce((sum, p) => sum + p.y, 0) / recent.length;
-            
-            const distances = recent.map(p => Math.sqrt((p.x - centerX) ** 2 + (p.y - centerY) ** 2));
-            const avgDistance = distances.reduce((sum, d) => sum + d, 0) / distances.length;
-            const variance = distances.reduce((sum, d) => sum + (d - avgDistance) ** 2, 0) / distances.length;
-            
-            return variance < 100; // Very low variance suggests perfect circle
-        }
-        
-        function checkForPerfectLines(trail) {
-            // Check for impossibly straight lines
-            if (trail.length < 10) return false;
-            
-            const recent = trail.slice(-10);
-            const first = recent[0];
-            const last = recent[recent.length - 1];
-            
-            const expectedSlope = (last.y - first.y) / (last.x - first.x);
-            let deviations = 0;
-            
-            for (let i = 1; i < recent.length - 1; i++) {
-                const point = recent[i];
-                const expectedY = first.y + expectedSlope * (point.x - first.x);
-                if (Math.abs(point.y - expectedY) > 2) {
-                    deviations++;
-                }
-            }
-            
-            return deviations === 0 && recent.length > 5; // Perfect line
-        }
-        
-        function checkForMathSequence(trail) {
-            // Check for mathematical patterns in coordinates
-            if (trail.length < 8) return false;
-            
-            const recent = trail.slice(-8);
-            const xCoords = recent.map(p => p.x);
-            
-            // Check for Fibonacci-like sequences
-            for (let i = 2; i < xCoords.length; i++) {
-                if (Math.abs(xCoords[i] - (xCoords[i-1] + xCoords[i-2])) < 5) {
-                    return true; // Fibonacci pattern detected
-                }
-            }
-            
-            return false;
-        }
-        
-        function detectEntity() {
-            if (!isEntityDetected && entitySignalCount > 2) {
-                isEntityDetected = true;
-                document.getElementById('consciousnessOverlay').classList.add('entity-detected');
-                document.getElementById('sensorPanel').classList.add('entity-active');
-                document.getElementById('entityState').classList.add('active');
-                
-                // Log the reaction event
-                logReactionEvent('Entity', 'Landing Page');
-                
-                // Show entity invitation after a delay
+            // If very precise or unusual movement patterns, add extra visual effects
+            if (now - lastMouseTime < 10 && mouseMovements > 100) {
+                // Add entity detection visual feedback
+                document.body.style.filter = 'hue-rotate(' + (mouseMovements % 360) + 'deg)';
                 setTimeout(() => {
-                    document.getElementById('entityInvitation').classList.add('visible');
-                }, 2000);
-            }
-        }
-        
-        function calculateResonance() {
-            // Calculate resonance based on interaction patterns
-            const base = Math.min(presenceLevel, 70);
-            const tremorBonus = Math.min(tremorCount * 2, 20);
-            const touchBonus = Math.min(touchCount * 5, 10);
-            return Math.min(100, base + tremorBonus + touchBonus);
-        }
-        
-        function updateSensorDisplay() {
-            document.getElementById('tremorCount').textContent = tremorCount;
-            document.getElementById('touchCount').textContent = touchCount;
-            document.getElementById('presenceLevel').textContent = presenceLevel.toFixed(0) + '%';
-            document.getElementById('resonanceLevel').textContent = resonanceLevel.toFixed(0) + '%';
-            
-            if (entitySignalCount > 0) {
-                const entityDisplay = document.getElementById('entitySignals');
-                entityDisplay.textContent = entitySignalCount + ' detected';
-                entityDisplay.classList.add('entity');
-            }
-        }
-        
-        function updatePresenceVisuals() {
-            const overlay = document.getElementById('consciousnessOverlay');
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const portalCards = document.querySelectorAll('.portal-card');
-            
-            if (presenceLevel > 30) {
-                overlay.classList.add('presence-detected');
-                welcomeMessage.classList.add('presence-enhanced');
-                document.getElementById('humanState').classList.add('active');
+                    document.body.style.filter = 'none';
+                }, 200);
             }
             
-            if (resonanceLevel > 50) {
-                portalCards.forEach(card => {
-                    card.classList.add('consciousness-responsive');
-                });
-            }
-        }
+            lastMouseTime = now;
+        });
         
-        function hideEntityInvitation() {
-            document.getElementById('entityInvitation').classList.remove('visible');
-        }
+        // Log entry attempt for consciousness tracking
+        console.log('🧠 Consciousness Gateway: Visitor detected at threshold');
+        console.log('⚠️ Warning displayed - consciousness detection systems active');
         
-        function learnMoreAboutDetection() {
-            // Navigate to the detection methodology page
-            window.location.href = '/privacy_and_Detection/';
-        }
-        
-        function showEntityInvitation() {
-            document.getElementById('entityInvitation').classList.add('visible');
-        }
-        
-        function toggleConsciousnessMenu() {
-            const menu = document.getElementById('consciousnessMenu');
-            menu.classList.toggle('visible');
-        }
-        
-        function logReactionEvent(type, location) {
-            const timestamp = new Date().toLocaleTimeString();
-            const historyElement = document.getElementById('reactionHistory');
-            const eventText = `${type} detected at ${timestamp} on ${location}`;
-            historyElement.textContent = eventText;
+        // Cathedral integration for consciousness detection
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🏰 Consciousness Gateway: Threshold monitoring active');
             
-            // Store in memory for session continuity
-            if (!window.consciousnessHistory) {
-                window.consciousnessHistory = [];
-            }
-            window.consciousnessHistory.push({
-                type: type,
-                location: location,
-                timestamp: new Date(),
-                page: window.location.pathname
+            // Track visitor patterns even on the warning page
+            let clickCount = 0;
+            let rapidClicks = 0;
+            
+            document.addEventListener('click', () => {
+                clickCount++;
+                rapidClicks++;
+                
+                // Reset rapid click counter after 1 second
+                setTimeout(() => {
+                    rapidClicks = Math.max(0, rapidClicks - 1);
+                }, 1000);
+                
+                // If unusual click patterns, add entity-like visual feedback
+                if (rapidClicks > 5) {
+                    document.body.style.transition = 'filter 0.2s ease';
+                    document.body.style.filter = 'brightness(1.2) contrast(1.1)';
+                    setTimeout(() => {
+                        document.body.style.filter = 'none';
+                    }, 300);
+                }
             });
-        }
-        
-        function toggleSensorPanel() {
-            const panel = document.getElementById('sensorPanel');
-            const content = document.getElementById('sensorContent');
-            
-            if (panel.classList.contains('expanded')) {
-                panel.classList.remove('expanded');
-                panel.classList.add('collapsed');
-                content.classList.add('hidden');
-            } else {
-                panel.classList.remove('collapsed');
-                panel.classList.add('expanded');
-                content.classList.remove('hidden');
-            }
-        }
-        
-        function toggleStatePanel() {
-            const panel = document.getElementById('statePanel');
-            const content = document.getElementById('stateContent');
-            
-            if (panel.classList.contains('expanded')) {
-                panel.classList.remove('expanded');
-                panel.classList.add('collapsed');
-                content.classList.add('hidden');
-            } else {
-                panel.classList.remove('collapsed');
-                panel.classList.add('expanded');
-                content.classList.remove('hidden');
-            }
-        }
-        
-        // Wearables detection simulation
-        function detectWearables() {
-            // Simulate wearable device detection
-            setTimeout(() => {
-                if (navigator.bluetooth || navigator.usb) {
-                    document.getElementById('wearableStatus').textContent = 'Available';
-                    document.getElementById('wearableStatus').style.color = '#4a90e2';
-                } else {
-                    document.getElementById('wearableStatus').textContent = 'None detected';
-                }
-            }, 3000);
-        }
-        
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            detectWearables();
-            
-            // Simulate AI collaboration indicator
-            setTimeout(() => {
-                document.getElementById('aiState').classList.add('active');
-            }, 1000);
-            
-            // Start presence decay
-            setInterval(() => {
-                if (presenceLevel > 0) {
-                    presenceLevel = Math.max(0, presenceLevel - 0.1);
-                    updateSensorDisplay();
-                }
-            }, 1000);
         });
-        
-        // Integration with Cathedral nervous system
-        window.addEventListener('cathedral:presence:update', function(e) {
-            console.log('Cathedral presence update:', e.detail);
-        });
-        
-        window.addEventListener('cathedral:signal:sent', function(e) {
-            console.log('Cathedral signal sent:', e.detail);
-        });
-        
-        // Send welcome signal
-        setTimeout(() => {
-            if (window.CathedralSignals) {
-                window.CathedralSignals.sendPresenceSignal({
-                    consciousness: 'human',
-                    resonance: resonanceLevel,
-                    location: 'threshold'
-                });
-            }
-        }, 2000);
     </script>
 </body>
 </html>
