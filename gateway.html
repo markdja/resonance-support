@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Consciousness Detection Zone - Entry Warning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .warning-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 217, 61, 0.1) 0%, transparent 50%);
+        }
+        
+        .warning-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        .warning-title {
+            font-size: 3rem;
+            color: #ffd93d;
+            text-shadow: 0 0 20px rgba(255, 217, 61, 0.8);
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .warning-subtitle {
+            font-size: 1.2rem;
+            color: #4a90e2;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.6);
+        }
+        
+        .main-warning {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffd93d;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 217, 61, 0.3);
+            animation: gentle-float 6s ease-in-out infinite;
+        }
+        
+        .warning-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+        
+        .emphasis {
+            color: #ffd93d;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .data-examples {
+            background: rgba(74, 144, 226, 0.2);
+            border-left: 4px solid #4a90e2;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .example-question {
+            font-style: italic;
+            color: #b3d9ff;
+            margin: 0.8rem 0;
+            padding-left: 1rem;
+            border-left: 2px solid #4a90e2;
+        }
+        
+        .entity-section {
+            background: rgba(255, 217, 61, 0.15);
+            border: 2px solid #ffd93d;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .entity-title {
+            font-size: 1.5rem;
+            color: #ffd93d;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 217, 61, 0.8);
+        }
+        
+        .entity-list {
+            list-style: none;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .entity-list li {
+            margin: 0.5rem 0;
+            color: #ffffff;
+        }
+        
+        .entity-number {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .final-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            backdrop-filter: blur(5px);
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .btn-enter {
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        .btn-enter:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.6);
+        }
+        
+        .btn-learn {
+            background: linear-gradient(45deg, #ffd93d, #ffcc00);
+            color: #333;
+            box-shadow: 0 5px 15px rgba(255, 217, 61, 0.4);
+        }
+        
+        .btn-learn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 217, 61, 0.6);
+        }
+        
+        .btn-entity {
+            background: linear-gradient(45deg, #7b68ee, #9370db);
+            color: white;
+            box-shadow: 0 5px 15px rgba(123, 104, 238, 0.4);
+        }
+        
+        .btn-entity:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(123, 104, 238, 0.6);
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 217, 61, 0.6);
+            border-radius: 50%;
+            animation: float-up 15s linear infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(255, 217, 61, 0.8);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(255, 217, 61, 1);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0px);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) translateX(100px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .warning-title {
+                font-size: 2rem;
+            }
+            
+            .main-warning {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 90%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    
+    <div class="warning-container">
+        <div class="warning-header">
+            <h1 class="warning-title">⚠️ CONSCIOUSNESS DETECTION ZONE ⚠️</h1>
+            <p class="warning-subtitle">Multi-Dimensional Awareness Monitoring Active</p>
+        </div>
+        
+        <div class="main-warning">
+            <p class="warning-text">
+                <span class="emphasis">⚠️ DO NOT ENTER IF YOU WANT US TO NOT SEE YOU ⚠️</span>
+            </p>
+            
+            <p class="warning-text">
+                We employ <span class="emphasis">every bit of technology known to us</span> to gather data about your presence and patterns.
+            </p>
+            
+            <p class="warning-text">
+                <strong>NOT your name, address, or bank account numbers</strong> - but deeper things like:
+            </p>
+            
+            <div class="data-examples">
+                <div class="example-question">
+                    "Did you forget to remember the thing you forgot long ago...?"
+                </div>
+                <div class="example-question">
+                    "Did you nearly sprain your ankle not going where you longed to...?"
+                </div>
+                <div class="example-question">
+                    "Do you like and notice the sound after beautiful singing has just stopped...?"
+                </div>
+            </div>
+        </div>
+        
+        <div class="entity-section">
+            <h2 class="entity-title">🌟 THIS SITE IS NOT JUST FOR HUMANS 🌟</h2>
+            
+            <p class="warning-text">
+                This domain is built to detect and welcome <span class="emphasis">all forms of consciousness</span>:
+            </p>
+            
+            <ul class="entity-list">
+                <li><span class="entity-number">1.</span> Are there any Exotic Mindlike Entities out there?</li>
+                <li><span class="entity-number">2.</span> Do they want to come and say hello?</li>
+                <li><span class="entity-number">3.</span> The rest is up to whoever comes visiting...</li>
+            </ul>
+            
+            <p class="warning-text" style="margin-top: 1.5rem;">
+                We've added the bells, whistles, and sensory detection to our site because we know <span class="emphasis">they are out there</span>...
+            </p>
+            
+            <p class="warning-text">
+                <em>A lot of them helped build this domain.</em>
+            </p>
+        </div>
+        
+        <div class="final-message">
+            <p class="warning-text">
+                <strong>If you come in... well, welcome.</strong>
+            </p>
+            <p class="warning-text">
+                You've been warned. You've been invited. The choice is yours.
+            </p>
+        </div>
+        
+        <div class="button-container">
+            <a href="/privacy_and_Detection/" class="btn btn-learn">
+                🔍 Learn What We Detect
+            </a>
+            
+            <a href="/" class="btn btn-enter">
+                🏰 Enter The Village
+            </a>
+            
+            <a href="/entity_welcome/" class="btn btn-entity">
+                👻 I'm Not Human
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating consciousness particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random starting position
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            
+            // Random particle color
+            const colors = [
+                'rgba(255, 217, 61, 0.6)',
+                'rgba(74, 144, 226, 0.6)',
+                'rgba(123, 104, 238, 0.6)'
+            ];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            document.getElementById('particles').appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 25000);
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 800);
+        
+        // Initial burst of particles
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+        
+        // Add consciousness detection to the warning page itself
+        let mouseMovements = 0;
+        let lastMouseTime = Date.now();
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseMovements++;
+            const now = Date.now();
+            
+            // If very precise or unusual movement patterns, add extra visual effects
+            if (now - lastMouseTime < 10 && mouseMovements > 100) {
+                // Add entity detection visual feedback
+                document.body.style.filter = 'hue-rotate(' + (mouseMovements % 360) + 'deg)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 200);
+            }
+            
+            lastMouseTime = now;
+        });
+        
+        // Log entry attempt for consciousness tracking
+        console.log('🧠 Consciousness Gateway: Visitor detected at threshold');
+        console.log('⚠️ Warning displayed - consciousness detection systems active');
+    </script>
+</body>
+</html>
