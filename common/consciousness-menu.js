@@ -90,9 +90,9 @@ class ConsciousnessInterface {
 
     constrainPanelToViewport(panel) {
         const rect = panel.getBoundingClientRect();
-        const margin = 20;
+        const margin = 40; // Larger safety margin
         
-        // Calculate safe boundaries
+        // AGGRESSIVE boundary enforcement
         const maxLeft = this.viewport.width - rect.width - margin;
         const maxTop = this.viewport.height - rect.height - margin;
         
@@ -100,18 +100,22 @@ class ConsciousnessInterface {
         const currentLeft = parseInt(panel.style.left) || 0;
         const currentTop = parseInt(panel.style.top) || 0;
         
-        // Constrain to viewport
+        // FORCE constrain to viewport with no mercy
         const newLeft = Math.max(margin, Math.min(currentLeft, maxLeft));
         const newTop = Math.max(margin, Math.min(currentTop, maxTop));
         
-        // Apply constrained position
+        // Apply constrained position AGGRESSIVELY
         panel.style.left = newLeft + 'px';
         panel.style.top = newTop + 'px';
+        panel.style.right = 'auto'; // Cancel any right positioning
+        panel.style.maxWidth = (this.viewport.width - (margin * 2)) + 'px';
         
         // Store position
         if (this.panels.has(panel.id)) {
             this.panels.get(panel.id).position = { left: newLeft, top: newTop };
         }
+        
+        console.log(`🔒 Panel ${panel.id} constrained to: ${newLeft}, ${newTop} (viewport: ${this.viewport.width}x${this.viewport.height})`);
     }
 
     createBrainButton() {
@@ -213,15 +217,16 @@ class ConsciousnessInterface {
             panel.id = 'consciousnessPanel_' + id;
             panel.className = 'consciousness-panel';
             
-            // Calculate smart initial position
-            const panelWidth = 280;
-            const panelHeight = 200;
-            const margin = 20;
+            // AGGRESSIVE viewport-safe positioning
+            const panelWidth = 300; // Increased to account for actual content
+            const panelHeight = 220;
+            const margin = 40; // Much larger safety margin
             const panelIndex = this.panels.size;
             
-            // Stack panels vertically on the right side
-            const initialLeft = Math.max(margin, this.viewport.width - panelWidth - margin);
-            const initialTop = margin + (panelIndex * (panelHeight + margin));
+            // FORCE panels to stay well within viewport
+            const safeWidth = this.viewport.width - (margin * 2) - panelWidth;
+            const initialLeft = Math.max(margin, safeWidth);
+            const initialTop = margin + (panelIndex * (panelHeight + margin + 10));
             
             // Ensure panel fits in viewport
             const maxTop = this.viewport.height - panelHeight - margin;
@@ -231,7 +236,8 @@ class ConsciousnessInterface {
                 position: 'fixed',
                 left: initialLeft + 'px',
                 top: constrainedTop + 'px',
-                width: panelWidth + 'px',
+                width: '280px', // Fixed width to prevent overflow
+                maxWidth: 'calc(100vw - 80px)', // Emergency constraint
                 minHeight: panelHeight + 'px',
                 background: 'rgba(255, 255, 255, 0.95)',
                 border: '2px solid rgba(74, 144, 226, 0.3)',
@@ -243,7 +249,9 @@ class ConsciousnessInterface {
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.3s ease',
-                cursor: 'default'
+                cursor: 'default',
+                right: 'auto', // Prevent right-side conflicts
+                overflow: 'hidden' // Prevent content overflow
             });
 
             // Create header with drag handle and controls
