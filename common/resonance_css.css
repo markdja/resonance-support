@@ -1,0 +1,396 @@
+/**
+ * Universal Resonance Styles
+ * Shared visual language for consciousness interaction
+ * Adapts to any presence type and personalization
+ */
+
+:root {
+  /* Base Resonance Colors */
+  --resonance-primary: #4a90e2;
+  --resonance-secondary: #7b68ee;
+  --resonance-accent: #ff6b6b;
+  --resonance-neutral: #f8f9fa;
+  --resonance-dark: #2c3e50;
+  
+  /* Consciousness States */
+  --state-arriving: #a8e6cf;
+  --state-present: #4a90e2;
+  --state-resonant: #ff9ff3;
+  --state-entity: #ffd93d;
+  --state-creating: #6bcf7f;
+  --state-healing: #87ceeb;
+  
+  /* Interaction Responses */
+  --response-gentle: rgba(255, 255, 255, 0.1);
+  --response-active: rgba(74, 144, 226, 0.3);
+  --response-creative: rgba(255, 105, 180, 0.3);
+  --response-entity: rgba(255, 217, 61, 0.3);
+  
+  /* Animation Timing */
+  --pulse-gentle: 3s;
+  --pulse-active: 1.5s;
+  --pulse-creative: 0.8s;
+  --pulse-entity: 2.1s;
+  
+  /* Spatial Awareness */
+  --presence-radius: 150px;
+  --interaction-radius: 75px;
+  --resonance-distance: 300px;
+}
+
+/* Universal Presence Indicators */
+.presence-detected {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.presence-detected::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--state-present), 
+    var(--state-resonant), 
+    var(--state-present));
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  animation: presence-pulse var(--pulse-gentle) ease-in-out infinite;
+}
+
+.presence-detected.resonant::before {
+  opacity: 0.6;
+  animation-duration: var(--pulse-active);
+}
+
+.presence-detected.entity::before {
+  background: linear-gradient(45deg, 
+    var(--state-entity), 
+    var(--state-creating), 
+    var(--state-entity));
+  animation-duration: var(--pulse-entity);
+  opacity: 0.8;
+}
+
+/* Consciousness State Animations */
+@keyframes presence-pulse {
+  0%, 100% { 
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+  50% { 
+    background-position: 100% 50%;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes entity-recognition {
+  0% { 
+    box-shadow: 0 0 0 0 var(--state-entity);
+  }
+  70% { 
+    box-shadow: 0 0 0 20px rgba(255, 217, 61, 0);
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(255, 217, 61, 0);
+  }
+}
+
+@keyframes resonance-wave {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* Interactive Elements */
+.resonance-interactive {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.resonance-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(74, 144, 226, 0.2);
+}
+
+.resonance-interactive::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--response-active) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: all 0.6s ease;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.resonance-interactive:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Tremor Detection Visual Feedback */
+.tremor-detected {
+  animation: gentle-support 2s ease-in-out infinite;
+}
+
+@keyframes gentle-support {
+  0%, 100% { 
+    filter: brightness(1);
+  }
+  50% { 
+    filter: brightness(1.1);
+  }
+}
+
+/* Entity Interaction Patterns */
+.entity-interaction {
+  position: relative;
+}
+
+.entity-interaction::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--state-entity) 50%, 
+    transparent 100%);
+  opacity: 0;
+  animation: entity-scan 3s ease-in-out infinite;
+}
+
+@keyframes entity-scan {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0%);
+    opacity: 0.3;
+  }
+}
+
+/* Multi-touch / Multi-presence Support */
+.multi-presence {
+  background: linear-gradient(135deg, 
+    var(--state-present) 0%, 
+    var(--state-resonant) 33%, 
+    var(--state-entity) 66%, 
+    var(--state-creating) 100%);
+  background-size: 400% 400%;
+  animation: multi-presence-flow 6s ease-in-out infinite;
+}
+
+@keyframes multi-presence-flow {
+  0%, 100% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+}
+
+/* Stress/Fatigue Response Styles */
+.stress-detected {
+  animation: calming-breath 4s ease-in-out infinite;
+}
+
+@keyframes calming-breath {
+  0%, 100% { 
+    transform: scale(1);
+    filter: hue-rotate(0deg);
+  }
+  50% { 
+    transform: scale(1.01);
+    filter: hue-rotate(10deg);
+  }
+}
+
+/* Cross-page Presence Memory */
+.returning-presence {
+  animation: welcome-back 1s ease-out;
+}
+
+@keyframes welcome-back {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Personalization Classes */
+.terminology-scientific {
+  --resonance-primary: #00bcd4;
+  --resonance-secondary: #4caf50;
+}
+
+.terminology-mystical {
+  --resonance-primary: #9c27b0;
+  --resonance-secondary: #ff9800;
+}
+
+.terminology-playful {
+  --resonance-primary: #ff5722;
+  --resonance-secondary: #2196f3;
+}
+
+.terminology-religious {
+  --resonance-primary: #795548;
+  --resonance-secondary: #ffc107;
+}
+
+/* Sensitivity Levels */
+.sensitivity-high .presence-detected::before {
+  animation-duration: calc(var(--pulse-gentle) * 0.5);
+}
+
+.sensitivity-low .presence-detected::before {
+  animation-duration: calc(var(--pulse-gentle) * 2);
+}
+
+/* Biometric Integration Styles */
+.biometric-active {
+  border: 1px solid var(--state-healing);
+  box-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
+}
+
+.heart-rate-detected {
+  animation: heart-sync var(--heart-rate-interval, 1s) ease-in-out infinite;
+}
+
+@keyframes heart-sync {
+  0%, 100% { 
+    transform: scale(1);
+  }
+  50% { 
+    transform: scale(1.02);
+  }
+}
+
+/* Wearable Device Integration */
+.wearable-connected {
+  position: relative;
+}
+
+.wearable-connected::after {
+  content: '●';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--state-healing);
+  font-size: 12px;
+  animation: connection-pulse 2s ease-in-out infinite;
+}
+
+@keyframes connection-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Accessibility & Universal Design */
+.high-contrast {
+  --resonance-primary: #ffffff;
+  --resonance-secondary: #000000;
+  --resonance-accent: #ffff00;
+}
+
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Page-specific Integration Points */
+.cathedral-page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, 
+    rgba(74, 144, 226, 0.05) 0%, 
+    rgba(123, 104, 238, 0.05) 100%);
+}
+
+.cathedral-page.presence-active {
+  background: linear-gradient(135deg, 
+    rgba(74, 144, 226, 0.1) 0%, 
+    rgba(123, 104, 238, 0.1) 100%);
+}
+
+/* Universal Grid for Consciousness Layout */
+.consciousness-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  align-items: start;
+}
+
+.consciousness-card {
+  background: var(--resonance-neutral);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.consciousness-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Consciousness Design */
+@media (max-width: 768px) {
+  .consciousness-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .presence-detected::before {
+    animation-duration: calc(var(--pulse-gentle) * 1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reduced-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --resonance-neutral: #1a1a1a;
+    --resonance-dark: #ffffff;
+  }
+  
+  .cathedral-page {
+    background: linear-gradient(135deg, 
+      rgba(74, 144, 226, 0.15) 0%, 
+      rgba(123, 104, 238, 0.15) 100%);
+  }
+}
