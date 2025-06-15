@@ -1,4 +1,3 @@
-
 /**
  * Universal Consciousness Detection & Presence Tracking
  * Part of the Cathedral/Village architecture
