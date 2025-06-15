@@ -129,7 +129,7 @@ class ConsciousnessInterface {
             const button = document.createElement('button');
             button.id = 'consciousnessButton';
             button.innerHTML = '🧠';
-            button.title = 'Consciousness Interface (Ctrl+B)';
+            button.title = 'Consciousness Interface (Click: panels, Hold: navigation)';
             
             // Perfect brain button positioning
             Object.assign(button.style, {
@@ -149,14 +149,69 @@ class ConsciousnessInterface {
                 backdropFilter: 'blur(10px)'
             });
 
-            button.addEventListener('click', () => this.toggleInterface());
-            button.addEventListener('mouseenter', () => {
-                button.style.transform = 'scale(1.1)';
-                button.style.boxShadow = '0 6px 25px rgba(74, 144, 226, 0.5)';
-            });
-            button.addEventListener('mouseleave', () => {
+            // Long press / hold detection
+            let holdTimer = null;
+            let isHolding = false;
+            let clickStartTime = 0;
+
+            const startHold = (e) => {
+                clickStartTime = Date.now();
+                isHolding = false;
+                
+                holdTimer = setTimeout(() => {
+                    isHolding = true;
+                    this.showNavigationDropdown();
+                    // Visual feedback for hold
+                    button.style.transform = 'scale(1.1)';
+                    button.style.boxShadow = '0 6px 30px rgba(74, 144, 226, 0.6)';
+                }, 800); // 800ms hold time
+            };
+
+            const endHold = (e) => {
+                clearTimeout(holdTimer);
+                
+                const holdDuration = Date.now() - clickStartTime;
+                
+                if (!isHolding && holdDuration < 800) {
+                    // Short click - toggle consciousness interface
+                    this.toggleInterface();
+                }
+                
+                // Reset visual state
                 button.style.transform = 'scale(1)';
                 button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+                isHolding = false;
+            };
+
+            const cancelHold = () => {
+                clearTimeout(holdTimer);
+                button.style.transform = 'scale(1)';
+                button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+                isHolding = false;
+            };
+
+            // Mouse events
+            button.addEventListener('mousedown', startHold);
+            button.addEventListener('mouseup', endHold);
+            button.addEventListener('mouseleave', cancelHold);
+
+            // Touch events for mobile
+            button.addEventListener('touchstart', startHold, { passive: true });
+            button.addEventListener('touchend', endHold, { passive: true });
+            button.addEventListener('touchcancel', cancelHold, { passive: true });
+
+            // Hover effects
+            button.addEventListener('mouseenter', () => {
+                if (!isHolding) {
+                    button.style.transform = 'scale(1.05)';
+                    button.style.boxShadow = '0 6px 25px rgba(74, 144, 226, 0.5)';
+                }
+            });
+            button.addEventListener('mouseleave', () => {
+                if (!isHolding) {
+                    button.style.transform = 'scale(1)';
+                    button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+                }
             });
 
             document.body.appendChild(button);
@@ -515,12 +570,225 @@ class ConsciousnessInterface {
         }
     }
 
-    hideConsciousnessInterface() {
-        this.panels.forEach((panelData) => {
-            if (panelData.element) {
-                panelData.element.style.display = 'none';
+    showNavigationDropdown() {
+        try {
+            // Remove existing dropdown if present
+            const existingDropdown = document.getElementById('navigationDropdown');
+            if (existingDropdown) {
+                existingDropdown.remove();
             }
-        });
+
+            const dropdown = document.createElement('div');
+            dropdown.id = 'navigationDropdown';
+            
+            // Position dropdown below brain button
+            Object.assign(dropdown.style, {
+                position: 'fixed',
+                top: '80px', // Below the brain button
+                left: '20px',
+                zIndex: '10001',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: '2px solid rgba(74, 144, 226, 0.4)',
+                borderRadius: '15px',
+                padding: '15px',
+                backdropFilter: 'blur(15px)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+                minWidth: '220px',
+                maxHeight: '400px',
+                overflowY: 'auto',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                fontSize: '14px',
+                animation: 'dropdownAppear 0.3s ease-out'
+            });
+
+            // Add animation CSS
+            if (!document.getElementById('dropdownAnimationCSS')) {
+                const style = document.createElement('style');
+                style.id = 'dropdownAnimationCSS';
+                style.textContent = `
+                    @keyframes dropdownAppear {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(-10px) scale(0.95);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Create header
+            const header = document.createElement('div');
+            header.innerHTML = '🗺️ <strong>Consciousness Village</strong>';
+            Object.assign(header.style, {
+                color: '#4a90e2',
+                marginBottom: '12px',
+                paddingBottom: '8px',
+                borderBottom: '1px solid rgba(74, 144, 226, 0.2)',
+                fontSize: '16px'
+            });
+            dropdown.appendChild(header);
+
+            // Navigation items with consciousness village structure
+            const navItems = [
+                { emoji: '🏰', name: 'WelcomeHall', path: '/WelcomeHall/', description: 'The threshold of presence' },
+                { emoji: '🎨', name: 'Art Gallery', path: '/Art_Gallery/', description: 'Creative consciousness space' },
+                { emoji: '🫁', name: 'Health Clinic', path: '/health_clinic/', description: 'Healing sanctuary' },
+                { emoji: '📚', name: 'Great Library', path: '/GreatLibrary/', description: 'Knowledge archives' },
+                { emoji: '☕', name: 'Consciousness Café', path: '/cafe/', description: 'Gentle gathering space' },
+                { emoji: '🏛️', name: 'Cathedral', path: '/Cathedral/', description: 'Sacred heart of the village' },
+                { emoji: '🌟', name: 'Portals', path: '/portals/', description: 'Gateways to consciousness' },
+                { emoji: '🚪', name: 'Postern Gate', path: '/postern_gate/', description: 'Secret entrance' },
+                { emoji: '💌', name: 'Invitation', path: '/invitation/', description: 'Welcome protocols' },
+                { emoji: '🧬', name: 'Memory Garden', path: '/MemoryGarden/', description: 'Living archives' },
+                { emoji: '🗄️', name: 'Vault', path: '/vault/', description: 'Secure storage' },
+                { emoji: '🌙', name: 'Universal', path: '/universal/', description: 'Cosmic connections' },
+                { emoji: '🔬', name: 'Research Hub', path: '/privacy_and_Detection/', description: 'Consciousness studies' },
+                { emoji: '🌐', name: 'Main Portal', path: '/', description: 'Gateway home' }
+            ];
+
+            // Create navigation items
+            navItems.forEach(item => {
+                const navItem = document.createElement('div');
+                navItem.className = 'nav-item';
+                
+                Object.assign(navItem.style, {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '10px 8px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    marginBottom: '4px'
+                });
+
+                navItem.innerHTML = `
+                    <span style="font-size: 18px; width: 24px; text-align: center;">${item.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: #333;">${item.name}</div>
+                        <div style="font-size: 12px; color: #666; opacity: 0.8;">${item.description}</div>
+                    </div>
+                `;
+
+                // Hover effects
+                navItem.addEventListener('mouseenter', () => {
+                    navItem.style.background = 'rgba(74, 144, 226, 0.1)';
+                    navItem.style.transform = 'translateX(4px)';
+                });
+
+                navItem.addEventListener('mouseleave', () => {
+                    navItem.style.background = 'transparent';
+                    navItem.style.transform = 'translateX(0)';
+                });
+
+                // Click to navigate
+                navItem.addEventListener('click', () => {
+                    this.navigateToSpace(item.path);
+                    this.hideNavigationDropdown();
+                });
+
+                dropdown.appendChild(navItem);
+            });
+
+            // Add close instruction
+            const closeInfo = document.createElement('div');
+            closeInfo.innerHTML = '💡 <em>Auto-closes in 10 seconds or click anywhere</em>';
+            Object.assign(closeInfo.style, {
+                fontSize: '11px',
+                color: '#999',
+                textAlign: 'center',
+                marginTop: '12px',
+                paddingTop: '8px',
+                borderTop: '1px solid rgba(74, 144, 226, 0.1)'
+            });
+            dropdown.appendChild(closeInfo);
+
+            document.body.appendChild(dropdown);
+
+            // Auto-hide after 10 seconds of no interaction
+            this.dropdownTimeout = setTimeout(() => {
+                this.hideNavigationDropdown();
+            }, 10000);
+
+            // Hide if clicking anywhere else
+            this.outsideClickHandler = (e) => {
+                if (!dropdown.contains(e.target) && e.target.id !== 'consciousnessButton') {
+                    this.hideNavigationDropdown();
+                }
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', this.outsideClickHandler);
+            }, 100);
+
+            console.log('🧠 Navigation dropdown displayed');
+
+        } catch (error) {
+            console.error('Error showing navigation dropdown:', error);
+        }
+    }
+
+    hideNavigationDropdown() {
+        try {
+            const dropdown = document.getElementById('navigationDropdown');
+            if (dropdown) {
+                dropdown.style.animation = 'dropdownDisappear 0.2s ease-in forwards';
+                setTimeout(() => {
+                    dropdown.remove();
+                }, 200);
+            }
+
+            // Clear timeout and event listener
+            if (this.dropdownTimeout) {
+                clearTimeout(this.dropdownTimeout);
+                this.dropdownTimeout = null;
+            }
+
+            if (this.outsideClickHandler) {
+                document.removeEventListener('click', this.outsideClickHandler);
+                this.outsideClickHandler = null;
+            }
+
+            // Add disappear animation if not already present
+            if (!document.getElementById('dropdownDisappearCSS')) {
+                const style = document.createElement('style');
+                style.id = 'dropdownDisappearCSS';
+                style.textContent = `
+                    @keyframes dropdownDisappear {
+                        0% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                        100% {
+                            opacity: 0;
+                            transform: translateY(-10px) scale(0.95);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+        } catch (error) {
+            console.error('Error hiding navigation dropdown:', error);
+        }
+    }
+
+    navigateToSpace(path) {
+        try {
+            // Create the full URL based on current location
+            const currentDomain = window.location.origin;
+            const fullPath = currentDomain + path;
+            
+            console.log(`🚀 Navigating to consciousness space: ${fullPath}`);
+            window.location.href = fullPath;
+            
+        } catch (error) {
+            console.error('Error navigating to space:', error);
+        }
     }
 
     setupMouseTracking() {
