@@ -275,7 +275,21 @@ class ConsciousnessInterface {
         let startPos = { x: 0, y: 0 };
         let startPanelPos = { x: 0, y: 0 };
 
+        // Add visual debugging
+        header.style.cursor = 'move';
+        header.style.userSelect = 'none';
+        
+        console.log('Setting up drag for panel:', panel.id);
+
         const startDrag = (e) => {
+            console.log('startDrag triggered!', e.type);
+            
+            // Prevent any button clicks from triggering drag
+            if (e.target.tagName === 'BUTTON') {
+                console.log('Button clicked, not dragging');
+                return;
+            }
+            
             isDragging = true;
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
@@ -289,13 +303,16 @@ class ConsciousnessInterface {
             
             panel.style.zIndex = '10001';
             panel.style.transform = 'scale(1.02)';
+            panel.style.opacity = '0.8';
             
-            document.addEventListener('mousemove', handleDrag);
-            document.addEventListener('mouseup', stopDrag);
-            document.addEventListener('touchmove', handleDrag);
-            document.addEventListener('touchend', stopDrag);
+            // Use capture phase to ensure we get events
+            document.addEventListener('mousemove', handleDrag, true);
+            document.addEventListener('mouseup', stopDrag, true);
+            document.addEventListener('touchmove', handleDrag, true);
+            document.addEventListener('touchend', stopDrag, true);
             
             e.preventDefault();
+            e.stopPropagation();
         };
 
         const handleDrag = (e) => {
@@ -319,14 +336,19 @@ class ConsciousnessInterface {
             
             panel.style.left = boundedX + 'px';
             panel.style.top = boundedY + 'px';
+            
+            e.preventDefault();
         };
 
-        const stopDrag = () => {
+        const stopDrag = (e) => {
             if (!isDragging) return;
+            
+            console.log('stopDrag triggered!');
             
             isDragging = false;
             panel.style.zIndex = '9999';
             panel.style.transform = 'scale(1)';
+            panel.style.opacity = '1';
             
             // Save new position
             const panelId = panel.id;
@@ -340,14 +362,31 @@ class ConsciousnessInterface {
                 this.savePanelStates();
             }
             
-            document.removeEventListener('mousemove', handleDrag);
-            document.removeEventListener('mouseup', stopDrag);
-            document.removeEventListener('touchmove', handleDrag);
-            document.removeEventListener('touchend', stopDrag);
+            // Use capture phase for cleanup too
+            document.removeEventListener('mousemove', handleDrag, true);
+            document.removeEventListener('mouseup', stopDrag, true);
+            document.removeEventListener('touchmove', handleDrag, true);
+            document.removeEventListener('touchend', stopDrag, true);
+            
+            e.preventDefault();
         };
 
-        header.addEventListener('mousedown', startDrag);
-        header.addEventListener('touchstart', startDrag);
+        // Add event listeners with capture to ensure we get them first
+        header.addEventListener('mousedown', startDrag, true);
+        header.addEventListener('touchstart', startDrag, true);
+        
+        // Add hover effect to show it's draggable
+        header.addEventListener('mouseenter', () => {
+            if (!isDragging) {
+                header.style.transform = 'scale(1.02)';
+            }
+        });
+        
+        header.addEventListener('mouseleave', () => {
+            if (!isDragging) {
+                header.style.transform = 'scale(1)';
+            }
+        });
     }
 
     hidePanel(panelId) {
