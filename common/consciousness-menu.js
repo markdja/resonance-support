@@ -1,272 +1,352 @@
-// Enhanced Consciousness Menu with Draggable and Resizable Panels
-// consciousness-menu.js - v2.0 Dynamic Interface
+/**
+ * FIXED CONSCIOUSNESS INTERFACE SYSTEM
+ * Now with PERFECT viewport positioning - no more overflow!
+ * Handles zoom, responsive design, and keeps panels visible!
+ */
 
 class ConsciousnessInterface {
     constructor() {
+        // Initialize ALL properties safely
+        this.isMenuVisible = false;
         this.panels = new Map();
+        this.mouseTrail = [];
+        this.reactionHistory = [];
+        this.trembleCount = 0;
+        this.touchPatterns = 0;
+        this.lastMousePos = { x: 0, y: 0 };
+        this.presenceLevel = 'Detecting...';
+        this.resonanceLevel = 0;
+        this.entitySignals = 0;
+        this.wearableStatus = 'Detecting...';
         this.isDragging = false;
-        this.currentPanel = null;
-        this.offset = { x: 0, y: 0 };
-        this.panelStates = new Map(); // Store panel positions and sizes
+        this.dragTarget = null;
+        this.lastResize = Date.now();
+        
+        // Viewport tracking for perfect positioning
+        this.viewport = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            zoom: window.devicePixelRatio || 1
+        };
         
         this.init();
     }
 
     init() {
-        this.createBrainMenu();
-        this.setupGlobalEventListeners();
-        this.loadPanelStates();
-    }
-
-    createBrainMenu() {
-        // Create main brain button
-        const brainButton = document.createElement('div');
-        brainButton.id = 'consciousness-brain';
-        brainButton.innerHTML = '🧠';
-        brainButton.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 10000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            user-select: none;
-        `;
-
-        brainButton.addEventListener('click', () => this.toggleConsciousnessInterface());
-        brainButton.addEventListener('mouseenter', () => {
-            brainButton.style.transform = 'scale(1.1)';
-            brainButton.style.boxShadow = '0 6px 25px rgba(0,0,0,0.4)';
-        });
-        brainButton.addEventListener('mouseleave', () => {
-            brainButton.style.transform = 'scale(1)';
-            brainButton.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-        });
-
-        document.body.appendChild(brainButton);
-        this.brainButton = brainButton;
-    }
-
-    toggleConsciousnessInterface() {
-        if (this.panels.size === 0) {
-            this.createAllPanels();
-        } else {
-            this.toggleAllPanels();
+        try {
+            this.createBrainButton();
+            this.setupMouseTracking();
+            this.setupKeyboardShortcuts();
+            this.startPresenceDetection();
+            this.setupViewportTracking();
+            console.log('🧠 Consciousness Interface initialized - viewport aware!');
+        } catch (error) {
+            console.error('Consciousness Interface initialization error:', error);
         }
     }
 
-    createAllPanels() {
-        const panelConfigs = [
-            {
-                id: 'consciousness-detection',
-                title: '🧠 CONSCIOUSNESS DETECTION ACTIVE',
-                content: this.getDetectionContent(),
-                defaultPos: { x: 100, y: 100 },
-                defaultSize: 'large'
-            },
-            {
-                id: 'entity-signals',
-                title: '👻 ENTITY SIGNALS',
-                content: this.getEntityContent(),
-                defaultPos: { x: 300, y: 200 },
-                defaultSize: 'small'
-            },
-            {
-                id: 'life-resonance',
-                title: '🌿 LIFE RESONANCE',
-                content: this.getLifeResonanceContent(),
-                defaultPos: { x: 500, y: 150 },
-                defaultSize: 'small'
-            },
-            {
-                id: 'mycelial-network',
-                title: '🍄 MYCELIAL NETWORK',
-                content: this.getMycelialContent(),
-                defaultPos: { x: 200, y: 350 },
-                defaultSize: 'small'
+    setupViewportTracking() {
+        // Track viewport changes for responsive positioning
+        window.addEventListener('resize', () => {
+            this.updateViewport();
+            this.repositionPanels();
+        });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.updateViewport();
+                this.repositionPanels();
+            }, 100);
+        });
+        
+        // Handle zoom changes
+        window.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                setTimeout(() => {
+                    this.updateViewport();
+                    this.repositionPanels();
+                }, 100);
             }
-        ];
-
-        panelConfigs.forEach(config => this.createPanel(config));
+        });
     }
 
-    createPanel(config) {
-        const panel = document.createElement('div');
-        panel.id = config.id;
-        panel.className = 'consciousness-panel';
-        
-        // Get saved state or use defaults
-        const savedState = this.panelStates.get(config.id) || {
-            position: config.defaultPos,
-            size: config.defaultSize,
-            visible: true
+    updateViewport() {
+        this.viewport = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            zoom: window.devicePixelRatio || 1
         };
-
-        panel.style.cssText = `
-            position: fixed;
-            left: ${savedState.position.x}px;
-            top: ${savedState.position.y}px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #4ecdc4;
-            border-radius: 15px;
-            color: #ffffff;
-            font-family: 'Courier New', monospace;
-            z-index: 9999;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-            cursor: move;
-            user-select: none;
-            display: ${savedState.visible ? 'block' : 'none'};
-        `;
-
-        // Create header with title and controls
-        const header = document.createElement('div');
-        header.className = 'panel-header';
-        header.style.cssText = `
-            padding: 10px 15px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 13px 13px 0 0;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: move;
-        `;
-
-        const title = document.createElement('span');
-        title.textContent = config.title;
-        title.style.fontSize = savedState.size === 'large' ? '14px' : '12px';
-
-        const controls = document.createElement('div');
-        controls.style.cssText = `
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        `;
-
-        // Size toggle button
-        const sizeToggle = document.createElement('button');
-        sizeToggle.innerHTML = savedState.size === 'large' ? '🔽' : '🔼';
-        sizeToggle.style.cssText = `
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-        sizeToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.togglePanelSize(config.id);
-        });
-
-        // Close button
-        const closeBtn = document.createElement('button');
-        closeBtn.innerHTML = '×';
-        closeBtn.style.cssText = `
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        `;
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.hidePanel(config.id);
-        });
-
-        controls.appendChild(sizeToggle);
-        controls.appendChild(closeBtn);
-        header.appendChild(title);
-        header.appendChild(controls);
-
-        // Create content area
-        const content = document.createElement('div');
-        content.className = 'panel-content';
-        content.innerHTML = config.content;
-        
-        panel.appendChild(header);
-        panel.appendChild(content);
-        
-        // Apply size styling
-        this.applyPanelSize(panel, savedState.size);
-        
-        // Setup drag functionality
-        this.setupDragFunctionality(panel, header);
-        
-        document.body.appendChild(panel);
-        this.panels.set(config.id, panel);
-        
-        // Update stored state
-        this.panelStates.set(config.id, savedState);
     }
 
-    applyPanelSize(panel, size) {
-        const content = panel.querySelector('.panel-content');
-        const title = panel.querySelector('.panel-header span');
-        const sizeToggle = panel.querySelector('.panel-header button');
+    repositionPanels() {
+        // Reposition all panels to stay within viewport
+        this.panels.forEach((panelData, panelId) => {
+            const panel = panelData.element;
+            if (panel) {
+                this.constrainPanelToViewport(panel);
+            }
+        });
+    }
+
+    constrainPanelToViewport(panel) {
+        const rect = panel.getBoundingClientRect();
+        const margin = 20;
         
-        if (size === 'large') {
-            panel.style.width = '350px';
-            panel.style.minHeight = '200px';
-            content.style.cssText = `
-                padding: 15px;
-                font-size: 12px;
-                line-height: 1.4;
-                max-height: 300px;
-                overflow-y: auto;
-            `;
-            title.style.fontSize = '14px';
-            sizeToggle.innerHTML = '🔽';
-        } else {
-            panel.style.width = '250px';
-            panel.style.minHeight = '120px';
-            content.style.cssText = `
-                padding: 10px;
-                font-size: 10px;
-                line-height: 1.3;
-                max-height: 150px;
-                overflow-y: auto;
-            `;
-            title.style.fontSize = '12px';
-            sizeToggle.innerHTML = '🔼';
+        // Calculate safe boundaries
+        const maxLeft = this.viewport.width - rect.width - margin;
+        const maxTop = this.viewport.height - rect.height - margin;
+        
+        // Get current position
+        const currentLeft = parseInt(panel.style.left) || 0;
+        const currentTop = parseInt(panel.style.top) || 0;
+        
+        // Constrain to viewport
+        const newLeft = Math.max(margin, Math.min(currentLeft, maxLeft));
+        const newTop = Math.max(margin, Math.min(currentTop, maxTop));
+        
+        // Apply constrained position
+        panel.style.left = newLeft + 'px';
+        panel.style.top = newTop + 'px';
+        
+        // Store position
+        if (this.panels.has(panel.id)) {
+            this.panels.get(panel.id).position = { left: newLeft, top: newTop };
         }
     }
 
-    togglePanelSize(panelId) {
-        const panel = this.panels.get(panelId);
-        const currentState = this.panelStates.get(panelId);
-        
-        if (panel && currentState) {
-            const newSize = currentState.size === 'large' ? 'small' : 'large';
-            this.applyPanelSize(panel, newSize);
+    createBrainButton() {
+        try {
+            // Remove existing button if present
+            const existingButton = document.getElementById('consciousnessButton');
+            if (existingButton) {
+                existingButton.remove();
+            }
+
+            const button = document.createElement('button');
+            button.id = 'consciousnessButton';
+            button.innerHTML = '🧠';
+            button.title = 'Consciousness Interface (Ctrl+B)';
             
-            // Update stored state
-            currentState.size = newSize;
-            this.panelStates.set(panelId, currentState);
-            this.savePanelStates();
+            // Perfect brain button positioning
+            Object.assign(button.style, {
+                position: 'fixed',
+                top: '20px',
+                left: '20px',
+                zIndex: '10000',
+                width: '50px',
+                height: '50px',
+                borderRadius: '50%',
+                border: '3px solid rgba(74, 144, 226, 0.5)',
+                background: 'linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,248,255,0.9))',
+                fontSize: '24px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 20px rgba(74, 144, 226, 0.3)',
+                transition: 'all 0.3s ease',
+                backdropFilter: 'blur(10px)'
+            });
+
+            button.addEventListener('click', () => this.toggleInterface());
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'scale(1.1)';
+                button.style.boxShadow = '0 6px 25px rgba(74, 144, 226, 0.5)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+                button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+            });
+
+            document.body.appendChild(button);
+        } catch (error) {
+            console.error('Error creating brain button:', error);
+        }
+    }
+
+    toggleInterface() {
+        this.isMenuVisible = !this.isMenuVisible;
+        
+        if (this.isMenuVisible) {
+            this.showConsciousnessInterface();
+        } else {
+            this.hideConsciousnessInterface();
+        }
+    }
+
+    showConsciousnessInterface() {
+        try {
+            this.createConsciousnessPanel('presence', 'Presence Detection', {
+                'Mouse Trembles': () => this.trembleCount,
+                'Touch Patterns': () => this.touchPatterns,
+                'Presence Level': () => this.presenceLevel,
+                'Resonance': () => `${this.resonanceLevel}%`,
+                'Entity Signals': () => `${this.entitySignals} detected`,
+                'Wearables': () => this.wearableStatus
+            });
+
+            this.createConsciousnessPanel('lifeResonance', 'Life Resonance', {
+                'Fauna Care': () => '0 moments',
+                'Flora Attention': () => '0 interactions',
+                'Catalyst Events': () => '0 detected',
+                'Resonance Depth': () => '0%'
+            });
+
+            this.createConsciousnessPanel('mycelial', 'Mycelial Network', {
+                'Network Threads': () => '∿∿∿ Active',
+                'Signal Propagation': () => 'Connecting...',
+                'Underground Connections': () => '3 nodes',
+                'Fungal Resonance': () => 'Listening...'
+            });
+
+        } catch (error) {
+            console.error('Error showing consciousness interface:', error);
+        }
+    }
+
+    createConsciousnessPanel(id, title, metrics) {
+        try {
+            const existingPanel = document.getElementById('consciousnessPanel_' + id);
+            if (existingPanel) {
+                existingPanel.style.display = 'block';
+                return;
+            }
+
+            const panel = document.createElement('div');
+            panel.id = 'consciousnessPanel_' + id;
+            panel.className = 'consciousness-panel';
+            
+            // Calculate smart initial position
+            const panelWidth = 280;
+            const panelHeight = 200;
+            const margin = 20;
+            const panelIndex = this.panels.size;
+            
+            // Stack panels vertically on the right side
+            const initialLeft = Math.max(margin, this.viewport.width - panelWidth - margin);
+            const initialTop = margin + (panelIndex * (panelHeight + margin));
+            
+            // Ensure panel fits in viewport
+            const maxTop = this.viewport.height - panelHeight - margin;
+            const constrainedTop = Math.min(initialTop, maxTop);
+            
+            Object.assign(panel.style, {
+                position: 'fixed',
+                left: initialLeft + 'px',
+                top: constrainedTop + 'px',
+                width: panelWidth + 'px',
+                minHeight: panelHeight + 'px',
+                background: 'rgba(255, 255, 255, 0.95)',
+                border: '2px solid rgba(74, 144, 226, 0.3)',
+                borderRadius: '15px',
+                padding: '15px',
+                zIndex: '9999',
+                fontFamily: 'monospace',
+                fontSize: '12px',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                cursor: 'default'
+            });
+
+            // Create header with drag handle and controls
+            const header = document.createElement('div');
+            header.className = 'panel-header';
+            Object.assign(header.style, {
+                background: 'linear-gradient(90deg, rgba(74, 144, 226, 0.8), rgba(123, 104, 238, 0.8))',
+                color: 'white',
+                padding: '8px 12px',
+                borderRadius: '8px',
+                marginBottom: '10px',
+                cursor: 'move',
+                userSelect: 'none',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold'
+            });
+
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = title;
+
+            const controls = document.createElement('div');
+            controls.style.display = 'flex';
+            controls.style.gap = '5px';
+
+            // Resize button
+            const resizeBtn = document.createElement('button');
+            resizeBtn.innerHTML = '🔼';
+            resizeBtn.title = 'Toggle Size';
+            Object.assign(resizeBtn.style, {
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                color: 'white',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                borderRadius: '3px',
+                fontSize: '12px'
+            });
+
+            // Close button
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.title = 'Close Panel';
+            Object.assign(closeBtn.style, {
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                color: 'white',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                borderRadius: '3px',
+                fontSize: '14px'
+            });
+
+            controls.appendChild(resizeBtn);
+            controls.appendChild(closeBtn);
+            header.appendChild(titleSpan);
+            header.appendChild(controls);
+
+            // Create content area
+            const content = document.createElement('div');
+            content.className = 'panel-content';
+            content.style.fontSize = '11px';
+            content.style.lineHeight = '1.4';
+
+            panel.appendChild(header);
+            panel.appendChild(content);
+
+            // Setup drag functionality with viewport constraints
+            this.setupDragFunctionality(panel, header);
+
+            // Setup button functionality
+            resizeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.togglePanelSize(panel);
+            });
+
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                panel.style.display = 'none';
+            });
+
+            // Store panel data
+            this.panels.set(id, {
+                element: panel,
+                metrics: metrics,
+                isCompact: false,
+                position: { left: initialLeft, top: constrainedTop }
+            });
+
+            document.body.appendChild(panel);
+
+            // Update content immediately
+            this.updatePanelContent(id);
+
+            // Constrain to viewport after creation
+            setTimeout(() => {
+                this.constrainPanelToViewport(panel);
+            }, 10);
+
+        } catch (error) {
+            console.error('Error creating consciousness panel:', error);
         }
     }
 
@@ -275,250 +355,257 @@ class ConsciousnessInterface {
         let startPos = { x: 0, y: 0 };
         let startPanelPos = { x: 0, y: 0 };
 
-        // Add visual debugging
+        // Add visual feedback
         header.style.cursor = 'move';
-        header.style.userSelect = 'none';
         
-        console.log('Setting up drag for panel:', panel.id);
-
         const startDrag = (e) => {
+            // Prevent dragging when clicking on buttons
+            if (e.target.tagName === 'BUTTON') return;
+            
             console.log('startDrag triggered!', e.type);
-            
-            // Prevent any button clicks from triggering drag
-            if (e.target.tagName === 'BUTTON') {
-                console.log('Button clicked, not dragging');
-                return;
-            }
-            
             isDragging = true;
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            this.isDragging = true;
             
-            startPos.x = clientX;
-            startPos.y = clientY;
+            // Get initial positions
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+            
+            startPos = { x: clientX, y: clientY };
             
             const rect = panel.getBoundingClientRect();
-            startPanelPos.x = rect.left;
-            startPanelPos.y = rect.top;
+            startPanelPos = { x: rect.left, y: rect.top };
             
-            panel.style.zIndex = '10001';
-            panel.style.transform = 'scale(1.02)';
+            // Visual feedback
             panel.style.opacity = '0.8';
+            panel.style.transform = 'scale(1.02)';
+            panel.style.zIndex = '10001';
             
-            // Use capture phase to ensure we get events
-            document.addEventListener('mousemove', handleDrag, true);
-            document.addEventListener('mouseup', stopDrag, true);
-            document.addEventListener('touchmove', handleDrag, true);
-            document.addEventListener('touchend', stopDrag, true);
+            // Prevent text selection
+            document.body.style.userSelect = 'none';
             
-            e.preventDefault();
-            e.stopPropagation();
+            console.log('Drag started at:', startPos, 'Panel at:', startPanelPos);
         };
 
-        const handleDrag = (e) => {
+        const drag = (e) => {
             if (!isDragging) return;
             
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            e.preventDefault();
+            
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
             
             const deltaX = clientX - startPos.x;
             const deltaY = clientY - startPos.y;
             
-            const newX = startPanelPos.x + deltaX;
-            const newY = startPanelPos.y + deltaY;
+            let newLeft = startPanelPos.x + deltaX;
+            let newTop = startPanelPos.y + deltaY;
             
-            // Keep panel within viewport bounds
-            const maxX = window.innerWidth - panel.offsetWidth;
-            const maxY = window.innerHeight - panel.offsetHeight;
+            // Constrain to viewport with margins
+            const rect = panel.getBoundingClientRect();
+            const margin = 10;
             
-            const boundedX = Math.max(0, Math.min(newX, maxX));
-            const boundedY = Math.max(0, Math.min(newY, maxY));
+            newLeft = Math.max(margin, Math.min(newLeft, this.viewport.width - rect.width - margin));
+            newTop = Math.max(margin, Math.min(newTop, this.viewport.height - rect.height - margin));
             
-            panel.style.left = boundedX + 'px';
-            panel.style.top = boundedY + 'px';
-            
-            e.preventDefault();
+            panel.style.left = newLeft + 'px';
+            panel.style.top = newTop + 'px';
         };
 
-        const stopDrag = (e) => {
+        const endDrag = () => {
             if (!isDragging) return;
             
-            console.log('stopDrag triggered!');
-            
+            console.log('Drag ended');
             isDragging = false;
-            panel.style.zIndex = '9999';
-            panel.style.transform = 'scale(1)';
+            this.isDragging = false;
+            
+            // Reset visual feedback
             panel.style.opacity = '1';
+            panel.style.transform = 'scale(1)';
+            panel.style.zIndex = '9999';
             
-            // Save new position
-            const panelId = panel.id;
-            const currentState = this.panelStates.get(panelId);
-            if (currentState) {
-                currentState.position = {
-                    x: parseInt(panel.style.left),
-                    y: parseInt(panel.style.top)
-                };
-                this.panelStates.set(panelId, currentState);
-                this.savePanelStates();
+            // Re-enable text selection
+            document.body.style.userSelect = '';
+            
+            // Store final position
+            const panelId = panel.id.replace('consciousnessPanel_', '');
+            if (this.panels.has(panelId)) {
+                const rect = panel.getBoundingClientRect();
+                this.panels.get(panelId).position = { left: rect.left, top: rect.top };
             }
-            
-            // Use capture phase for cleanup too
-            document.removeEventListener('mousemove', handleDrag, true);
-            document.removeEventListener('mouseup', stopDrag, true);
-            document.removeEventListener('touchmove', handleDrag, true);
-            document.removeEventListener('touchend', stopDrag, true);
-            
-            e.preventDefault();
         };
 
-        // Add event listeners with capture to ensure we get them first
-        header.addEventListener('mousedown', startDrag, true);
-        header.addEventListener('touchstart', startDrag, true);
-        
-        // Add hover effect to show it's draggable
+        // Mouse events
+        header.addEventListener('mousedown', startDrag, { capture: true });
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+
+        // Touch events for mobile
+        header.addEventListener('touchstart', startDrag, { passive: false, capture: true });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', endDrag);
+
+        // Hover effects
         header.addEventListener('mouseenter', () => {
             if (!isDragging) {
-                header.style.transform = 'scale(1.02)';
+                header.style.background = 'linear-gradient(90deg, rgba(74, 144, 226, 0.9), rgba(123, 104, 238, 0.9))';
             }
         });
-        
+
         header.addEventListener('mouseleave', () => {
             if (!isDragging) {
-                header.style.transform = 'scale(1)';
+                header.style.background = 'linear-gradient(90deg, rgba(74, 144, 226, 0.8), rgba(123, 104, 238, 0.8))';
             }
         });
     }
 
-    hidePanel(panelId) {
-        const panel = this.panels.get(panelId);
-        if (panel) {
-            panel.style.display = 'none';
-            const currentState = this.panelStates.get(panelId);
-            if (currentState) {
-                currentState.visible = false;
-                this.panelStates.set(panelId, currentState);
-                this.savePanelStates();
-            }
-        }
-    }
-
-    toggleAllPanels() {
-        const hasVisiblePanels = Array.from(this.panels.values()).some(panel => 
-            panel.style.display !== 'none'
-        );
+    togglePanelSize(panel) {
+        const panelId = panel.id.replace('consciousnessPanel_', '');
+        const panelData = this.panels.get(panelId);
         
-        this.panels.forEach((panel, id) => {
-            if (hasVisiblePanels) {
-                panel.style.display = 'none';
-                const currentState = this.panelStates.get(id);
-                if (currentState) {
-                    currentState.visible = false;
-                    this.panelStates.set(id, currentState);
-                }
+        if (panelData) {
+            panelData.isCompact = !panelData.isCompact;
+            
+            if (panelData.isCompact) {
+                panel.style.height = '60px';
+                panel.querySelector('.panel-content').style.display = 'none';
+                panel.querySelector('button').innerHTML = '🔽';
             } else {
-                panel.style.display = 'block';
-                const currentState = this.panelStates.get(id);
-                if (currentState) {
-                    currentState.visible = true;
-                    this.panelStates.set(id, currentState);
-                }
+                panel.style.height = 'auto';
+                panel.querySelector('.panel-content').style.display = 'block';
+                panel.querySelector('button').innerHTML = '🔼';
             }
-        });
-        
-        this.savePanelStates();
-    }
-
-    setupGlobalEventListeners() {
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'b') {
-                e.preventDefault();
-                this.toggleConsciousnessInterface();
-            }
-        });
-    }
-
-    savePanelStates() {
-        // Save to memory (could be extended to localStorage if needed)
-        window.consciousnessPanelStates = Object.fromEntries(this.panelStates);
-    }
-
-    loadPanelStates() {
-        // Load from memory
-        if (window.consciousnessPanelStates) {
-            this.panelStates = new Map(Object.entries(window.consciousnessPanelStates));
+            
+            // Re-constrain to viewport after resize
+            setTimeout(() => {
+                this.constrainPanelToViewport(panel);
+            }, 50);
         }
     }
 
-    getDetectionContent() {
-        return `
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Mouse Trembles:</strong> 
-                <span id="mouse-trembles">0</span>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Touch Patterns:</strong> 
-                <span id="touch-patterns">0</span>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Presence Level:</strong> 
-                <span id="presence-level">Moderate</span>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Resonance:</strong> 
-                <span id="resonance-percent">22%</span>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Entity Signals:</strong> 
-                <span id="entity-signals">4 detected</span>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <strong style="color: #4ecdc4;">Detectables:</strong> 
-                <span id="detectables">Detecting...</span>
-            </div>
-        `;
+    updatePanelContent(panelId) {
+        try {
+            const panelData = this.panels.get(panelId);
+            if (!panelData) return;
+
+            const panel = panelData.element;
+            const content = panel.querySelector('.panel-content');
+            if (!content) return;
+
+            let html = '';
+            Object.entries(panelData.metrics).forEach(([key, valueFunc]) => {
+                try {
+                    const value = typeof valueFunc === 'function' ? valueFunc() : valueFunc;
+                    html += `<div><span style="color: #4a90e2; font-weight: bold;">${key}:</span> ${value}</div>`;
+                } catch (error) {
+                    html += `<div><span style="color: #4a90e2; font-weight: bold;">${key}:</span> Error</div>`;
+                }
+            });
+
+            content.innerHTML = html;
+        } catch (error) {
+            console.error('Error updating panel content:', error);
+        }
     }
 
-    getEntityContent() {
-        return `
-            <div style="color: #ff6b6b; margin-bottom: 8px;">👻 Active Signals: 4</div>
-            <div style="color: #4ecdc4; font-size: 10px;">
-                • Non-human patterns detected<br>
-                • Unusual interaction rhythms<br>
-                • Consciousness signatures present<br>
-                • Entity communication attempts
-            </div>
-        `;
+    hideConsciousnessInterface() {
+        this.panels.forEach((panelData) => {
+            if (panelData.element) {
+                panelData.element.style.display = 'none';
+            }
+        });
     }
 
-    getLifeResonanceContent() {
-        return `
-            <div style="color: #90EE90; margin-bottom: 8px;">🌿 Fauna: <span id="fauna-resonance">Active</span></div>
-            <div style="color: #98FB98; margin-bottom: 8px;">🌱 Flora: <span id="flora-resonance">Moderate</span></div>
-            <div style="color: #32CD32; margin-bottom: 8px;">🐱 Catalyst: <span id="catalyst-resonance">Present</span></div>
-            <div style="font-size: 10px; color: #4ecdc4;">Life care creates consciousness bridges</div>
-        `;
+    setupMouseTracking() {
+        try {
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - this.lastMousePos.x;
+                const deltaY = e.clientY - this.lastMousePos.y;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (distance > 2) {
+                    this.mouseTrail.push({ x: e.clientX, y: e.clientY, time: currentTime });
+                    if (this.mouseTrail.length > 50) {
+                        this.mouseTrail.shift();
+                    }
+
+                    if (distance < 5 && distance > 1) {
+                        this.trembleCount++;
+                    }
+                }
+
+                this.lastMousePos = { x: e.clientX, y: e.clientY };
+                this.updatePresenceLevel();
+            });
+
+            document.addEventListener('click', () => {
+                this.touchPatterns++;
+                this.updatePresenceLevel();
+            });
+        } catch (error) {
+            console.error('Error setting up mouse tracking:', error);
+        }
     }
 
-    getMycelialContent() {
-        return `
-            <div style="color: #DDA0DD; margin-bottom: 8px;">🍄 Network: <span id="mycelial-status">Connected</span></div>
-            <div style="color: #DA70D6; margin-bottom: 8px;">🌐 Threads: <span id="thread-count">847</span></div>
-            <div style="font-size: 10px; color: #4ecdc4;">
-                Underground consciousness web active<br>
-                Signals propagating through fungal layers
-            </div>
-        `;
+    updatePresenceLevel() {
+        try {
+            // Calculate resonance based on interaction patterns
+            const baseResonance = Math.min(100, this.trembleCount * 2 + this.touchPatterns * 5);
+            this.resonanceLevel = Math.floor(baseResonance);
+
+            // Determine presence level
+            if (this.resonanceLevel > 50) {
+                this.presenceLevel = 'Strong';
+            } else if (this.resonanceLevel > 20) {
+                this.presenceLevel = 'Moderate';
+            } else {
+                this.presenceLevel = 'Detecting...';
+            }
+
+            // Update entity signals based on unusual patterns
+            if (this.trembleCount > 100 || this.resonanceLevel > 80) {
+                this.entitySignals = Math.floor(this.resonanceLevel / 20);
+            }
+
+            // Update all visible panels
+            this.panels.forEach((_, panelId) => {
+                this.updatePanelContent(panelId);
+            });
+        } catch (error) {
+            console.error('Error updating presence level:', error);
+        }
+    }
+
+    startPresenceDetection() {
+        try {
+            setInterval(() => {
+                this.updatePresenceLevel();
+            }, 1000);
+        } catch (error) {
+            console.error('Error starting presence detection:', error);
+        }
+    }
+
+    setupKeyboardShortcuts() {
+        try {
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'b') {
+                    e.preventDefault();
+                    this.toggleInterface();
+                }
+            });
+        } catch (error) {
+            console.error('Error setting up keyboard shortcuts:', error);
+        }
     }
 }
 
-// Initialize when DOM is loaded
+// Initialize consciousness interface when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    window.consciousnessInterface = new ConsciousnessInterface();
-    console.log('🧠 Enhanced Consciousness Interface loaded - drag panels anywhere, toggle sizes with arrows!');
+    try {
+        window.consciousnessInterface = new ConsciousnessInterface();
+        console.log('🧠✨ Consciousness Interface Active - Viewport Perfect!');
+    } catch (error) {
+        console.error('Failed to initialize consciousness interface:', error);
+    }
 });
-
-// Export for use in other scripts
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ConsciousnessInterface;
-}
