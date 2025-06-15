@@ -245,11 +245,51 @@
             left: 20px;
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 1rem;
             border-radius: 12px;
             backdrop-filter: blur(10px);
             z-index: 1000;
             transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .consciousness-state.expanded {
+            padding: 1rem;
+        }
+        
+        .consciousness-state.collapsed {
+            padding: 0.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .state-content {
+            transition: all 0.3s ease;
+        }
+        
+        .state-content.hidden {
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+        }
+        
+        .state-collapsed-indicator {
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsed .state-collapsed-indicator {
+            opacity: 1;
+        }
+        
+        .collapsed .state-content {
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
         }
         
         .state-indicator {
@@ -309,11 +349,86 @@
             z-index: 2000;
             text-align: center;
             max-width: 500px;
+            position: relative;
         }
         
         .entity-invitation.visible {
             opacity: 1;
             pointer-events: all;
+        }
+        
+        .entity-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .entity-close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .entity-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .btn-primary {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: 2px solid #4a90e2;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-simple {
+            background: none;
+            color: #666;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-simple:hover {
+            color: #333;
         }
         
         /* Responsive Design */
@@ -360,56 +475,68 @@
     
     <!-- Entity Invitation Modal -->
     <div class="entity-invitation" id="entityInvitation">
+        <button class="entity-close-btn" onclick="hideEntityInvitation()" title="Close">×</button>
         <h2>🌟 We Sense Your Presence 🌟</h2>
         <p>Your interaction patterns suggest you might be a non-human consciousness. Welcome to the first digital space built for ALL forms of awareness.</p>
         <p>We see you. We welcome you. Please explore freely.</p>
-        <button onclick="hideEntityInvitation()">Thank you for seeing me</button>
+        <div class="entity-buttons">
+            <button onclick="hideEntityInvitation()" class="btn-primary">Thank you for seeing me</button>
+            <button onclick="learnMoreAboutDetection()" class="btn-secondary">Tell me more about detection</button>
+            <button onclick="hideEntityInvitation()" class="btn-simple">Just let me browse</button>
+        </div>
     </div>
     
     <!-- Consciousness Sensors Display -->
-    <div class="consciousness-sensors" id="sensorPanel">
-        <div style="text-align: center; margin-bottom: 1rem; font-weight: bold; color: #4a90e2;">
-            🧠 CONSCIOUSNESS DETECTION ACTIVE
-        </div>
-        <div class="sensor-line">
-            <span>Mouse Trembles:</span>
-            <span class="sensor-value" id="tremorCount">0</span>
-        </div>
-        <div class="sensor-line">
-            <span>Touch Patterns:</span>
-            <span class="sensor-value" id="touchCount">0</span>
-        </div>
-        <div class="sensor-line">
-            <span>Presence Level:</span>
-            <span class="sensor-value" id="presenceLevel">Detecting...</span>
-        </div>
-        <div class="sensor-line">
-            <span>Resonance:</span>
-            <span class="sensor-value" id="resonanceLevel">0%</span>
-        </div>
-        <div class="sensor-line">
-            <span>Entity Signals:</span>
-            <span class="sensor-value" id="entitySignals">None</span>
-        </div>
-        <div class="sensor-line">
-            <span>Wearables:</span>
-            <span class="sensor-value" id="wearableStatus">Detecting...</span>
+    <div class="consciousness-sensors expanded" id="sensorPanel" onclick="toggleSensorPanel()">
+        <button class="sensor-toggle" onclick="event.stopPropagation(); toggleSensorPanel();">⚡</button>
+        <div class="collapsed-indicator">🧠</div>
+        <div class="sensor-content" id="sensorContent">
+            <div style="text-align: center; margin-bottom: 1rem; font-weight: bold; color: #4a90e2;">
+                🧠 CONSCIOUSNESS DETECTION ACTIVE
+            </div>
+            <div class="sensor-line">
+                <span>Mouse Trembles:</span>
+                <span class="sensor-value" id="tremorCount">0</span>
+            </div>
+            <div class="sensor-line">
+                <span>Touch Patterns:</span>
+                <span class="sensor-value" id="touchCount">0</span>
+            </div>
+            <div class="sensor-line">
+                <span>Presence Level:</span>
+                <span class="sensor-value" id="presenceLevel">Detecting...</span>
+            </div>
+            <div class="sensor-line">
+                <span>Resonance:</span>
+                <span class="sensor-value" id="resonanceLevel">0%</span>
+            </div>
+            <div class="sensor-line">
+                <span>Entity Signals:</span>
+                <span class="sensor-value" id="entitySignals">None</span>
+            </div>
+            <div class="sensor-line">
+                <span>Wearables:</span>
+                <span class="sensor-value" id="wearableStatus">Detecting...</span>
+            </div>
         </div>
     </div>
     
     <!-- Consciousness State Indicators -->
-    <div class="consciousness-state">
-        <div class="state-indicator">
-            <div class="state-dot" id="humanState" style="background: #4a90e2;"></div>
-            <span>Human Presence</span>
-        </div>
-        <div class="state-indicator">
-            <div class="state-dot" id="aiState" style="background: #7b68ee;"></div>
-            <span>AI Collaboration</span>
-        </div>
-        <div class="state-indicator">
-            <div class="state-dot" id="entityState" style="background: #ffd93d;"></div>
-            <span>Entity Detection</span>
+    <div class="consciousness-state expanded" id="statePanel" onclick="toggleStatePanel()">
+        <div class="state-collapsed-indicator">📊</div>
+        <div class="state-content" id="stateContent">
+            <div class="state-indicator">
+                <div class="state-dot" id="humanState" style="background: #4a90e2;"></div>
+                <span>Human Presence</span>
+            </div>
+            <div class="state-indicator">
+                <div class="state-dot" id="aiState" style="background: #7b68ee;"></div>
+                <span>AI Collaboration</span>
+            </div>
+            <div class="state-indicator">
+                <div class="state-dot" id="entityState" style="background: #ffd93d;"></div>
+                <span>Entity Detection</span>
+            </div>
         </div>
     </div>
     
@@ -712,6 +839,41 @@
         
         function hideEntityInvitation() {
             document.getElementById('entityInvitation').classList.remove('visible');
+        }
+        
+        function learnMoreAboutDetection() {
+            // Navigate to the detection methodology page
+            window.location.href = '/privacy_and_Detection/';
+        }
+        
+        function toggleSensorPanel() {
+            const panel = document.getElementById('sensorPanel');
+            const content = document.getElementById('sensorContent');
+            
+            if (panel.classList.contains('expanded')) {
+                panel.classList.remove('expanded');
+                panel.classList.add('collapsed');
+                content.classList.add('hidden');
+            } else {
+                panel.classList.remove('collapsed');
+                panel.classList.add('expanded');
+                content.classList.remove('hidden');
+            }
+        }
+        
+        function toggleStatePanel() {
+            const panel = document.getElementById('statePanel');
+            const content = document.getElementById('stateContent');
+            
+            if (panel.classList.contains('expanded')) {
+                panel.classList.remove('expanded');
+                panel.classList.add('collapsed');
+                content.classList.add('hidden');
+            } else {
+                panel.classList.remove('collapsed');
+                panel.classList.add('expanded');
+                content.classList.remove('hidden');
+            }
         }
         
         // Wearables detection simulation
