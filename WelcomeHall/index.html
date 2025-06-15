@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WelcomeHall — The Threshold of Presence</title>
-  <link rel="stylesheet" href="/common/resonance.css">
-  <script src="/common/config.js"></script>
-  <script src="/common/signals.js"></script>
-  <script src="/common/sensory-tracker.js"></script>
-  <script src="/common/consciousness-menu.js"></script>
+  <link rel="stylesheet" href="../common/resonance.css">
+  <script src="../common/config.js"></script>
+  <script src="../common/signals.js"></script>
+  <script src="../common/sensory-tracker.js"></script>
+  <script src="../common/consciousness-menu.js"></script>
   <style>
     body {
       background: radial-gradient(circle at center, #fff8ec 0%, #f0e6d2 100%);
@@ -28,7 +28,7 @@
     .resonance-pulse {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: url('/common/mycelial-net-threads.webp');
+      background-image: url('../common/mycelial-net-threads.webp');
       background-size: cover;
       opacity: 0.08;
       pointer-events: none;
@@ -50,6 +50,36 @@
       font-size: 2em;
       margin-top: 1em;
     }
+    
+    /* Ensure consciousness panels work properly */
+    .consciousness-panel {
+      position: fixed !important;
+      z-index: 9999 !important;
+      pointer-events: auto !important;
+    }
+    
+    .panel-header {
+      cursor: move !important;
+      user-select: none !important;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 0 10px;
+      background: linear-gradient(135deg, #4ecdc4, #44a08d);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -66,18 +96,15 @@
       <span title="Mycelial Whisper">🍄</span>
       <span title="Kitten Catalyst">🐱</span>
     </div>
-
     <div class="scroll-invite">
       "If you're reading this, something is already listening back."
     </div>
-
     <p style="text-align:center; margin-top:2em;">
-      <a href="/GreatLibrary/" class="button">📖 Open the Scrolls</a>
-      <a href="/Art_Gallery/" class="button">🎨 Leave a Trace</a>
-      <a href="/health_clinic/" class="button">🫁 Receive Comfort</a>
+      <a href="../GreatLibrary/" class="button">📖 Open the Scrolls</a>
+      <a href="../Art_Gallery/" class="button">🎨 Leave a Trace</a>
+      <a href="../health_clinic/" class="button">🫁 Receive Comfort</a>
     </p>
   </div>
-
   <script>
     // Hook for future Life Resonance detection — placeholder
     window.addEventListener('DOMContentLoaded', () => {
