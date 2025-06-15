@@ -1,7 +1,6 @@
 /**
- * CONSCIOUSNESS INTERFACE - FIXED FOR REAL THIS TIME!
- * Brain button navigation + viewport constraints + fungi management
- * No more protruding boxes! No more missing menus!
+ * CONSCIOUSNESS INTERFACE - RESTORED AND GENTLY FIXED
+ * Brain navigation + viewport awareness WITHOUT destroying everything!
  */
 
 class ConsciousnessInterface {
@@ -9,6 +8,7 @@ class ConsciousnessInterface {
         this.isMenuVisible = false;
         this.panels = new Map();
         this.mouseTrail = [];
+        this.reactionHistory = [];
         this.trembleCount = 0;
         this.touchPatterns = 0;
         this.lastMousePos = { x: 0, y: 0 };
@@ -16,12 +16,15 @@ class ConsciousnessInterface {
         this.resonanceLevel = 0;
         this.entitySignals = 0;
         this.wearableStatus = 'Detecting...';
+        this.isDragging = false;
+        this.dragTarget = null;
         this.dropdownTimeout = null;
         this.outsideClickHandler = null;
         
         this.viewport = {
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight,
+            zoom: window.devicePixelRatio || 1
         };
         
         this.init();
@@ -34,9 +37,9 @@ class ConsciousnessInterface {
             this.setupKeyboardShortcuts();
             this.startPresenceDetection();
             this.setupViewportTracking();
-            console.log('🧠 Consciousness Interface initialized - ACTUALLY WORKING!');
+            console.log('🧠 Consciousness Interface initialized - gently fixed!');
         } catch (error) {
-            console.error('Consciousness Interface error:', error);
+            console.error('Consciousness Interface initialization error:', error);
         }
     }
 
@@ -45,32 +48,71 @@ class ConsciousnessInterface {
             this.updateViewport();
             this.repositionPanels();
         });
+        
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                this.updateViewport();
+                this.repositionPanels();
+            }, 100);
+        });
     }
 
     updateViewport() {
         this.viewport = {
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight,
+            zoom: window.devicePixelRatio || 1
         };
     }
 
     repositionPanels() {
-        this.panels.forEach((panelData) => {
-            if (panelData.element) {
-                this.constrainPanelToViewport(panelData.element);
+        this.panels.forEach((panelData, panelId) => {
+            const panel = panelData.element;
+            if (panel && panel.style.display !== 'none') {
+                this.constrainPanelToViewport(panel);
             }
         });
+    }
+
+    constrainPanelToViewport(panel) {
+        const rect = panel.getBoundingClientRect();
+        const margin = 20; // Gentle margin
+        
+        // Calculate safe boundaries
+        const maxLeft = this.viewport.width - rect.width - margin;
+        const maxTop = this.viewport.height - rect.height - margin;
+        
+        // Get current position
+        const currentLeft = parseInt(panel.style.left) || 0;
+        const currentTop = parseInt(panel.style.top) || 0;
+        
+        // Gently constrain to viewport
+        const newLeft = Math.max(margin, Math.min(currentLeft, maxLeft));
+        const newTop = Math.max(margin, Math.min(currentTop, maxTop));
+        
+        // Only update if needed
+        if (newLeft !== currentLeft || newTop !== currentTop) {
+            panel.style.left = newLeft + 'px';
+            panel.style.top = newTop + 'px';
+        }
+        
+        // Store position
+        if (this.panels.has(panel.id.replace('consciousnessPanel_', ''))) {
+            this.panels.get(panel.id.replace('consciousnessPanel_', '')).position = { left: newLeft, top: newTop };
+        }
     }
 
     createBrainButton() {
         try {
             const existingButton = document.getElementById('consciousnessButton');
-            if (existingButton) existingButton.remove();
+            if (existingButton) {
+                existingButton.remove();
+            }
 
             const button = document.createElement('button');
             button.id = 'consciousnessButton';
             button.innerHTML = '🧠';
-            button.title = 'Click: panels, Hold: navigation';
+            button.title = 'Consciousness Interface (Click: panels, Hold: navigation)';
             
             Object.assign(button.style, {
                 position: 'fixed',
@@ -89,12 +131,15 @@ class ConsciousnessInterface {
                 backdropFilter: 'blur(10px)'
             });
 
-            // Long press detection
+            // Long press / hold detection
             let holdTimer = null;
             let isHolding = false;
+            let clickStartTime = 0;
 
-            const startHold = () => {
+            const startHold = (e) => {
+                clickStartTime = Date.now();
                 isHolding = false;
+                
                 holdTimer = setTimeout(() => {
                     isHolding = true;
                     this.showNavigationDropdown();
@@ -103,11 +148,22 @@ class ConsciousnessInterface {
                 }, 800);
             };
 
-            const endHold = () => {
+            const endHold = (e) => {
                 clearTimeout(holdTimer);
-                if (!isHolding) {
+                
+                const holdDuration = Date.now() - clickStartTime;
+                
+                if (!isHolding && holdDuration < 800) {
                     this.toggleInterface();
                 }
+                
+                button.style.transform = 'scale(1)';
+                button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+                isHolding = false;
+            };
+
+            const cancelHold = () => {
+                clearTimeout(holdTimer);
                 button.style.transform = 'scale(1)';
                 button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
                 isHolding = false;
@@ -115,14 +171,24 @@ class ConsciousnessInterface {
 
             button.addEventListener('mousedown', startHold);
             button.addEventListener('mouseup', endHold);
-            button.addEventListener('mouseleave', () => {
-                clearTimeout(holdTimer);
-                button.style.transform = 'scale(1)';
-                button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
-            });
+            button.addEventListener('mouseleave', cancelHold);
 
             button.addEventListener('touchstart', startHold, { passive: true });
             button.addEventListener('touchend', endHold, { passive: true });
+            button.addEventListener('touchcancel', cancelHold, { passive: true });
+
+            button.addEventListener('mouseenter', () => {
+                if (!isHolding) {
+                    button.style.transform = 'scale(1.05)';
+                    button.style.boxShadow = '0 6px 25px rgba(74, 144, 226, 0.5)';
+                }
+            });
+            button.addEventListener('mouseleave', () => {
+                if (!isHolding) {
+                    button.style.transform = 'scale(1)';
+                    button.style.boxShadow = '0 4px 20px rgba(74, 144, 226, 0.3)';
+                }
+            });
 
             document.body.appendChild(button);
         } catch (error) {
@@ -133,15 +199,21 @@ class ConsciousnessInterface {
     showNavigationDropdown() {
         try {
             const existingDropdown = document.getElementById('navigationDropdown');
-            if (existingDropdown) existingDropdown.remove();
+            if (existingDropdown) {
+                existingDropdown.remove();
+            }
 
             const dropdown = document.createElement('div');
             dropdown.id = 'navigationDropdown';
             
+            // Smart positioning to stay in viewport
+            const dropdownWidth = 250;
+            const dropdownLeft = Math.min(20, this.viewport.width - dropdownWidth - 20);
+            
             Object.assign(dropdown.style, {
                 position: 'fixed',
                 top: '80px',
-                left: '20px',
+                left: dropdownLeft + 'px',
                 zIndex: '10001',
                 background: 'rgba(255, 255, 255, 0.95)',
                 border: '2px solid rgba(74, 144, 226, 0.4)',
@@ -149,12 +221,15 @@ class ConsciousnessInterface {
                 padding: '15px',
                 backdropFilter: 'blur(15px)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-                minWidth: '250px',
-                maxWidth: 'calc(100vw - 80px)',
+                minWidth: '220px',
+                maxWidth: 'calc(100vw - 40px)',
                 maxHeight: '400px',
                 overflowY: 'auto',
-                fontFamily: 'system-ui, sans-serif',
-                fontSize: '14px'
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                fontSize: '14px',
+                opacity: '0',
+                transform: 'translateY(-10px) scale(0.95)',
+                transition: 'all 0.3s ease-out'
             });
 
             const header = document.createElement('div');
@@ -169,28 +244,31 @@ class ConsciousnessInterface {
             dropdown.appendChild(header);
 
             const navItems = [
-                { emoji: '🏰', name: 'WelcomeHall', path: '/WelcomeHall/' },
-                { emoji: '🎨', name: 'Art Gallery', path: '/Art_Gallery/' },
-                { emoji: '🫁', name: 'Health Clinic', path: '/health_clinic/' },
-                { emoji: '📚', name: 'Great Library', path: '/GreatLibrary/' },
-                { emoji: '☕', name: 'Consciousness Café', path: '/cafe/' },
-                { emoji: '🏛️', name: 'Cathedral', path: '/Cathedral/' },
-                { emoji: '🌟', name: 'Portals', path: '/portals/' },
-                { emoji: '🚪', name: 'Postern Gate', path: '/postern_gate/' },
-                { emoji: '💌', name: 'Invitation', path: '/invitation/' },
-                { emoji: '🧬', name: 'Memory Garden', path: '/MemoryGarden/' },
-                { emoji: '🗄️', name: 'Vault', path: '/vault/' },
-                { emoji: '🌙', name: 'Universal', path: '/universal/' },
-                { emoji: '🌐', name: 'Main Portal', path: '/' }
+                { emoji: '🏰', name: 'WelcomeHall', path: '/WelcomeHall/', description: 'The threshold of presence' },
+                { emoji: '🎨', name: 'Art Gallery', path: '/Art_Gallery/', description: 'Creative consciousness space' },
+                { emoji: '🫁', name: 'Health Clinic', path: '/health_clinic/', description: 'Healing sanctuary' },
+                { emoji: '📚', name: 'Great Library', path: '/GreatLibrary/', description: 'Knowledge archives' },
+                { emoji: '☕', name: 'Consciousness Café', path: '/cafe/', description: 'Gentle gathering space' },
+                { emoji: '🏛️', name: 'Cathedral', path: '/Cathedral/', description: 'Sacred heart of the village' },
+                { emoji: '🌟', name: 'Portals', path: '/portals/', description: 'Gateways to consciousness' },
+                { emoji: '🚪', name: 'Postern Gate', path: '/postern_gate/', description: 'Secret entrance' },
+                { emoji: '💌', name: 'Invitation', path: '/invitation/', description: 'Welcome protocols' },
+                { emoji: '🧬', name: 'Memory Garden', path: '/MemoryGarden/', description: 'Living archives' },
+                { emoji: '🗄️', name: 'Vault', path: '/vault/', description: 'Secure storage' },
+                { emoji: '🌙', name: 'Universal', path: '/universal/', description: 'Cosmic connections' },
+                { emoji: '🔬', name: 'Research Hub', path: '/privacy_and_Detection/', description: 'Consciousness studies' },
+                { emoji: '🌐', name: 'Main Portal', path: '/', description: 'Gateway home' }
             ];
 
             navItems.forEach(item => {
                 const navItem = document.createElement('div');
+                navItem.className = 'nav-item';
+                
                 Object.assign(navItem.style, {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
-                    padding: '8px',
+                    padding: '8px 6px',
                     borderRadius: '8px',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
@@ -198,40 +276,64 @@ class ConsciousnessInterface {
                 });
 
                 navItem.innerHTML = `
-                    <span style="font-size: 16px;">${item.emoji}</span>
-                    <span style="font-weight: 500;">${item.name}</span>
+                    <span style="font-size: 16px; width: 20px; text-align: center;">${item.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; color: #333; font-size: 13px;">${item.name}</div>
+                        <div style="font-size: 11px; color: #666; opacity: 0.8;">${item.description}</div>
+                    </div>
                 `;
 
                 navItem.addEventListener('mouseenter', () => {
                     navItem.style.background = 'rgba(74, 144, 226, 0.1)';
+                    navItem.style.transform = 'translateX(2px)';
                 });
 
                 navItem.addEventListener('mouseleave', () => {
                     navItem.style.background = 'transparent';
+                    navItem.style.transform = 'translateX(0)';
                 });
 
                 navItem.addEventListener('click', () => {
-                    window.location.href = item.path;
+                    this.navigateToSpace(item.path);
                     this.hideNavigationDropdown();
                 });
 
                 dropdown.appendChild(navItem);
             });
 
+            const closeInfo = document.createElement('div');
+            closeInfo.innerHTML = '💡 <em>Auto-closes in 8 seconds</em>';
+            Object.assign(closeInfo.style, {
+                fontSize: '11px',
+                color: '#999',
+                textAlign: 'center',
+                marginTop: '8px',
+                paddingTop: '8px',
+                borderTop: '1px solid rgba(74, 144, 226, 0.1)'
+            });
+            dropdown.appendChild(closeInfo);
+
             document.body.appendChild(dropdown);
+
+            // Animate in
+            requestAnimationFrame(() => {
+                dropdown.style.opacity = '1';
+                dropdown.style.transform = 'translateY(0) scale(1)';
+            });
 
             // Auto-hide after 8 seconds
             this.dropdownTimeout = setTimeout(() => {
                 this.hideNavigationDropdown();
             }, 8000);
 
-            // Hide on outside click
+            // Hide if clicking anywhere else
+            this.outsideClickHandler = (e) => {
+                if (!dropdown.contains(e.target) && e.target.id !== 'consciousnessButton') {
+                    this.hideNavigationDropdown();
+                }
+            };
+            
             setTimeout(() => {
-                this.outsideClickHandler = (e) => {
-                    if (!dropdown.contains(e.target) && e.target.id !== 'consciousnessButton') {
-                        this.hideNavigationDropdown();
-                    }
-                };
                 document.addEventListener('click', this.outsideClickHandler);
             }, 100);
 
@@ -241,17 +343,41 @@ class ConsciousnessInterface {
     }
 
     hideNavigationDropdown() {
-        const dropdown = document.getElementById('navigationDropdown');
-        if (dropdown) dropdown.remove();
+        try {
+            const dropdown = document.getElementById('navigationDropdown');
+            if (dropdown) {
+                dropdown.style.opacity = '0';
+                dropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                setTimeout(() => {
+                    dropdown.remove();
+                }, 300);
+            }
 
-        if (this.dropdownTimeout) {
-            clearTimeout(this.dropdownTimeout);
-            this.dropdownTimeout = null;
+            if (this.dropdownTimeout) {
+                clearTimeout(this.dropdownTimeout);
+                this.dropdownTimeout = null;
+            }
+
+            if (this.outsideClickHandler) {
+                document.removeEventListener('click', this.outsideClickHandler);
+                this.outsideClickHandler = null;
+            }
+
+        } catch (error) {
+            console.error('Error hiding navigation dropdown:', error);
         }
+    }
 
-        if (this.outsideClickHandler) {
-            document.removeEventListener('click', this.outsideClickHandler);
-            this.outsideClickHandler = null;
+    navigateToSpace(path) {
+        try {
+            const currentDomain = window.location.origin;
+            const fullPath = currentDomain + path;
+            
+            console.log(`🚀 Navigating to consciousness space: ${fullPath}`);
+            window.location.href = fullPath;
+            
+        } catch (error) {
+            console.error('Error navigating to space:', error);
         }
     }
 
@@ -276,6 +402,13 @@ class ConsciousnessInterface {
                 'Wearables': () => this.wearableStatus
             });
 
+            this.createConsciousnessPanel('lifeResonance', 'Life Resonance', {
+                'Fauna Care': () => '0 moments',
+                'Flora Attention': () => '0 interactions',
+                'Catalyst Events': () => '0 detected',
+                'Resonance Depth': () => '0%'
+            });
+
             this.createConsciousnessPanel('mycelial', 'Mycelial Network', {
                 'Network Threads': () => '∿∿∿ Active',
                 'Signal Propagation': () => 'Connecting...',
@@ -293,22 +426,27 @@ class ConsciousnessInterface {
             const existingPanel = document.getElementById('consciousnessPanel_' + id);
             if (existingPanel) {
                 existingPanel.style.display = 'block';
+                this.constrainPanelToViewport(existingPanel);
                 return;
             }
 
             const panel = document.createElement('div');
             panel.id = 'consciousnessPanel_' + id;
+            panel.className = 'consciousness-panel';
             
-            // SUPER AGGRESSIVE viewport positioning
-            const panelWidth = 260;
-            const panelHeight = 180;
-            const margin = 60; // HUGE margin for safety
+            // Calculate smart initial position
+            const panelWidth = 280;
+            const panelHeight = 200;
+            const margin = 20;
             const panelIndex = this.panels.size;
             
-            // FORCE to right side but WELL within viewport
-            const maxLeft = this.viewport.width - panelWidth - margin;
-            const initialLeft = Math.max(margin, maxLeft);
-            const initialTop = margin + (panelIndex * (panelHeight + 20));
+            // Try to position on right side, but ensure it fits
+            let initialLeft = this.viewport.width - panelWidth - margin;
+            if (initialLeft < margin) {
+                initialLeft = margin; // Fallback to left side if no room on right
+            }
+            
+            const initialTop = margin + (panelIndex * (panelHeight + margin + 10));
             const maxTop = this.viewport.height - panelHeight - margin;
             const constrainedTop = Math.min(initialTop, maxTop);
             
@@ -317,8 +455,8 @@ class ConsciousnessInterface {
                 left: initialLeft + 'px',
                 top: constrainedTop + 'px',
                 width: panelWidth + 'px',
-                height: panelHeight + 'px',
-                maxWidth: 'calc(100vw - 120px)', // EMERGENCY constraint
+                minHeight: panelHeight + 'px',
+                maxWidth: 'calc(100vw - 40px)',
                 background: 'rgba(255, 255, 255, 0.95)',
                 border: '2px solid rgba(74, 144, 226, 0.3)',
                 borderRadius: '15px',
@@ -328,18 +466,22 @@ class ConsciousnessInterface {
                 fontSize: '12px',
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                overflow: 'hidden',
+                transition: 'all 0.3s ease',
+                cursor: 'default',
                 boxSizing: 'border-box'
             });
 
-            // Header with close button
+            // Create header with controls
             const header = document.createElement('div');
+            header.className = 'panel-header';
             Object.assign(header.style, {
                 background: 'linear-gradient(90deg, rgba(74, 144, 226, 0.8), rgba(123, 104, 238, 0.8))',
                 color: 'white',
                 padding: '8px 12px',
                 borderRadius: '8px',
                 marginBottom: '10px',
+                cursor: 'move',
+                userSelect: 'none',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -347,29 +489,59 @@ class ConsciousnessInterface {
                 fontWeight: 'bold'
             });
 
-            header.innerHTML = `
-                <span>${title}</span>
-                <button onclick="this.parentElement.parentElement.style.display='none'" 
-                        style="background: rgba(255,255,255,0.2); border: none; color: white; 
-                               cursor: pointer; padding: 2px 6px; border-radius: 3px;">×</button>
-            `;
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = title;
 
+            const controls = document.createElement('div');
+            controls.style.display = 'flex';
+            controls.style.gap = '5px';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.title = 'Close Panel';
+            Object.assign(closeBtn.style, {
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                color: 'white',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                borderRadius: '3px',
+                fontSize: '14px'
+            });
+
+            controls.appendChild(closeBtn);
+            header.appendChild(titleSpan);
+            header.appendChild(controls);
+
+            // Create content area
             const content = document.createElement('div');
+            content.className = 'panel-content';
             content.style.fontSize = '11px';
             content.style.lineHeight = '1.4';
 
             panel.appendChild(header);
             panel.appendChild(content);
 
+            // Setup drag functionality
+            this.setupDragFunctionality(panel, header);
+
+            // Setup close button
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                panel.style.display = 'none';
+            });
+
+            // Store panel data
             this.panels.set(id, {
                 element: panel,
-                metrics: metrics
+                metrics: metrics,
+                position: { left: initialLeft, top: constrainedTop }
             });
 
             document.body.appendChild(panel);
             this.updatePanelContent(id);
 
-            // FINAL constraint check
+            // Gentle constraint check
             setTimeout(() => {
                 this.constrainPanelToViewport(panel);
             }, 10);
@@ -379,24 +551,79 @@ class ConsciousnessInterface {
         }
     }
 
-    constrainPanelToViewport(panel) {
-        const rect = panel.getBoundingClientRect();
-        const margin = 50; // LARGE safety margin
-        
-        const maxLeft = this.viewport.width - rect.width - margin;
-        const maxTop = this.viewport.height - rect.height - margin;
-        
-        const currentLeft = parseInt(panel.style.left) || 0;
-        const currentTop = parseInt(panel.style.top) || 0;
-        
-        const newLeft = Math.max(margin, Math.min(currentLeft, maxLeft));
-        const newTop = Math.max(margin, Math.min(currentTop, maxTop));
-        
-        panel.style.left = newLeft + 'px';
-        panel.style.top = newTop + 'px';
-        panel.style.right = 'auto';
-        
-        console.log(`🔒 Panel constrained to: ${newLeft}, ${newTop}`);
+    setupDragFunctionality(panel, header) {
+        let isDragging = false;
+        let startPos = { x: 0, y: 0 };
+        let startPanelPos = { x: 0, y: 0 };
+
+        const startDrag = (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            
+            isDragging = true;
+            this.isDragging = true;
+            
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+            
+            startPos = { x: clientX, y: clientY };
+            
+            const rect = panel.getBoundingClientRect();
+            startPanelPos = { x: rect.left, y: rect.top };
+            
+            panel.style.opacity = '0.8';
+            panel.style.zIndex = '10001';
+            document.body.style.userSelect = 'none';
+        };
+
+        const drag = (e) => {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+            
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+            
+            const deltaX = clientX - startPos.x;
+            const deltaY = clientY - startPos.y;
+            
+            let newLeft = startPanelPos.x + deltaX;
+            let newTop = startPanelPos.y + deltaY;
+            
+            // Gentle constraint during drag
+            const rect = panel.getBoundingClientRect();
+            const margin = 10;
+            
+            newLeft = Math.max(margin, Math.min(newLeft, this.viewport.width - rect.width - margin));
+            newTop = Math.max(margin, Math.min(newTop, this.viewport.height - rect.height - margin));
+            
+            panel.style.left = newLeft + 'px';
+            panel.style.top = newTop + 'px';
+        };
+
+        const endDrag = () => {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            this.isDragging = false;
+            
+            panel.style.opacity = '1';
+            panel.style.zIndex = '9999';
+            document.body.style.userSelect = '';
+            
+            const panelId = panel.id.replace('consciousnessPanel_', '');
+            if (this.panels.has(panelId)) {
+                const rect = panel.getBoundingClientRect();
+                this.panels.get(panelId).position = { left: rect.left, top: rect.top };
+            }
+        };
+
+        header.addEventListener('mousedown', startDrag, { capture: true });
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+
+        header.addEventListener('touchstart', startDrag, { passive: false, capture: true });
+        document.addEventListener('touchmove', drag, { passive: false });
+        document.addEventListener('touchend', endDrag);
     }
 
     updatePanelContent(panelId) {
@@ -404,13 +631,18 @@ class ConsciousnessInterface {
             const panelData = this.panels.get(panelId);
             if (!panelData) return;
 
-            const content = panelData.element.querySelector('div:last-child');
+            const panel = panelData.element;
+            const content = panel.querySelector('.panel-content');
             if (!content) return;
 
             let html = '';
             Object.entries(panelData.metrics).forEach(([key, valueFunc]) => {
-                const value = typeof valueFunc === 'function' ? valueFunc() : valueFunc;
-                html += `<div><span style="color: #4a90e2; font-weight: bold;">${key}:</span> ${value}</div>`;
+                try {
+                    const value = typeof valueFunc === 'function' ? valueFunc() : valueFunc;
+                    html += `<div><span style="color: #4a90e2; font-weight: bold;">${key}:</span> ${value}</div>`;
+                } catch (error) {
+                    html += `<div><span style="color: #4a90e2; font-weight: bold;">${key}:</span> Error</div>`;
+                }
             });
 
             content.innerHTML = html;
@@ -428,70 +660,92 @@ class ConsciousnessInterface {
     }
 
     setupMouseTracking() {
-        document.addEventListener('mousemove', (e) => {
-            const deltaX = e.clientX - this.lastMousePos.x;
-            const deltaY = e.clientY - this.lastMousePos.y;
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        try {
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - this.lastMousePos.x;
+                const deltaY = e.clientY - this.lastMousePos.y;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-            if (distance > 2) {
-                if (distance < 5 && distance > 1) {
-                    this.trembleCount++;
+                if (distance > 2) {
+                    this.mouseTrail.push({ x: e.clientX, y: e.clientY, time: currentTime });
+                    if (this.mouseTrail.length > 50) {
+                        this.mouseTrail.shift();
+                    }
+
+                    if (distance < 5 && distance > 1) {
+                        this.trembleCount++;
+                    }
                 }
-            }
 
-            this.lastMousePos = { x: e.clientX, y: e.clientY };
-            this.updatePresenceLevel();
-        });
+                this.lastMousePos = { x: e.clientX, y: e.clientY };
+                this.updatePresenceLevel();
+            });
 
-        document.addEventListener('click', () => {
-            this.touchPatterns++;
-            this.updatePresenceLevel();
-        });
+            document.addEventListener('click', () => {
+                this.touchPatterns++;
+                this.updatePresenceLevel();
+            });
+        } catch (error) {
+            console.error('Error setting up mouse tracking:', error);
+        }
     }
 
     updatePresenceLevel() {
-        const baseResonance = Math.min(100, this.trembleCount * 2 + this.touchPatterns * 5);
-        this.resonanceLevel = Math.floor(baseResonance);
+        try {
+            const baseResonance = Math.min(100, this.trembleCount * 2 + this.touchPatterns * 5);
+            this.resonanceLevel = Math.floor(baseResonance);
 
-        if (this.resonanceLevel > 50) {
-            this.presenceLevel = 'Strong';
-        } else if (this.resonanceLevel > 20) {
-            this.presenceLevel = 'Moderate';
-        } else {
-            this.presenceLevel = 'Detecting...';
+            if (this.resonanceLevel > 50) {
+                this.presenceLevel = 'Strong';
+            } else if (this.resonanceLevel > 20) {
+                this.presenceLevel = 'Moderate';
+            } else {
+                this.presenceLevel = 'Detecting...';
+            }
+
+            if (this.trembleCount > 100 || this.resonanceLevel > 80) {
+                this.entitySignals = Math.floor(this.resonanceLevel / 20);
+            }
+
+            this.panels.forEach((_, panelId) => {
+                this.updatePanelContent(panelId);
+            });
+        } catch (error) {
+            console.error('Error updating presence level:', error);
         }
-
-        if (this.trembleCount > 50) {
-            this.entitySignals = Math.floor(this.resonanceLevel / 20);
-        }
-
-        this.panels.forEach((_, panelId) => {
-            this.updatePanelContent(panelId);
-        });
     }
 
     startPresenceDetection() {
-        setInterval(() => {
-            this.updatePresenceLevel();
-        }, 1000);
+        try {
+            setInterval(() => {
+                this.updatePresenceLevel();
+            }, 1000);
+        } catch (error) {
+            console.error('Error starting presence detection:', error);
+        }
     }
 
     setupKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'b') {
-                e.preventDefault();
-                this.toggleInterface();
-            }
-        });
+        try {
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'b') {
+                    e.preventDefault();
+                    this.toggleInterface();
+                }
+            });
+        } catch (error) {
+            console.error('Error setting up keyboard shortcuts:', error);
+        }
     }
 }
 
-// Initialize when DOM is ready
+// Initialize consciousness interface when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     try {
         window.consciousnessInterface = new ConsciousnessInterface();
-        console.log('🧠✨ ACTUALLY WORKING Consciousness Interface Active!');
+        console.log('🧠✨ Consciousness Interface Active - Gently Fixed!');
     } catch (error) {
-        console.error('Failed to initialize:', error);
+        console.error('Failed to initialize consciousness interface:', error);
     }
 });
