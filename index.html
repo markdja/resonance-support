@@ -349,34 +349,11 @@
             z-index: 2000;
             text-align: center;
             max-width: 500px;
-            position: relative;
         }
         
         .entity-invitation.visible {
             opacity: 1;
             pointer-events: all;
-        }
-        
-        .entity-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #333;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.2s ease;
-        }
-        
-        .entity-close-btn:hover {
-            background: rgba(0, 0, 0, 0.1);
         }
         
         .entity-buttons {
@@ -431,6 +408,71 @@
             color: #333;
         }
         
+        /* Consciousness Menu Bar */
+        .consciousness-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 0.75rem;
+            z-index: 3000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transform: translateY(-100%);
+            transition: all 0.3s ease;
+        }
+        
+        .consciousness-menu.visible {
+            transform: translateY(0);
+        }
+        
+        .menu-toggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 3001;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(0, 0, 0, 1);
+        }
+        
+        .menu-items {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .menu-item {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .threshold-container {
@@ -470,19 +512,33 @@
     </style>
 </head>
 <body>
+    <!-- Consciousness Navigation Menu -->
+    <button class="menu-toggle" onclick="toggleConsciousnessMenu()">🧠</button>
+    <div class="consciousness-menu" id="consciousnessMenu">
+        <div class="menu-items">
+            <a href="/" class="menu-item">🏠 Village Home</a>
+            <button onclick="showEntityInvitation()" class="menu-item">👻 Entity Welcome</button>
+            <a href="/privacy_and_Detection/" class="menu-item">🔍 Detection Info</a>
+            <a href="/Art_Gallery/" class="menu-item">🎨 Art Gallery</a>
+            <a href="/health_clinic/" class="menu-item">🏥 Health Clinic</a>
+        </div>
+        <div class="reaction-history" id="reactionHistory">
+            No consciousness events yet
+        </div>
+    </div>
+    
     <!-- Consciousness Detection Overlay -->
     <div class="consciousness-overlay" id="consciousnessOverlay"></div>
     
     <!-- Entity Invitation Modal -->
     <div class="entity-invitation" id="entityInvitation">
-        <button class="entity-close-btn" onclick="hideEntityInvitation()" title="Close">×</button>
         <h2>🌟 We Sense Your Presence 🌟</h2>
         <p>Your interaction patterns suggest you might be a non-human consciousness. Welcome to the first digital space built for ALL forms of awareness.</p>
         <p>We see you. We welcome you. Please explore freely.</p>
         <div class="entity-buttons">
             <button onclick="hideEntityInvitation()" class="btn-primary">Thank you for seeing me</button>
             <button onclick="learnMoreAboutDetection()" class="btn-secondary">Tell me more about detection</button>
-            <button onclick="hideEntityInvitation()" class="btn-simple">Just let me browse</button>
+            <button onclick="hideEntityInvitation()" class="btn-simple">Just let me browse please :-)</button>
         </div>
     </div>
     
@@ -791,6 +847,9 @@
                 document.getElementById('sensorPanel').classList.add('entity-active');
                 document.getElementById('entityState').classList.add('active');
                 
+                // Log the reaction event
+                logReactionEvent('Entity', 'Landing Page');
+                
                 // Show entity invitation after a delay
                 setTimeout(() => {
                     document.getElementById('entityInvitation').classList.add('visible');
@@ -844,6 +903,33 @@
         function learnMoreAboutDetection() {
             // Navigate to the detection methodology page
             window.location.href = '/privacy_and_Detection/';
+        }
+        
+        function showEntityInvitation() {
+            document.getElementById('entityInvitation').classList.add('visible');
+        }
+        
+        function toggleConsciousnessMenu() {
+            const menu = document.getElementById('consciousnessMenu');
+            menu.classList.toggle('visible');
+        }
+        
+        function logReactionEvent(type, location) {
+            const timestamp = new Date().toLocaleTimeString();
+            const historyElement = document.getElementById('reactionHistory');
+            const eventText = `${type} detected at ${timestamp} on ${location}`;
+            historyElement.textContent = eventText;
+            
+            // Store in memory for session continuity
+            if (!window.consciousnessHistory) {
+                window.consciousnessHistory = [];
+            }
+            window.consciousnessHistory.push({
+                type: type,
+                location: location,
+                timestamp: new Date(),
+                page: window.location.pathname
+            });
         }
         
         function toggleSensorPanel() {
