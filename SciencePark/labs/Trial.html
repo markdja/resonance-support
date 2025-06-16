@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Menu Foundation Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .status-panel {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .status-good { border-left: 4px solid #28a745; }
+        .status-warning { border-left: 4px solid #ffc107; }
+        .status-error { border-left: 4px solid #dc3545; }
+        
+        .load-info {
+            font-family: 'Courier New', monospace;
+            background: #343a40;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .test-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎛️ Clean Menu Foundation Test</h1>
+            <p>Testing consciousness-menu.js in isolation</p>
+            <p><strong>File Path:</strong> resonance-support/SciencePark/labs/Trial.html</p>
+        </div>
+
+        <div id="loadStatus" class="status-panel status-warning">
+            <h3>📦 Loading Status</h3>
+            <p>Preparing to load consciousness-menu.js...</p>
+        </div>
+
+        <div class="status-panel">
+            <h3>🔍 What We're Testing</h3>
+            <ul>
+                <li>Clean load of <code>../common/consciousness-menu.js</code></li>
+                <li>Menu system initialization</li>
+                <li>Top menu bar appearance</li>
+                <li>Settings dropdown functionality</li>
+                <li>No interference from other systems</li>
+            </ul>
+        </div>
+
+        <div class="status-panel">
+            <h3>🎯 Controls</h3>
+            <button class="test-button" onclick="loadMenuSystem()">Load Menu System</button>
+            <button class="test-button" onclick="testMenuFunctions()">Test Menu Functions</button>
+            <button class="test-button" onclick="showMenuState()">Show Menu State</button>
+            <button class="test-button" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div id="menuContainer">
+            <!-- Menu system will appear here -->
+        </div>
+
+        <div class="status-panel">
+            <h3>📊 Load Information</h3>
+            <div id="loadInfo" class="load-info">
+Ready to test consciousness-menu.js...<br/>
+Click "Load Menu System" to begin.<br/>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let loadLog = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            loadLog.push(logEntry);
+            
+            const logDiv = document.getElementById('loadInfo');
+            logDiv.innerHTML += logEntry + '<br/>';
+            logDiv.scrollTop = logDiv.scrollHeight;
+            
+            console.log(logEntry);
+        }
+        
+        function updateStatus(message, type = 'warning') {
+            const statusDiv = document.getElementById('loadStatus');
+            statusDiv.className = `status-panel status-${type}`;
+            statusDiv.innerHTML = `<h3>📦 Loading Status</h3><p>${message}</p>`;
+        }
+        
+        function loadMenuSystem() {
+            log('🚀 Starting clean menu system load...');
+            updateStatus('Loading consciousness-menu.js...', 'warning');
+            
+            // Clear any existing menu systems
+            if (window.consciousnessInterface) {
+                log('🗑️ Clearing existing consciousness interface');
+                delete window.consciousnessInterface;
+            }
+            
+            // Load the consciousness menu script
+            const script = document.createElement('script');
+            script.src = '../common/consciousness-menu.js';
+            
+            script.onload = function() {
+                log('✅ consciousness-menu.js loaded successfully');
+                updateStatus('Script loaded! Checking for interface...', 'good');
+                
+                setTimeout(() => {
+                    checkMenuSystem();
+                }, 500);
+            };
+            
+            script.onerror = function() {
+                log('❌ Failed to load consciousness-menu.js');
+                log('📍 Expected path: ../common/consciousness-menu.js');
+                log('🔍 Check if file exists and path is correct');
+                updateStatus('Failed to load script! Check file path.', 'error');
+            };
+            
+            document.head.appendChild(script);
+            log('📦 Script tag added to document head');
+        }
+        
+        function checkMenuSystem() {
+            log('🔍 Checking for consciousness interface...');
+            
+            if (window.consciousnessInterface) {
+                log('✅ consciousnessInterface object found!');
+                log(`📋 Available methods: ${Object.keys(window.consciousnessInterface).join(', ')}`);
+                
+                // Try to initialize
+                if (typeof window.consciousnessInterface.init === 'function') {
+                    log('🎯 Calling consciousnessInterface.init()...');
+                    try {
+                        window.consciousnessInterface.init();
+                        log('✅ Menu system initialized successfully');
+                        updateStatus('Menu system active! Look for top menu bar.', 'good');
+                    } catch (error) {
+                        log(`❌ Error during initialization: ${error.message}`);
+                        updateStatus('Initialization failed. Check console.', 'error');
+                    }
+                } else {
+                    log('⚠️ No init method found in consciousnessInterface');
+                    updateStatus('Interface loaded but no init method found.', 'warning');
+                }
+            } else {
+                log('❌ consciousnessInterface not found after script load');
+                log('🔍 Checking what was actually loaded...');
+                
+                // Check what consciousness-related objects exist
+                const consciousnessObjects = Object.keys(window).filter(key => 
+                    key.toLowerCase().includes('consciousness') || 
+                    key.toLowerCase().includes('menu')
+                );
+                
+                if (consciousnessObjects.length > 0) {
+                    log(`📋 Found objects: ${consciousnessObjects.join(', ')}`);
+                } else {
+                    log('❌ No consciousness-related objects found');
+                }
+                
+                updateStatus('Interface object not created. Check script content.', 'error');
+            }
+        }
+        
+        function testMenuFunctions() {
+            log('🧪 Testing menu functions...');
+            
+            if (!window.consciousnessInterface) {
+                log('❌ No consciousness interface to test');
+                return;
+            }
+            
+            const methods = Object.keys(window.consciousnessInterface);
+            log(`🔍 Testing ${methods.length} methods...`);
+            
+            methods.forEach(method => {
+                if (typeof window.consciousnessInterface[method] === 'function') {
+                    log(`✅ ${method}: function`);
+                } else {
+                    log(`📄 ${method}: ${typeof window.consciousnessInterface[method]}`);
+                }
+            });
+            
+            // Try to toggle interface if method exists
+            if (typeof window.consciousnessInterface.toggleInterface === 'function') {
+                log('🎯 Testing toggleInterface...');
+                try {
+                    window.consciousnessInterface.toggleInterface();
+                    log('✅ toggleInterface executed successfully');
+                } catch (error) {
+                    log(`❌ toggleInterface error: ${error.message}`);
+                }
+            }
+        }
+        
+        function showMenuState() {
+            log('📊 Current menu system state:');
+            log(`- consciousnessInterface exists: ${!!window.consciousnessInterface}`);
+            
+            if (window.consciousnessInterface) {
+                log(`- isMenuVisible: ${window.consciousnessInterface.isMenuVisible || 'undefined'}`);
+                log(`- Object keys: ${Object.keys(window.consciousnessInterface).join(', ')}`);
+            }
+            
+            // Check for menu elements in DOM
+            const menuElements = document.querySelectorAll('[id*="menu"], [class*="menu"], [id*="consciousness"]');
+            log(`- DOM menu elements found: ${menuElements.length}`);
+            
+            menuElements.forEach((el, index) => {
+                log(`  ${index + 1}. ${el.tagName}#${el.id || 'no-id'}.${el.className || 'no-class'}`);
+            });
+        }
+        
+        function clearAll() {
+            log('🗑️ Clearing all systems...');
+            
+            // Remove consciousness interface
+            if (window.consciousnessInterface) {
+                delete window.consciousnessInterface;
+                log('✅ consciousnessInterface cleared');
+            }
+            
+            // Remove any menu elements
+            const menuElements = document.querySelectorAll('[id*="menu"], [class*="menu"], [id*="consciousness"]');
+            menuElements.forEach(el => {
+                el.remove();
+                log(`🗑️ Removed element: ${el.tagName}#${el.id}`);
+            });
+            
+            // Remove scripts
+            const scripts = document.querySelectorAll('script[src*="consciousness"]');
+            scripts.forEach(script => {
+                script.remove();
+                log(`🗑️ Removed script: ${script.src}`);
+            });
+            
+            updateStatus('All systems cleared. Ready for fresh test.', 'warning');
+            log('✅ Clear complete');
+        }
+        
+        // Initial status
+        log('🔬 Clean Menu Foundation Test initialized');
+        log('📁 Testing from: resonance-support/SciencePark/labs/Trial.html');
+        log('🎯 Target: ../common/consciousness-menu.js');
+    </script>
+</body>
+</html>
