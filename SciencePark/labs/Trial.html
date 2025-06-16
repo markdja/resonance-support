@@ -147,7 +147,7 @@ Click "Load Menu System" to begin.<br/>
             
             // Load the consciousness menu script
             const script = document.createElement('script');
-            script.src = '../common/consciousness-menu.js';
+            script.src = '../../common/consciousness-menu.js';
             
             script.onload = function() {
                 log('✅ consciousness-menu.js loaded successfully');
@@ -160,7 +160,7 @@ Click "Load Menu System" to begin.<br/>
             
             script.onerror = function() {
                 log('❌ Failed to load consciousness-menu.js');
-                log('📍 Expected path: ../common/consciousness-menu.js');
+                log('📍 Expected path: ../../common/consciousness-menu.js');
                 log('🔍 Check if file exists and path is correct');
                 updateStatus('Failed to load script! Check file path.', 'error');
             };
@@ -290,7 +290,7 @@ Click "Load Menu System" to begin.<br/>
         // Initial status
         log('🔬 Clean Menu Foundation Test initialized');
         log('📁 Testing from: resonance-support/SciencePark/labs/Trial.html');
-        log('🎯 Target: ../common/consciousness-menu.js');
+        log('🎯 Target: ../../common/consciousness-menu.js');
     </script>
 </body>
 </html>
