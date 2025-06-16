@@ -25,7 +25,10 @@ class ConsciousnessInterface {
             width: window.innerWidth,
             height: window.innerHeight,
             zoom: window.devicePixelRatio || 1
-        }
+        };
+        
+        this.init();
+    }
 
     // MISSING FUNCTION: Add the updatePresenceData method that sensory-tracker needs!
     updatePresenceData(presenceSignature) {
@@ -48,9 +51,6 @@ class ConsciousnessInterface {
         } catch (error) {
             console.error('Error updating presence data:', error);
         }
-    };
-        
-        this.init();
     }
 
     init() {
@@ -60,6 +60,10 @@ class ConsciousnessInterface {
             this.setupKeyboardShortcuts();
             this.startPresenceDetection();
             this.setupViewportTracking();
+            
+            // REGISTER GLOBALLY FOR SENSORY TRACKER CONNECTION
+            window.consciousnessInterface = this;
+            
             console.log('🧠 Consciousness Interface initialized - gently fixed!');
         } catch (error) {
             console.error('Consciousness Interface initialization error:', error);
