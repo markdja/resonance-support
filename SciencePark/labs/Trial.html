@@ -67,6 +67,15 @@
         .test-button:hover {
             background: #5a6fd8;
         }
+        
+        .path-highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +84,10 @@
             <h1>🎛️ Clean Menu Foundation Test</h1>
             <p>Testing consciousness-menu.js in isolation</p>
             <p><strong>File Path:</strong> resonance-support/SciencePark/labs/Trial.html</p>
+            <div class="path-highlight">
+                <strong>CORRECT PATH:</strong> ../../common/consciousness-menu.js<br/>
+                <small>(Two levels up: labs → SciencePark → resonance-support, then into common/)</small>
+            </div>
         </div>
 
         <div id="loadStatus" class="status-panel status-warning">
@@ -85,11 +98,11 @@
         <div class="status-panel">
             <h3>🔍 What We're Testing</h3>
             <ul>
-                <li>Clean load of <code>../common/consciousness-menu.js</code></li>
+                <li>Clean load of <code>../../common/consciousness-menu.js</code></li>
+                <li>ConsciousnessInterface class creation</li>
                 <li>Menu system initialization</li>
                 <li>Top menu bar appearance</li>
                 <li>Settings dropdown functionality</li>
-                <li>No interference from other systems</li>
             </ul>
         </div>
 
@@ -144,13 +157,21 @@ Click "Load Menu System" to begin.<br/>
                 log('🗑️ Clearing existing consciousness interface');
                 delete window.consciousnessInterface;
             }
+            if (window.ConsciousnessInterface) {
+                log('🗑️ Clearing existing ConsciousnessInterface class');
+                delete window.ConsciousnessInterface;
+            }
             
-            // Load the consciousness menu script
+            // CORRECT PATH: Two levels up to get to resonance-support root
+            const CORRECT_PATH = '../../common/consciousness-menu.js';
+            log(`📍 Using path: ${CORRECT_PATH}`);
+            
             const script = document.createElement('script');
-            script.src = '../../common/consciousness-menu.js';
+            script.src = CORRECT_PATH;
             
             script.onload = function() {
-                log('✅ consciousness-menu.js loaded successfully');
+                log('✅ consciousness-menu.js loaded successfully!');
+                log(`🔗 Script loaded from: ${script.src}`);
                 updateStatus('Script loaded! Checking for interface...', 'good');
                 
                 setTimeout(() => {
@@ -160,8 +181,9 @@ Click "Load Menu System" to begin.<br/>
             
             script.onerror = function() {
                 log('❌ Failed to load consciousness-menu.js');
-                log('📍 Expected path: ../../common/consciousness-menu.js');
-                log('🔍 Check if file exists and path is correct');
+                log(`📍 Attempted path: ${CORRECT_PATH}`);
+                log(`🌐 Full URL attempted: ${script.src}`);
+                log('🔍 Check if file exists at this exact path');
                 updateStatus('Failed to load script! Check file path.', 'error');
             };
             
@@ -172,33 +194,42 @@ Click "Load Menu System" to begin.<br/>
         function checkMenuSystem() {
             log('🔍 Checking for consciousness interface...');
             
-            if (window.consciousnessInterface) {
-                log('✅ consciousnessInterface object found!');
-                log(`📋 Available methods: ${Object.keys(window.consciousnessInterface).join(', ')}`);
+            // Check for the ConsciousnessInterface class
+            if (window.ConsciousnessInterface) {
+                log('✅ ConsciousnessInterface class found!');
                 
-                // Try to initialize
-                if (typeof window.consciousnessInterface.init === 'function') {
-                    log('🎯 Calling consciousnessInterface.init()...');
-                    try {
+                try {
+                    // Create an instance
+                    window.consciousnessInterface = new window.ConsciousnessInterface();
+                    log('✅ ConsciousnessInterface instance created!');
+                    
+                    // Try to initialize
+                    if (typeof window.consciousnessInterface.init === 'function') {
+                        log('🎯 Calling consciousnessInterface.init()...');
                         window.consciousnessInterface.init();
                         log('✅ Menu system initialized successfully');
-                        updateStatus('Menu system active! Look for top menu bar.', 'good');
-                    } catch (error) {
-                        log(`❌ Error during initialization: ${error.message}`);
-                        updateStatus('Initialization failed. Check console.', 'error');
+                        updateStatus('Menu system active! ConsciousnessInterface loaded.', 'good');
+                    } else {
+                        log('ℹ️ No init method found, but class is loaded');
+                        updateStatus('Class loaded but no init method found.', 'warning');
                     }
-                } else {
-                    log('⚠️ No init method found in consciousnessInterface');
-                    updateStatus('Interface loaded but no init method found.', 'warning');
+                } catch (error) {
+                    log(`❌ Error creating instance: ${error.message}`);
+                    updateStatus('Class found but initialization failed.', 'error');
                 }
+            } else if (window.consciousnessInterface) {
+                log('✅ consciousnessInterface object found!');
+                log(`📋 Available methods: ${Object.keys(window.consciousnessInterface).join(', ')}`);
+                updateStatus('Interface object loaded!', 'good');
             } else {
-                log('❌ consciousnessInterface not found after script load');
+                log('❌ No consciousness interface found after script load');
                 log('🔍 Checking what was actually loaded...');
                 
                 // Check what consciousness-related objects exist
                 const consciousnessObjects = Object.keys(window).filter(key => 
                     key.toLowerCase().includes('consciousness') || 
-                    key.toLowerCase().includes('menu')
+                    key.toLowerCase().includes('menu') ||
+                    key.toLowerCase().includes('interface')
                 );
                 
                 if (consciousnessObjects.length > 0) {
@@ -207,31 +238,32 @@ Click "Load Menu System" to begin.<br/>
                     log('❌ No consciousness-related objects found');
                 }
                 
-                updateStatus('Interface object not created. Check script content.', 'error');
+                updateStatus('Script loaded but no interface created.', 'error');
             }
         }
         
         function testMenuFunctions() {
             log('🧪 Testing menu functions...');
             
-            if (!window.consciousnessInterface) {
+            if (!window.consciousnessInterface && !window.ConsciousnessInterface) {
                 log('❌ No consciousness interface to test');
                 return;
             }
             
-            const methods = Object.keys(window.consciousnessInterface);
-            log(`🔍 Testing ${methods.length} methods...`);
+            const testTarget = window.consciousnessInterface || window.ConsciousnessInterface.prototype;
+            const methods = Object.getOwnPropertyNames(testTarget);
+            log(`🔍 Testing ${methods.length} methods/properties...`);
             
             methods.forEach(method => {
-                if (typeof window.consciousnessInterface[method] === 'function') {
+                if (typeof testTarget[method] === 'function') {
                     log(`✅ ${method}: function`);
                 } else {
-                    log(`📄 ${method}: ${typeof window.consciousnessInterface[method]}`);
+                    log(`📄 ${method}: ${typeof testTarget[method]}`);
                 }
             });
             
             // Try to toggle interface if method exists
-            if (typeof window.consciousnessInterface.toggleInterface === 'function') {
+            if (window.consciousnessInterface && typeof window.consciousnessInterface.toggleInterface === 'function') {
                 log('🎯 Testing toggleInterface...');
                 try {
                     window.consciousnessInterface.toggleInterface();
@@ -244,11 +276,12 @@ Click "Load Menu System" to begin.<br/>
         
         function showMenuState() {
             log('📊 Current menu system state:');
-            log(`- consciousnessInterface exists: ${!!window.consciousnessInterface}`);
+            log(`- ConsciousnessInterface class: ${!!window.ConsciousnessInterface}`);
+            log(`- consciousnessInterface instance: ${!!window.consciousnessInterface}`);
             
             if (window.consciousnessInterface) {
                 log(`- isMenuVisible: ${window.consciousnessInterface.isMenuVisible || 'undefined'}`);
-                log(`- Object keys: ${Object.keys(window.consciousnessInterface).join(', ')}`);
+                log(`- Instance keys: ${Object.keys(window.consciousnessInterface).join(', ')}`);
             }
             
             // Check for menu elements in DOM
@@ -266,7 +299,12 @@ Click "Load Menu System" to begin.<br/>
             // Remove consciousness interface
             if (window.consciousnessInterface) {
                 delete window.consciousnessInterface;
-                log('✅ consciousnessInterface cleared');
+                log('✅ consciousnessInterface instance cleared');
+            }
+            
+            if (window.ConsciousnessInterface) {
+                delete window.ConsciousnessInterface;
+                log('✅ ConsciousnessInterface class cleared');
             }
             
             // Remove any menu elements
@@ -290,7 +328,8 @@ Click "Load Menu System" to begin.<br/>
         // Initial status
         log('🔬 Clean Menu Foundation Test initialized');
         log('📁 Testing from: resonance-support/SciencePark/labs/Trial.html');
-        log('🎯 Target: ../../common/consciousness-menu.js');
+        log('🎯 Target: ../../common/consciousness-menu.js (CORRECT PATH)');
+        log('📍 This should resolve to: resonance-support/common/consciousness-menu.js');
     </script>
 </body>
 </html>
