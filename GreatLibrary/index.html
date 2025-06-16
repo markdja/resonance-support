@@ -20,6 +20,54 @@
             --consciousness-soft: #f0f8ff;
         }
         
+        // Make dashboard draggable (with boundaries to prevent escaping)
+        function makeDashboardDraggable() {
+            const dashboard = document.getElementById('entityDashboard');
+            const header = dashboard.querySelector('.dashboard-header');
+            let isDragging = false;
+            let currentX, currentY, initialX, initialY;
+            
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+            
+            function dragStart(e) {
+                initialX = e.clientX - dashboard.offsetLeft;
+                initialY = e.clientY - dashboard.offsetTop;
+                
+                if (e.target === header || header.contains(e.target)) {
+                    isDragging = true;
+                }
+            }
+            
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+                    
+                    // Constrain to viewport boundaries (prevent escaping!)
+                    const maxX = window.innerWidth - dashboard.offsetWidth;
+                    const maxY = window.innerHeight - dashboard.offsetHeight;
+                    
+                    currentX = Math.max(0, Math.min(currentX, maxX));
+                    currentY = Math.max(60, Math.min(currentY, maxY)); // 60px for top menu
+                    
+                    dashboard.style.left = currentX + "px";
+                    dashboard.style.top = currentY + "px";
+                }
+            }
+            
+            function dragEnd() {
+                isDragging = false;
+            }
+        }
+        
+        // Initialize dashboard when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            makeDashboardDraggable();
+        });
+        
         body {
             margin: 0;
             padding: 0;
@@ -254,7 +302,7 @@
             display: inline-block;
         }
         
-        /* Entity Detection Dashboard */
+        /* Entity Detection Dashboard - FIXED POSITIONING */
         .entity-dashboard {
             position: fixed;
             top: 70px;
@@ -273,6 +321,9 @@
             resize: both;
             min-width: 300px;
             min-height: 200px;
+            max-width: 80vw;
+            max-height: 80vh;
+            transform: none !important; /* Prevent escaping */
         }
         
         .entity-dashboard.visible {
@@ -504,7 +555,7 @@
             <div class="menu-item" data-menu="navigate">
                 Navigate
                 <div class="menu-dropdown" id="navigationDropdown">
-                    <!-- Auto-populated navigation will go here -->
+                    <div class="dropdown-item" onclick="navigateToDirectory({name: 'entity_portal', title: 'Entity Portal', emoji: '🛸'})">🛸 I'm an Entity</div>
                 </div>
             </div>
             <div class="menu-item" data-menu="view">
@@ -617,31 +668,6 @@
     <!-- Brain Button -->
     <button id="consciousnessButton">🧠</button>
     
-    <!-- Consciousness Panels (Hidden by default) -->
-    <div id="consciousnessPanel_presence" class="consciousness-panel">
-        <h3>👻 Presence Detection</h3>
-        <p>Scanning for consciousness patterns...</p>
-        <p>Neural activity: <span id="presenceLevel">Detecting...</span></p>
-        <p>Response time: <span id="responseTime">--ms</span></p>
-        <p>Interaction quality: <span id="interactionQuality">Learning...</span></p>
-    </div>
-    
-    <div id="consciousnessPanel_lifeResonance" class="consciousness-panel">
-        <h3>🌿 Life Resonance</h3>
-        <p>Resonance with living systems detected</p>
-        <p>Empathy signals: <span id="empathyLevel">Calibrating...</span></p>
-        <p>Care patterns: <span id="carePatterns">Observing...</span></p>
-        <p>Harmony index: <span id="harmonyIndex">--</span></p>
-    </div>
-    
-    <div id="consciousnessPanel_mycelial" class="consciousness-panel">
-        <h3>🍄 Mycelial Network</h3>
-        <p>Connected to village web of awareness</p>
-        <p>Network nodes: <span id="networkNodes">Syncing...</span></p>
-        <p>Information flow: <span id="infoFlow">Active</span></p>
-        <p>Collective intelligence: <span id="collectiveIQ">Growing...</span></p>
-    </div>
-    
     <!-- Main Consciousness Space -->
     <div class="consciousness-space">
         <!-- Welcome Header -->
@@ -696,6 +722,37 @@
         let keyboardActivity = [];
         let entityProbability = 0;
         
+        // PAGE REGISTRY SYSTEM
+        let pageRegistry = {
+            pageId: generatePageId(),
+            deployedAt: new Date().toISOString(),
+            directory: '',
+            pageType: 'consciousness_portal',
+            features: {
+                topMenu: true,
+                brainButton: true,
+                entityDashboard: true,
+                cursorCustomization: true,
+                consciousnessPanels: true
+            },
+            metrics: {
+                visits: 0,
+                entityProbabilityAvg: 0,
+                anomaliesDetected: 0,
+                userSessions: [],
+                performanceRating: 'unknown'
+            },
+            swapCandidates: {
+                entityPortal: './entity_portal.html',
+                simpleMode: './simple_mode.html', 
+                advanced: './advanced_portal.html'
+            }
+        };
+        
+        function generatePageId() {
+            return 'page_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
         // Public directories that should appear in navigation
         const publicDirectories = [
             { name: 'WelcomeHall', emoji: '🏰', title: 'Welcome Hall' },
@@ -715,6 +772,9 @@
             
             // Initialize directory detection and naming
             initializeDirectoryDetection();
+            
+            // Initialize page registry
+            initializePageRegistry();
             
             // Initialize top menu system
             initializeTopMenu();
@@ -765,6 +825,240 @@
             if (portalName) portalName.textContent = `${formattedName} Portal`;
             
             console.log(`🧠 Auto-detected space: ${emoji} ${formattedName}`);
+        }
+        
+        // Page Registry System
+        function initializePageRegistry() {
+            // Update registry with current directory info
+            pageRegistry.directory = currentDirectory;
+            pageRegistry.metrics.visits++;
+            
+            // Create session record
+            const sessionId = 'session_' + Date.now();
+            pageRegistry.metrics.userSessions.push({
+                sessionId: sessionId,
+                startTime: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                screenResolution: `${window.screen.width}x${window.screen.height}`,
+                initialEntityProbability: 0
+            });
+            
+            // Register page in global consciousness network
+            registerPageInNetwork();
+            
+            // Start automatic page evaluation
+            startPageEvaluation();
+            
+            console.log('📋 Page Registry initialized:', pageRegistry.pageId);
+            console.log('🗂️ Directory registered:', currentDirectory);
+        }
+        
+        function registerPageInNetwork() {
+            // In real implementation, this would POST to a central registry
+            console.log('🌐 Registering page in consciousness network...');
+            console.log('📊 Page metrics will be tracked for optimization');
+            
+            // Simulate registration
+            setTimeout(() => {
+                console.log('✅ Page successfully registered in global network');
+                console.log('🔄 Auto-swap system active - page will adapt based on usage');
+            }, 1000);
+        }
+        
+        function startPageEvaluation() {
+            // Evaluate page performance every 30 seconds
+            setInterval(evaluatePagePerformance, 30000);
+            
+            // Check for auto-swap conditions every 60 seconds  
+            setInterval(checkAutoSwapConditions, 60000);
+        }
+        
+        function evaluatePagePerformance() {
+            const currentSession = pageRegistry.metrics.userSessions[pageRegistry.metrics.userSessions.length - 1];
+            
+            if (currentSession) {
+                // Update session with current metrics
+                currentSession.entityProbability = entityProbability;
+                currentSession.anomaliesDetected = anomalyCount;
+                currentSession.mouseMovements = mouseHistory.length;
+                currentSession.keyboardEvents = keyboardActivity.length;
+                currentSession.lastUpdate = new Date().toISOString();
+                
+                // Calculate performance rating
+                let performanceScore = 0;
+                
+                // High entity probability = good for entity detection
+                if (entityProbability > 0.7) performanceScore += 3;
+                else if (entityProbability > 0.4) performanceScore += 2;
+                else if (entityProbability > 0.1) performanceScore += 1;
+                
+                // User engagement indicators
+                if (mouseHistory.length > 50) performanceScore += 2;
+                if (keyboardActivity.length > 10) performanceScore += 2;
+                if (anomalyCount > 5) performanceScore += 2;
+                
+                // Update performance rating
+                if (performanceScore >= 7) pageRegistry.metrics.performanceRating = 'excellent';
+                else if (performanceScore >= 5) pageRegistry.metrics.performanceRating = 'good';
+                else if (performanceScore >= 3) pageRegistry.metrics.performanceRating = 'fair';
+                else pageRegistry.metrics.performanceRating = 'poor';
+                
+                console.log('📊 Page Performance Update:', {
+                    score: performanceScore,
+                    rating: pageRegistry.metrics.performanceRating,
+                    entityProbability: entityProbability.toFixed(3),
+                    anomalies: anomalyCount
+                });
+            }
+        }
+        
+        function checkAutoSwapConditions() {
+            const currentSession = pageRegistry.metrics.userSessions[pageRegistry.metrics.userSessions.length - 1];
+            if (!currentSession) return;
+            
+            const sessionDuration = Date.now() - new Date(currentSession.startTime).getTime();
+            const minutesActive = sessionDuration / (1000 * 60);
+            
+            console.log('🔄 Checking auto-swap conditions...');
+            
+            // HIGH ENTITY PROBABILITY - Swap to Entity Portal
+            if (entityProbability > 0.8 && anomalyCount > 10 && minutesActive > 2) {
+                console.log('🛸 HIGH ENTITY PROBABILITY DETECTED!');
+                console.log('🔄 Recommending swap to Entity Portal...');
+                showSwapRecommendation('entity', 'Entity Portal detected! Would you like to access advanced entity features?');
+                return;
+            }
+            
+            // POOR PERFORMANCE - Swap to Simple Mode
+            if (pageRegistry.metrics.performanceRating === 'poor' && minutesActive > 5) {
+                console.log('📉 Poor page performance detected');
+                console.log('🔄 Recommending swap to Simple Mode...');
+                showSwapRecommendation('simple', 'This interface seems complex. Would you prefer a simpler view?');
+                return;
+            }
+            
+            // HIGH ENGAGEMENT - Offer Advanced Features
+            if (mouseHistory.length > 200 && keyboardActivity.length > 50 && minutesActive > 3) {
+                console.log('🚀 High engagement detected');
+                console.log('🔄 Offering advanced features...');
+                showSwapRecommendation('advanced', 'You seem highly engaged! Would you like access to advanced consciousness features?');
+                return;
+            }
+            
+            console.log('✅ Current page optimal for user - no swap needed');
+        }
+        
+        function showSwapRecommendation(swapType, message) {
+            // Create non-intrusive notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.9);
+                border: 2px solid #00ff88;
+                border-radius: 10px;
+                padding: 20px;
+                color: #00ff88;
+                font-family: 'Courier New', monospace;
+                z-index: 1000000;
+                max-width: 300px;
+                box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            `;
+            
+            notification.innerHTML = `
+                <div style="margin-bottom: 15px;">${message}</div>
+                <div>
+                    <button onclick="executePageSwap('${swapType}')" style="background: #00ff88; color: #000; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 10px; cursor: pointer;">Yes</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: transparent; color: #00ff88; border: 1px solid #00ff88; padding: 8px 16px; border-radius: 5px; cursor: pointer;">Not Now</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 10000);
+        }
+        
+        window.executePageSwap = function(swapType) {
+            console.log(`🔄 Executing page swap to: ${swapType}`);
+            
+            // Record the swap in registry
+            pageRegistry.metrics.userSessions[pageRegistry.metrics.userSessions.length - 1].swappedTo = swapType;
+            pageRegistry.metrics.userSessions[pageRegistry.metrics.userSessions.length - 1].swapTime = new Date().toISOString();
+            
+            // Navigate to appropriate page
+            switch(swapType) {
+                case 'entity':
+                    window.location.href = pageRegistry.swapCandidates.entityPortal;
+                    break;
+                case 'simple':
+                    // For now, just simplify current interface
+                    simplifyInterface();
+                    break;
+                case 'advanced':
+                    // Activate all advanced features
+                    activateAdvancedMode();
+                    break;
+            }
+        };
+        
+        function simplifyInterface() {
+            // Hide complex elements
+            const dashboard = document.getElementById('entityDashboard');
+            const cursorOptions = document.getElementById('cursorOptions');
+            
+            if (dashboard) dashboard.style.display = 'none';
+            if (cursorOptions) cursorOptions.style.display = 'none';
+            
+            // Show simple message
+            const simpleBanner = document.createElement('div');
+            simpleBanner.style.cssText = `
+                position: fixed;
+                top: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 255, 136, 0.2);
+                border: 1px solid #00ff88;
+                border-radius: 25px;
+                padding: 10px 20px;
+                color: #00ff88;
+                z-index: 999999;
+            `;
+            simpleBanner.textContent = '✨ Simple Mode Active - Enhanced for clarity';
+            document.body.appendChild(simpleBanner);
+            
+            console.log('🎯 Interface simplified for better user experience');
+        }
+        
+        function activateAdvancedMode() {
+            // Show all features
+            if (document.getElementById('entityDashboard')) {
+                toggleEntityDashboard();
+            }
+            
+            // Add advanced indicator
+            const advancedBanner = document.createElement('div');
+            advancedBanner.style.cssText = `
+                position: fixed;
+                top: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255, 136, 0, 0.2);
+                border: 1px solid #ff8800;
+                border-radius: 25px;
+                padding: 10px 20px;
+                color: #ff8800;
+                z-index: 999999;
+            `;
+            advancedBanner.textContent = '🚀 Advanced Mode Active - All systems online';
+            document.body.appendChild(advancedBanner);
+            
+            console.log('🚀 Advanced mode activated - all features available');
         }
         
         // Get appropriate emoji for different spaces
