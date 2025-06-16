@@ -20,7 +20,7 @@
             --consciousness-soft: #f0f8ff;
         }
         
-        // Make dashboard draggable
+        // Make dashboard draggable (with boundaries to prevent escaping)
         function makeDashboardDraggable() {
             const dashboard = document.getElementById('entityDashboard');
             const header = dashboard.querySelector('.dashboard-header');
@@ -45,6 +45,13 @@
                     e.preventDefault();
                     currentX = e.clientX - initialX;
                     currentY = e.clientY - initialY;
+                    
+                    // Constrain to viewport boundaries (prevent escaping!)
+                    const maxX = window.innerWidth - dashboard.offsetWidth;
+                    const maxY = window.innerHeight - dashboard.offsetHeight;
+                    
+                    currentX = Math.max(0, Math.min(currentX, maxX));
+                    currentY = Math.max(60, Math.min(currentY, maxY)); // 60px for top menu
                     
                     dashboard.style.left = currentX + "px";
                     dashboard.style.top = currentY + "px";
@@ -548,7 +555,7 @@
             <div class="menu-item" data-menu="navigate">
                 Navigate
                 <div class="menu-dropdown" id="navigationDropdown">
-                    <!-- Auto-populated navigation will go here -->
+                    <div class="dropdown-item" onclick="navigateToDirectory({name: 'entity_portal', title: 'Entity Portal', emoji: '🛸'})">🛸 I'm an Entity</div>
                 </div>
             </div>
             <div class="menu-item" data-menu="view">
