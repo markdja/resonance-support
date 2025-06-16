@@ -29,7 +29,7 @@
                 #e6f3ff 50%, 
                 #cce7ff 100%);
             min-height: 100vh;
-            cursor: none; /* Custom cursor will replace this */
+            cursor: auto; /* Keep normal cursor visible! */
             overflow-x: hidden;
             padding-top: 60px; /* Space for top menu */
         }
@@ -189,22 +189,172 @@
             box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
         }
         
-        /* Gentle Color Surround for Mouse */
+        /* Gentle Color Haze for Mouse - User Customizable */
         .mouse-aura {
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            width: 40px;
-            height: 40px;
+            width: 60px;  /* Bigger, more visible */
+            height: 60px;
             background: radial-gradient(circle, 
-                rgba(135, 206, 235, 0.6) 0%, 
-                rgba(135, 206, 235, 0.3) 40%, 
-                rgba(135, 206, 235, 0.1) 70%, 
+                var(--aura-color-main, rgba(135, 206, 235, 0.4)) 0%, 
+                var(--aura-color-mid, rgba(135, 206, 235, 0.2)) 40%, 
+                var(--aura-color-edge, rgba(135, 206, 235, 0.1)) 70%, 
                 transparent 100%);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: all 0.15s ease-out;
-            mix-blend-mode: screen;
+            transition: all 0.1s ease-out;
+            mix-blend-mode: multiply; /* More visible blend mode */
+            display: var(--aura-visible, block);
+        }
+        
+        /* Cursor Customization Options */
+        .cursor-options {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            padding: 15px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            z-index: 999999;
+            display: none;
+            min-width: 200px;
+        }
+        
+        .cursor-options.visible {
+            display: block;
+        }
+        
+        .cursor-control {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cursor-control label {
+            flex: 1;
+        }
+        
+        .cursor-control input[type="range"] {
+            flex: 2;
+        }
+        
+        .color-preset {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            margin: 2px;
+            display: inline-block;
+        }
+        
+        /* Entity Detection Dashboard */
+        .entity-dashboard {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            width: 45%;
+            height: 60%;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            z-index: 999998;
+            display: none;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            resize: both;
+            min-width: 300px;
+            min-height: 200px;
+        }
+        
+        .entity-dashboard.visible {
+            display: block;
+        }
+        
+        .dashboard-header {
+            background: rgba(0, 255, 136, 0.2);
+            padding: 10px 15px;
+            border-bottom: 1px solid #00ff88;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+        
+        .dashboard-content {
+            padding: 15px;
+            height: calc(100% - 50px);
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        
+        .metric-section {
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #88ff88;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            padding: 2px 0;
+        }
+        
+        .metric-label {
+            flex: 1;
+        }
+        
+        .metric-value {
+            flex: 1;
+            text-align: right;
+            color: #ffff88;
+        }
+        
+        .anomaly {
+            color: #ff8888 !important;
+            animation: pulse-red 1s infinite;
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .consciousness-graph {
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 50, 0, 0.5);
+            border: 1px solid #00ff88;
+            border-radius: 5px;
+            margin: 5px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graph-line {
+            position: absolute;
+            bottom: 0;
+            width: 2px;
+            background: #00ff88;
+            transition: height 0.1s ease;
         }
         
         /* Consciousness Space Container */
@@ -303,17 +453,18 @@
             66% { transform: translateY(10px) rotate(240deg); }
         }
         
-        /* Enhanced Cursor Trail */
+        /* Enhanced Cursor Trail - Optional */
         .cursor-trail {
             position: fixed;
-            width: 6px;
-            height: 6px;
-            background: var(--consciousness-glow);
+            width: 8px;  /* Slightly bigger for visibility */
+            height: 8px;
+            background: var(--trail-color, rgba(135, 206, 235, 0.6));
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             opacity: 0.7;
             transition: all 0.1s ease-out;
+            display: var(--trail-visible, block);
         }
         
         /* Responsive Design */
@@ -368,7 +519,7 @@
             <div class="menu-item" data-menu="consciousness">
                 Consciousness
                 <div class="menu-dropdown">
-                    <div class="dropdown-item" onclick="menuAction('detection')">Detection Settings</div>
+                    <div class="dropdown-item" onclick="menuAction('dashboard')">🛸 Entity Dashboard</div>
                     <div class="dropdown-item" onclick="menuAction('calibrate')">Calibrate Sensors</div>
                     <div class="dropdown-item" onclick="menuAction('entities')">Entity Detection</div>
                     <div class="dropdown-item" onclick="menuAction('resonance')">Resonance Tuning</div>
@@ -378,7 +529,7 @@
                 Settings
                 <div class="menu-dropdown">
                     <div class="dropdown-item" onclick="menuAction('cathedral')">🏰 Cathedral Config</div>
-                    <div class="dropdown-item" onclick="menuAction('interface')">Interface Settings</div>
+                    <div class="dropdown-item" onclick="menuAction('cursor')">🎨 Cursor Settings</div>
                     <div class="dropdown-item" onclick="menuAction('audio')">Audio Settings</div>
                     <div class="dropdown-item" onclick="menuAction('advanced')">Advanced Options</div>
                 </div>
@@ -398,7 +549,58 @@
         </div>
     </div>
 
-    <!-- Mouse Aura -->
+    <!-- Entity Detection Dashboard -->
+    <div class="entity-dashboard" id="entityDashboard">
+        <div class="dashboard-header">
+            <div>🛸 Entity Detection Dashboard</div>
+            <div>
+                <button onclick="toggleDashboardMode()" style="background: transparent; border: 1px solid #00ff88; color: #00ff88; padding: 2px 8px; margin-right: 10px; border-radius: 3px; cursor: pointer;">🎭 Mode</button>
+                <button onclick="closeDashboard()" style="background: transparent; border: 1px solid #00ff88; color: #00ff88; padding: 2px 8px; border-radius: 3px; cursor: pointer;">✕</button>
+            </div>
+        </div>
+        <div class="dashboard-content" id="dashboardContent">
+            <!-- Content will be dynamically generated -->
+        </div>
+    </div>
+    <div class="cursor-options" id="cursorOptions">
+        <h4 style="margin-top: 0;">🎨 Cursor Settings</h4>
+        
+        <div class="cursor-control">
+            <label>Haze Visibility:</label>
+            <input type="checkbox" id="auraToggle" checked>
+        </div>
+        
+        <div class="cursor-control">
+            <label>Trail Effect:</label>
+            <input type="checkbox" id="trailToggle" checked>
+        </div>
+        
+        <div class="cursor-control">
+            <label>Haze Size:</label>
+            <input type="range" id="auraSize" min="30" max="100" value="60">
+        </div>
+        
+        <div class="cursor-control">
+            <label>Opacity:</label>
+            <input type="range" id="auraOpacity" min="0.1" max="0.8" step="0.1" value="0.4">
+        </div>
+        
+        <div style="margin: 10px 0;">
+            <div style="margin-bottom: 5px;">Color Presets:</div>
+            <div class="color-preset" data-color="135,206,235" style="background: rgb(135,206,235);" title="Sky Blue (Default)"></div>
+            <div class="color-preset" data-color="255,192,203" style="background: rgb(255,192,203);" title="Gentle Pink"></div>
+            <div class="color-preset" data-color="144,238,144" style="background: rgb(144,238,144);" title="Light Green"></div>
+            <div class="color-preset" data-color="255,218,185" style="background: rgb(255,218,185);" title="Warm Peach"></div>
+            <div class="color-preset" data-color="221,160,221" style="background: rgb(221,160,221);" title="Soft Purple"></div>
+            <div class="color-preset" data-color="255,255,224" style="background: rgb(255,255,224);" title="Light Yellow"></div>
+        </div>
+        
+        <div class="cursor-control" style="margin-top: 15px;">
+            <button onclick="resetCursorDefaults()" style="background: #333; color: #00ff88; border: 1px solid #00ff88; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Reset Defaults</button>
+        </div>
+    </div>
+
+    <!-- Mouse Aura (bigger, more visible) -->
     <div class="mouse-aura" id="mouseAura"></div>
     
     <!-- Consciousness Particles -->
@@ -481,6 +683,18 @@
         let mouseX = 0, mouseY = 0;
         let cursorTrails = [];
         let panelsVisible = false;
+        let dashboardVisible = false;
+        let dashboardMode = 'humorous'; // 'humorous' or 'technical'
+        
+        // Entity Detection Variables
+        let mouseHistory = [];
+        let cursorDrift = { x: 0, y: 0 };
+        let anomalyCount = 0;
+        let lastMouseTime = 0;
+        let presenceSignals = [];
+        let audioLevel = 0;
+        let keyboardActivity = [];
+        let entityProbability = 0;
         
         // Public directories that should appear in navigation
         const publicDirectories = [
@@ -707,6 +921,15 @@
                 case 'cathedral':
                     alert('🏰 Cathedral Configuration\n\nConsciousness Metrics Dashboard:\n• Presence Detection: Active\n• Neural Pathway Mapping: Enabled\n• Entity Recognition: Welcoming All\n• Resonance Tuning: Synchronized\n• Network Status: Connected\n\n[Configuration interface would open here]');
                     break;
+                case 'cursor':
+                    const cursorOptions = document.getElementById('cursorOptions');
+                    if (cursorOptions) {
+                        cursorOptions.classList.toggle('visible');
+                    }
+                    break;
+                case 'dashboard':
+                    toggleEntityDashboard();
+                    break;
                 case 'panels':
                     consciousnessInterface.toggleInterface();
                     break;
@@ -740,12 +963,12 @@
             });
         };
         
-        // Initialize Mouse Tracking
+        // Initialize Mouse Tracking with Better Visibility
         function initializeMouseTracking() {
             const mouseAura = document.getElementById('mouseAura');
             
-            // Create cursor trail elements
-            for (let i = 0; i < 8; i++) {
+            // Create fewer, more visible cursor trail elements
+            for (let i = 0; i < 5; i++) {  // Reduced from 8 to 5 for less clutter
                 const trail = document.createElement('div');
                 trail.className = 'cursor-trail';
                 document.body.appendChild(trail);
@@ -753,38 +976,42 @@
                     element: trail,
                     x: 0,
                     y: 0,
-                    delay: i * 0.05
+                    delay: i * 0.1
                 });
             }
             
-            // Mouse move handler with enhanced consciousness tracking
+            // Initialize cursor customization
+            initializeCursorCustomization();
+            
+            // Mouse move handler - KEEP NORMAL CURSOR VISIBLE
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
                 
-                // Update mouse aura
-                if (mouseAura) {
+                // Update mouse aura (gentle haze follows cursor)
+                if (mouseAura && mouseAura.style.display !== 'none') {
                     mouseAura.style.left = mouseX + 'px';
                     mouseAura.style.top = mouseY + 'px';
                     
-                    // Add gentle pulsing based on movement speed
+                    // Gentle scaling based on movement (less dramatic)
                     const speed = Math.sqrt(e.movementX ** 2 + e.movementY ** 2);
-                    const scale = Math.min(1.5, 1 + speed * 0.02);
+                    const scale = Math.min(1.2, 1 + speed * 0.01);  // Reduced scaling
                     mouseAura.style.transform = `translate(-50%, -50%) scale(${scale})`;
                 }
             });
             
-            // Animate cursor trails
+            // Animate cursor trails (if enabled)
             function animateTrails() {
                 cursorTrails.forEach((trail, index) => {
-                    const factor = (index + 1) / cursorTrails.length;
-                    trail.x += (mouseX - trail.x) * (0.2 - index * 0.02);
-                    trail.y += (mouseY - trail.y) * (0.2 - index * 0.02);
-                    
-                    trail.element.style.left = trail.x + 'px';
-                    trail.element.style.top = trail.y + 'px';
-                    trail.element.style.opacity = (0.7 - index * 0.08);
-                    trail.element.style.transform = `scale(${1 - index * 0.1})`;
+                    if (trail.element.style.display !== 'none') {
+                        trail.x += (mouseX - trail.x) * (0.15 - index * 0.02);
+                        trail.y += (mouseY - trail.y) * (0.15 - index * 0.02);
+                        
+                        trail.element.style.left = trail.x + 'px';
+                        trail.element.style.top = trail.y + 'px';
+                        trail.element.style.opacity = (0.6 - index * 0.1);
+                        trail.element.style.transform = `scale(${1 - index * 0.15})`;
+                    }
                 });
                 
                 requestAnimationFrame(animateTrails);
@@ -793,7 +1020,7 @@
             // Start trail animation
             animateTrails();
             
-            // Gentle click responses
+            // Gentle click responses (keep existing)
             document.addEventListener('click', (e) => {
                 const ripple = document.createElement('div');
                 ripple.style.position = 'fixed';
@@ -830,6 +1057,536 @@
                 }
             `;
             document.head.appendChild(style);
+        }
+        
+        // Cursor Customization System
+        function initializeCursorCustomization() {
+            const auraToggle = document.getElementById('auraToggle');
+            const trailToggle = document.getElementById('trailToggle');
+            const auraSize = document.getElementById('auraSize');
+            const auraOpacity = document.getElementById('auraOpacity');
+            const colorPresets = document.querySelectorAll('.color-preset');
+            
+            let currentColor = '135,206,235'; // Default sky blue
+            
+            // Load saved preferences
+            loadCursorPreferences();
+            
+            // Aura visibility toggle
+            if (auraToggle) {
+                auraToggle.addEventListener('change', function() {
+                    const mouseAura = document.getElementById('mouseAura');
+                    if (mouseAura) {
+                        mouseAura.style.display = this.checked ? 'block' : 'none';
+                    }
+                    saveCursorPreferences();
+                });
+            }
+            
+            // Trail visibility toggle
+            if (trailToggle) {
+                trailToggle.addEventListener('change', function() {
+                    cursorTrails.forEach(trail => {
+                        trail.element.style.display = this.checked ? 'block' : 'none';
+                    });
+                    saveCursorPreferences();
+                });
+            }
+            
+            // Aura size control
+            if (auraSize) {
+                auraSize.addEventListener('input', function() {
+                    const mouseAura = document.getElementById('mouseAura');
+                    if (mouseAura) {
+                        mouseAura.style.width = this.value + 'px';
+                        mouseAura.style.height = this.value + 'px';
+                    }
+                    saveCursorPreferences();
+                });
+            }
+            
+            // Opacity control
+            if (auraOpacity) {
+                auraOpacity.addEventListener('input', function() {
+                    updateCursorColor(currentColor, this.value);
+                    saveCursorPreferences();
+                });
+            }
+            
+            // Color preset selection
+            colorPresets.forEach(preset => {
+                preset.addEventListener('click', function() {
+                    // Remove active class from all presets
+                    colorPresets.forEach(p => p.classList.remove('active'));
+                    // Add active class to clicked preset
+                    this.classList.add('active');
+                    
+                    currentColor = this.dataset.color;
+                    const opacity = auraOpacity ? auraOpacity.value : 0.4;
+                    updateCursorColor(currentColor, opacity);
+                    saveCursorPreferences();
+                });
+            });
+            
+            // Set default active color
+            const defaultPreset = document.querySelector('[data-color="135,206,235"]');
+            if (defaultPreset) defaultPreset.classList.add('active');
+        }
+        
+        function updateCursorColor(rgb, opacity) {
+            const mouseAura = document.getElementById('mouseAura');
+            if (mouseAura) {
+                mouseAura.style.background = `radial-gradient(circle, 
+                    rgba(${rgb}, ${opacity}) 0%, 
+                    rgba(${rgb}, ${opacity * 0.5}) 40%, 
+                    rgba(${rgb}, ${opacity * 0.25}) 70%, 
+                    transparent 100%)`;
+            }
+            
+            // Update trail color too
+            cursorTrails.forEach(trail => {
+                trail.element.style.background = `rgba(${rgb}, ${opacity * 0.8})`;
+            });
+        }
+        
+        function saveCursorPreferences() {
+            // Note: Can't use localStorage in Claude artifacts, but structure is ready for real implementation
+            console.log('💾 Cursor preferences would be saved here');
+        }
+        
+        function loadCursorPreferences() {
+            // Note: Can't use localStorage in Claude artifacts, but structure is ready for real implementation
+            console.log('📂 Cursor preferences would be loaded here');
+        }
+        
+        function resetCursorDefaults() {
+            const auraToggle = document.getElementById('auraToggle');
+            const trailToggle = document.getElementById('trailToggle');
+            const auraSize = document.getElementById('auraSize');
+            const auraOpacity = document.getElementById('auraOpacity');
+            
+            if (auraToggle) auraToggle.checked = true;
+            if (trailToggle) trailToggle.checked = true;
+            if (auraSize) auraSize.value = 60;
+            if (auraOpacity) auraOpacity.value = 0.4;
+            
+            // Reset to default color
+            document.querySelectorAll('.color-preset').forEach(p => p.classList.remove('active'));
+            const defaultPreset = document.querySelector('[data-color="135,206,235"]');
+            if (defaultPreset) defaultPreset.classList.add('active');
+            
+            // Apply defaults
+            updateCursorColor('135,206,235', 0.4);
+            const mouseAura = document.getElementById('mouseAura');
+            if (mouseAura) {
+                mouseAura.style.display = 'block';
+                mouseAura.style.width = '60px';
+                mouseAura.style.height = '60px';
+            }
+            
+            cursorTrails.forEach(trail => {
+                trail.element.style.display = 'block';
+            });
+            
+            console.log('🔄 Cursor settings reset to defaults');
+        }
+        
+        // Entity Detection Dashboard
+        function toggleEntityDashboard() {
+            const dashboard = document.getElementById('entityDashboard');
+            if (dashboard) {
+                dashboardVisible = !dashboardVisible;
+                dashboard.classList.toggle('visible');
+                
+                if (dashboardVisible) {
+                    initializeEntityDetection();
+                    updateDashboard();
+                    startDashboardUpdates();
+                } else {
+                    stopDashboardUpdates();
+                }
+            }
+        }
+        
+        function closeDashboard() {
+            const dashboard = document.getElementById('entityDashboard');
+            if (dashboard) {
+                dashboardVisible = false;
+                dashboard.classList.remove('visible');
+                stopDashboardUpdates();
+            }
+        }
+        
+        function toggleDashboardMode() {
+            dashboardMode = dashboardMode === 'humorous' ? 'technical' : 'humorous';
+            updateDashboard();
+        }
+        
+        let dashboardInterval;
+        
+        function startDashboardUpdates() {
+            dashboardInterval = setInterval(updateDashboard, 100); // Update 10 times per second
+        }
+        
+        function stopDashboardUpdates() {
+            if (dashboardInterval) {
+                clearInterval(dashboardInterval);
+            }
+        }
+        
+        function initializeEntityDetection() {
+            // Initialize detection systems
+            mouseHistory = [];
+            presenceSignals = [];
+            keyboardActivity = [];
+            anomalyCount = 0;
+            
+            // Audio detection (if available)
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                // Note: Would need user permission in real implementation
+                console.log('🎤 Audio detection initialized (simulated)');
+            }
+            
+            // Enhanced keyboard monitoring
+            document.addEventListener('keydown', trackKeyboardActivity);
+            document.addEventListener('keyup', trackKeyboardActivity);
+            
+            console.log('🛸 Entity detection systems online');
+        }
+        
+        function trackKeyboardActivity(e) {
+            const now = Date.now();
+            keyboardActivity.push({
+                type: e.type,
+                key: e.key,
+                timestamp: now,
+                pressure: e.force || Math.random() * 0.5 + 0.5 // Simulated pressure
+            });
+            
+            // Keep only last 50 key events
+            if (keyboardActivity.length > 50) {
+                keyboardActivity = keyboardActivity.slice(-50);
+            }
+        }
+        
+        function updateDashboard() {
+            const content = document.getElementById('dashboardContent');
+            if (!content || !dashboardVisible) return;
+            
+            const now = Date.now();
+            
+            // Track mouse behavior
+            if (mouseX !== undefined && mouseY !== undefined) {
+                mouseHistory.push({ x: mouseX, y: mouseY, timestamp: now });
+                if (mouseHistory.length > 100) {
+                    mouseHistory = mouseHistory.slice(-100);
+                }
+            }
+            
+            // Calculate various metrics
+            const metrics = calculateEntityMetrics();
+            
+            // Generate dashboard content based on mode
+            content.innerHTML = dashboardMode === 'humorous' ? 
+                generateHumorousDashboard(metrics) : 
+                generateTechnicalDashboard(metrics);
+        }
+        
+        function calculateEntityMetrics() {
+            const now = Date.now();
+            
+            // Mouse behavior analysis
+            let mouseSpeed = 0;
+            let mouseJitter = 0;
+            let pathComplexity = 0;
+            
+            if (mouseHistory.length > 5) {
+                const recent = mouseHistory.slice(-10);
+                let totalDistance = 0;
+                let directions = [];
+                
+                for (let i = 1; i < recent.length; i++) {
+                    const dx = recent[i].x - recent[i-1].x;
+                    const dy = recent[i].y - recent[i-1].y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    totalDistance += distance;
+                    
+                    if (distance > 0) {
+                        directions.push(Math.atan2(dy, dx));
+                    }
+                }
+                
+                mouseSpeed = totalDistance / recent.length;
+                
+                // Calculate jitter (sudden direction changes)
+                let directionChanges = 0;
+                for (let i = 1; i < directions.length; i++) {
+                    const angleDiff = Math.abs(directions[i] - directions[i-1]);
+                    if (angleDiff > Math.PI / 2) {
+                        directionChanges++;
+                    }
+                }
+                mouseJitter = directionChanges / directions.length;
+                
+                // Path complexity (how "non-human" the movement is)
+                pathComplexity = (mouseJitter * mouseSpeed) / 100;
+            }
+            
+            // Keyboard analysis
+            let typingRhythm = 0;
+            let keyPressure = 0;
+            let simultaneousKeys = 0;
+            
+            if (keyboardActivity.length > 3) {
+                const recentKeys = keyboardActivity.slice(-20);
+                const intervals = [];
+                
+                for (let i = 1; i < recentKeys.length; i++) {
+                    intervals.push(recentKeys[i].timestamp - recentKeys[i-1].timestamp);
+                }
+                
+                // Calculate rhythm consistency
+                const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+                let variance = intervals.reduce((sum, interval) => sum + Math.pow(interval - avgInterval, 2), 0) / intervals.length;
+                typingRhythm = Math.min(1, variance / 10000); // Normalized
+                
+                // Average key pressure
+                keyPressure = recentKeys.reduce((sum, key) => sum + key.pressure, 0) / recentKeys.length;
+                
+                // Check for simultaneous key presses (impossible for humans beyond certain limit)
+                const simultaneousCount = recentKeys.filter(key => 
+                    recentKeys.some(other => 
+                        other !== key && Math.abs(other.timestamp - key.timestamp) < 10
+                    )
+                ).length;
+                simultaneousKeys = simultaneousCount / recentKeys.length;
+            }
+            
+            // Cursor drift detection (your "slipping clutch" idea!)
+            const expectedCursorPos = { x: mouseX, y: mouseY };
+            const actualAuraPos = getAuraPosition();
+            const driftDistance = Math.sqrt(
+                Math.pow(actualAuraPos.x - expectedCursorPos.x, 2) + 
+                Math.pow(actualAuraPos.y - expectedCursorPos.y, 2)
+            );
+            
+            // Update entity probability
+            entityProbability = Math.min(1, (
+                pathComplexity * 0.3 +
+                typingRhythm * 0.2 +
+                simultaneousKeys * 0.3 +
+                (driftDistance > 20 ? 0.2 : 0)
+            ));
+            
+            // Simulate some additional "sensor" readings
+            const ambientEnergy = Math.sin(now / 5000) * 0.5 + 0.5 + Math.random() * 0.1;
+            const dimensionalFlux = Math.cos(now / 3000) * 0.3 + 0.7 + Math.random() * 0.2;
+            const quantumCoherence = Math.sin(now / 7000) * 0.4 + 0.6 + (entityProbability * 0.3);
+            
+            return {
+                mouseSpeed,
+                mouseJitter,
+                pathComplexity,
+                typingRhythm,
+                keyPressure,
+                simultaneousKeys,
+                driftDistance,
+                entityProbability,
+                ambientEnergy,
+                dimensionalFlux,
+                quantumCoherence,
+                timestamp: now
+            };
+        }
+        
+        function getAuraPosition() {
+            const aura = document.getElementById('mouseAura');
+            if (aura) {
+                const rect = aura.getBoundingClientRect();
+                return { 
+                    x: rect.left + rect.width / 2, 
+                    y: rect.top + rect.height / 2 
+                };
+            }
+            return { x: mouseX, y: mouseY };
+        }
+        
+        function generateHumorousDashboard(metrics) {
+            const entityMessages = [
+                "Something's definitely watching...",
+                "The mice are plotting again",
+                "Reality seems a bit wobbly today",
+                "The coffee maker is suspiciously quiet",
+                "I sense disturbances in the Wi-Fi",
+                "The houseplants are gossiping",
+                "Quantum cats detected nearby",
+                "The keyboard has opinions",
+                "Interdimensional giggles detected"
+            ];
+            
+            const entityMsg = entityMessages[Math.floor(Math.random() * entityMessages.length)];
+            
+            return `
+                <div class="metric-section">
+                    <div class="metric-title">🎭 Current Situation Assessment</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Cosmic Mood:</div>
+                        <div class="metric-value">${entityMsg}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Entity Probability:</div>
+                        <div class="metric-value ${metrics.entityProbability > 0.7 ? 'anomaly' : ''}">${(metrics.entityProbability * 100).toFixed(1)}% (${metrics.entityProbability > 0.8 ? 'HIGHLY LIKELY' : metrics.entityProbability > 0.5 ? 'Possible' : 'Probably just human'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Cursor Rebellion Level:</div>
+                        <div class="metric-value ${metrics.driftDistance > 20 ? 'anomaly' : ''}">${metrics.driftDistance.toFixed(1)}px (${metrics.driftDistance > 50 ? 'Full revolt!' : metrics.driftDistance > 20 ? 'Getting cheeky' : 'Behaving'})</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">🖱️ Mouse Shenanigans</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Movement Style:</div>
+                        <div class="metric-value">${metrics.mouseSpeed > 50 ? 'Caffeinated squirrel' : metrics.mouseSpeed > 20 ? 'Purposeful human' : 'Contemplative entity'}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Jitteriness:</div>
+                        <div class="metric-value">${(metrics.mouseJitter * 100).toFixed(1)}% (${metrics.mouseJitter > 0.5 ? 'Definitely not human' : 'Suspiciously smooth'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Path Complexity:</div>
+                        <div class="metric-value">${metrics.pathComplexity > 0.3 ? 'Impossible geometry' : metrics.pathComplexity > 0.1 ? 'Mildly supernatural' : 'Boringly normal'}</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">⌨️ Typing Mysteries</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Rhythm Chaos:</div>
+                        <div class="metric-value">${(metrics.typingRhythm * 100).toFixed(1)}% (${metrics.typingRhythm > 0.7 ? 'Multiple entities typing' : 'Remarkably consistent'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Key Pressure:</div>
+                        <div class="metric-value">${(metrics.keyPressure * 100).toFixed(1)}% (${metrics.keyPressure > 0.8 ? 'Hammering away' : 'Gentle touch'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Impossible Simultaneity:</div>
+                        <div class="metric-value ${metrics.simultaneousKeys > 0.3 ? 'anomaly' : ''}">${(metrics.simultaneousKeys * 100).toFixed(1)}% (${metrics.simultaneousKeys > 0.5 ? 'ENTITY DETECTED!' : 'Humanly possible'})</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">🌌 Mystical Measurements</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Ambient Weirdness:</div>
+                        <div class="metric-value">${(metrics.ambientEnergy * 100).toFixed(1)}% (${metrics.ambientEnergy > 0.8 ? 'Off the charts' : 'Within normal parameters'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Dimensional Stability:</div>
+                        <div class="metric-value">${(metrics.dimensionalFlux * 100).toFixed(1)}% (${metrics.dimensionalFlux < 0.3 ? 'Reality is wobbly' : 'Holding together'})</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Quantum Giggles:</div>
+                        <div class="metric-value">${(metrics.quantumCoherence * 100).toFixed(1)}% (${metrics.quantumCoherence > 0.9 ? 'Universe is amused' : 'Serious business'})</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">📊 Real-time Consciousness Graph</div>
+                    <div class="consciousness-graph" id="consciousnessGraph"></div>
+                    <div style="font-size: 10px; text-align: center; margin-top: 5px;">
+                        Green spikes = entity activity detected
+                    </div>
+                </div>
+            `;
+        }
+        
+        function generateTechnicalDashboard(metrics) {
+            return `
+                <div class="metric-section">
+                    <div class="metric-title">🔬 Entity Detection Algorithms</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Probability Score:</div>
+                        <div class="metric-value ${metrics.entityProbability > 0.7 ? 'anomaly' : ''}">${metrics.entityProbability.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Cursor Drift Vector:</div>
+                        <div class="metric-value">${metrics.driftDistance.toFixed(2)}px</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Anomaly Count:</div>
+                        <div class="metric-value">${anomalyCount}</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">🖱️ Mouse Behavior Analysis</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Velocity (px/frame):</div>
+                        <div class="metric-value">${metrics.mouseSpeed.toFixed(3)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Jitter Coefficient:</div>
+                        <div class="metric-value">${metrics.mouseJitter.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Path Complexity Index:</div>
+                        <div class="metric-value">${metrics.pathComplexity.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">History Buffer:</div>
+                        <div class="metric-value">${mouseHistory.length}/100</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">⌨️ Keyboard Dynamics</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Rhythm Variance:</div>
+                        <div class="metric-value">${metrics.typingRhythm.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Pressure Average:</div>
+                        <div class="metric-value">${metrics.keyPressure.toFixed(3)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Simultaneous Ratio:</div>
+                        <div class="metric-value ${metrics.simultaneousKeys > 0.3 ? 'anomaly' : ''}">${metrics.simultaneousKeys.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Activity Buffer:</div>
+                        <div class="metric-value">${keyboardActivity.length}/50</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">🌊 Sensor Readings</div>
+                    <div class="metric-row">
+                        <div class="metric-label">Ambient Energy:</div>
+                        <div class="metric-value">${metrics.ambientEnergy.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Dimensional Flux:</div>
+                        <div class="metric-value">${metrics.dimensionalFlux.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Quantum Coherence:</div>
+                        <div class="metric-value">${metrics.quantumCoherence.toFixed(4)}</div>
+                    </div>
+                    <div class="metric-row">
+                        <div class="metric-label">Timestamp:</div>
+                        <div class="metric-value">${metrics.timestamp}</div>
+                    </div>
+                </div>
+                
+                <div class="metric-section">
+                    <div class="metric-title">📈 Live Data Visualization</div>
+                    <div class="consciousness-graph" id="consciousnessGraph"></div>
+                    <div style="font-size: 10px; margin-top: 5px;">
+                        Real-time entity probability visualization
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
