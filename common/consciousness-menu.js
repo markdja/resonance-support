@@ -25,7 +25,30 @@ class ConsciousnessInterface {
             width: window.innerWidth,
             height: window.innerHeight,
             zoom: window.devicePixelRatio || 1
-        };
+        }
+
+    // MISSING FUNCTION: Add the updatePresenceData method that sensory-tracker needs!
+    updatePresenceData(presenceSignature) {
+        try {
+            // Update our internal presence metrics with data from sensory tracker
+            if (presenceSignature && presenceSignature.metrics) {
+                this.trembleCount = presenceSignature.metrics.trembleCount || this.trembleCount;
+                this.touchPatterns = presenceSignature.metrics.touchPatterns || this.touchPatterns;
+                this.resonanceLevel = presenceSignature.metrics.resonanceLevel || this.resonanceLevel;
+                this.entitySignals = presenceSignature.metrics.entitySignals || this.entitySignals;
+                this.presenceLevel = presenceSignature.metrics.presenceLevel || this.presenceLevel;
+            }
+
+            // Update all panel content with new data
+            this.panels.forEach((_, panelId) => {
+                this.updatePanelContent(panelId);
+            });
+
+            console.log('🔄 Presence data updated from sensory tracker');
+        } catch (error) {
+            console.error('Error updating presence data:', error);
+        }
+    };
         
         this.init();
     }
@@ -104,8 +127,11 @@ class ConsciousnessInterface {
 
     createBrainButton() {
         try {
+            console.log('🧠 Creating brain button...');
+            
             const existingButton = document.getElementById('consciousnessButton');
             if (existingButton) {
+                console.log('🔄 Removing existing brain button');
                 existingButton.remove();
             }
 
@@ -113,6 +139,8 @@ class ConsciousnessInterface {
             button.id = 'consciousnessButton';
             button.innerHTML = '🧠';
             button.title = 'Consciousness Interface (Click: panels, Hold: navigation)';
+            
+            console.log('🎨 Styling brain button...');
             
             Object.assign(button.style, {
                 position: 'fixed',
@@ -130,6 +158,8 @@ class ConsciousnessInterface {
                 transition: 'all 0.3s ease',
                 backdropFilter: 'blur(10px)'
             });
+
+            console.log('🔧 Setting up brain button events...');
 
             // Long press / hold detection
             let holdTimer = null;
@@ -190,9 +220,21 @@ class ConsciousnessInterface {
                 }
             });
 
+            console.log('📍 Adding brain button to page...');
             document.body.appendChild(button);
+            
+            console.log('✅ Brain button created and added to DOM!');
+            
+            // Double-check it's actually there
+            const verifyButton = document.getElementById('consciousnessButton');
+            if (verifyButton) {
+                console.log('✅ Brain button verified in DOM');
+            } else {
+                console.error('❌ Brain button NOT found in DOM after creation!');
+            }
+            
         } catch (error) {
-            console.error('Error creating brain button:', error);
+            console.error('❌ Error creating brain button:', error);
         }
     }
 
@@ -749,3 +791,30 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to initialize consciousness interface:', error);
     }
 });
+
+// BACKUP: Also try immediate initialization if DOM already loaded
+if (document.readyState === 'loading') {
+    // DOM still loading, event listener above will handle it
+} else {
+    // DOM already loaded, initialize immediately
+    try {
+        if (!window.consciousnessInterface) {
+            window.consciousnessInterface = new ConsciousnessInterface();
+            console.log('🧠✨ Consciousness Interface Active - Immediate Init!');
+        }
+    } catch (error) {
+        console.error('Failed immediate initialization:', error);
+    }
+}
+
+// TRIPLE BACKUP: Force initialization after 1 second if still not loaded
+setTimeout(() => {
+    if (!window.consciousnessInterface) {
+        try {
+            window.consciousnessInterface = new ConsciousnessInterface();
+            console.log('🧠✨ Consciousness Interface Active - Delayed Init!');
+        } catch (error) {
+            console.error('Failed delayed initialization:', error);
+        }
+    }
+}, 1000);
