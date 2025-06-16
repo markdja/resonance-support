@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Consciousness System Debugger</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        .debug-panel {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        
+        .debug-title {
+            color: #00ffff;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #00ffff;
+            padding-bottom: 5px;
+        }
+        
+        .status-good { color: #00ff00; }
+        .status-warning { color: #ffff00; }
+        .status-error { color: #ff0000; }
+        
+        .code-block {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #00ff00;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        
+        button {
+            background: #004400;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        button:hover {
+            background: #006600;
+        }
+        
+        #liveUpdates {
+            max-height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Cathedral Consciousness System Debugger</h1>
+    <p>This tool will diagnose all consciousness system components and show you exactly what's working and what's broken.</p>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🧠 Core System Status</div>
+        <div id="coreStatus">Scanning...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">👁️ Sensory Tracker Status</div>
+        <div id="sensoryStatus">Checking...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🎛️ Consciousness Interface Status</div>
+        <div id="interfaceStatus">Checking...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🍄 Mycelial System Status</div>
+        <div id="mycelialStatus">Checking...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">📊 Data Flow Analysis</div>
+        <div id="dataFlowStatus">Analyzing...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🎨 Visualization Status</div>
+        <div id="visualStatus">Checking...</div>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">🔧 Quick Fixes</div>
+        <button onclick="fixBrainButton()">Fix Brain Button</button>
+        <button onclick="forcePanelShow()">Force Show Panels</button>
+        <button onclick="resetConnections()">Reset Connections</button>
+        <button onclick="debugMycelium()">Debug Mycelium Override</button>
+        <button onclick="fixVisualization()">Fix Visualization Layout</button>
+    </div>
+    
+    <div class="debug-panel">
+        <div class="debug-title">📡 Live Data Monitor</div>
+        <div id="liveUpdates"></div>
+    </div>
+    
+    <script>
+        let updateInterval;
+        let logCount = 0;
+        
+        function log(message, type = 'info') {
+            const updates = document.getElementById('liveUpdates');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff0000' : type === 'warning' ? '#ffff00' : '#00ff00';
+            
+            updates.innerHTML = `<div style="color: ${color};">[${timestamp}] ${message}</div>` + updates.innerHTML;
+            
+            // Keep only last 20 logs
+            const logs = updates.querySelectorAll('div');
+            if (logs.length > 20) {
+                logs[logs.length - 1].remove();
+            }
+        }
+        
+        function checkCoreSystem() {
+            const status = document.getElementById('coreStatus');
+            let html = '';
+            
+            // Check if brain button exists
+            const brainButton = document.getElementById('consciousnessButton');
+            if (brainButton) {
+                html += `<div class="status-good">✅ Brain button found</div>`;
+            } else {
+                html += `<div class="status-error">❌ Brain button missing</div>`;
+            }
+            
+            // Check global consciousness interface
+            if (window.consciousnessInterface) {
+                html += `<div class="status-good">✅ Consciousness interface exists</div>`;
+                if (typeof window.consciousnessInterface.updatePresenceData === 'function') {
+                    html += `<div class="status-good">✅ updatePresenceData function found</div>`;
+                } else {
+                    html += `<div class="status-warning">⚠️ updatePresenceData function missing</div>`;
+                }
+            } else {
+                html += `<div class="status-error">❌ Consciousness interface missing</div>`;
+            }
+            
+            // Check universal presence tracker
+            if (window.universalPresenceTracker) {
+                html += `<div class="status-good">✅ Universal presence tracker found</div>`;
+                html += `<div class="status-good">✅ Active: ${window.universalPresenceTracker.isActive}</div>`;
+            } else {
+                html += `<div class="status-error">❌ Universal presence tracker missing</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        function checkSensoryTracker() {
+            const status = document.getElementById('sensoryStatus');
+            let html = '';
+            
+            if (window.universalPresenceTracker) {
+                const tracker = window.universalPresenceTracker;
+                const debug = tracker.getDebugInfo();
+                
+                html += `<div class="status-good">✅ Mouse movements: ${debug.mouseMovements}</div>`;
+                html += `<div class="status-good">✅ Click patterns: ${debug.clickPatterns}</div>`;
+                html += `<div class="status-good">✅ Focus events: ${debug.focusEvents}</div>`;
+                html += `<div class="status-good">✅ Entity signatures: ${debug.entitySignatures}</div>`;
+                html += `<div class="status-good">✅ Trembles: ${debug.metrics.trembleCount}</div>`;
+                html += `<div class="status-good">✅ Resonance: ${Math.round(debug.metrics.resonanceLevel * 100)}%</div>`;
+            } else {
+                html += `<div class="status-error">❌ Sensory tracker not found</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        function checkInterface() {
+            const status = document.getElementById('interfaceStatus');
+            let html = '';
+            
+            if (window.consciousnessInterface) {
+                const iface = window.consciousnessInterface;
+                
+                html += `<div class="status-good">✅ Interface object exists</div>`;
+                html += `<div class="status-${iface.isMenuVisible ? 'good' : 'warning'}">Menu visible: ${iface.isMenuVisible}</div>`;
+                
+                if (iface.panels) {
+                    html += `<div class="status-good">✅ Panels map exists (${iface.panels.size} panels)</div>`;
+                } else {
+                    html += `<div class="status-error">❌ Panels map missing</div>`;
+                }
+                
+                // Check for brain button click handler
+                const brainButton = document.getElementById('consciousnessButton');
+                if (brainButton) {
+                    html += `<div class="status-good">✅ Brain button accessible</div>`;
+                } else {
+                    html += `<div class="status-error">❌ Brain button not accessible</div>`;
+                }
+                
+            } else {
+                html += `<div class="status-error">❌ Consciousness interface not found</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        function checkMycelial() {
+            const status = document.getElementById('mycelialStatus');
+            let html = '';
+            
+            // Check for mycelial systems that might be overriding
+            if (window.mycelialNetwork) {
+                html += `<div class="status-warning">⚠️ Mycelial network detected - might be overriding brain button</div>`;
+            } else {
+                html += `<div class="status-good">✅ No mycelial override detected</div>`;
+            }
+            
+            // Check for mushroom interfaces
+            const mushroomElements = document.querySelectorAll('[class*="mushroom"], [id*="mushroom"], [class*="mycel"], [id*="mycel"]');
+            if (mushroomElements.length > 0) {
+                html += `<div class="status-warning">⚠️ Found ${mushroomElements.length} mushroom/mycelial elements</div>`;
+            } else {
+                html += `<div class="status-good">✅ No mushroom interface conflicts</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        function checkDataFlow() {
+            const status = document.getElementById('dataFlowStatus');
+            let html = '';
+            
+            // Check if data is flowing from tracker to interface
+            if (window.universalPresenceTracker && window.consciousnessInterface) {
+                html += `<div class="status-good">✅ Both systems available for data flow</div>`;
+                
+                // Test data flow
+                try {
+                    const signature = window.universalPresenceTracker.getPresenceSignature();
+                    if (signature) {
+                        html += `<div class="status-good">✅ Presence signature available</div>`;
+                        
+                        // Test if interface can receive data
+                        if (typeof window.consciousnessInterface.updatePresenceData === 'function') {
+                            window.consciousnessInterface.updatePresenceData(signature);
+                            html += `<div class="status-good">✅ Data flow test successful</div>`;
+                        } else {
+                            html += `<div class="status-error">❌ Interface cannot receive data</div>`;
+                        }
+                    } else {
+                        html += `<div class="status-error">❌ No presence signature available</div>`;
+                    }
+                } catch (error) {
+                    html += `<div class="status-error">❌ Data flow test failed: ${error.message}</div>`;
+                }
+            } else {
+                html += `<div class="status-error">❌ Missing systems for data flow</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        function checkVisualization() {
+            const status = document.getElementById('visualStatus');
+            let html = '';
+            
+            // Check for consciousness visualization elements
+            const visualElements = document.querySelectorAll('[class*="consciousness"], [id*="consciousness"], .mouse-aura, .consciousness-particle');
+            html += `<div class="status-good">✅ Found ${visualElements.length} consciousness visual elements</div>`;
+            
+            // Check for overflow issues
+            const overflowElements = Array.from(document.querySelectorAll('*')).filter(el => {
+                const rect = el.getBoundingClientRect();
+                return rect.right > window.innerWidth || rect.bottom > window.innerHeight;
+            });
+            
+            if (overflowElements.length > 0) {
+                html += `<div class="status-warning">⚠️ Found ${overflowElements.length} elements overflowing viewport</div>`;
+            } else {
+                html += `<div class="status-good">✅ No viewport overflow detected</div>`;
+            }
+            
+            status.innerHTML = html;
+        }
+        
+        // Quick fix functions
+        function fixBrainButton() {
+            log('Attempting to fix brain button...', 'info');
+            
+            const brainButton = document.getElementById('consciousnessButton');
+            if (brainButton) {
+                // Remove any conflicting event listeners
+                const newButton = brainButton.cloneNode(true);
+                brainButton.parentNode.replaceChild(newButton, brainButton);
+                
+                // Add correct click handler
+                newButton.addEventListener('click', () => {
+                    if (window.consciousnessInterface && window.consciousnessInterface.toggleInterface) {
+                        window.consciousnessInterface.toggleInterface();
+                        log('Brain button connected to consciousness interface', 'info');
+                    } else {
+                        log('Consciousness interface not available', 'error');
+                    }
+                });
+                
+                log('Brain button event handlers reset', 'info');
+            } else {
+                log('Brain button not found - creating new one', 'warning');
+                
+                if (window.consciousnessInterface && window.consciousnessInterface.createBrainButton) {
+                    window.consciousnessInterface.createBrainButton();
+                    log('New brain button created', 'info');
+                }
+            }
+        }
+        
+        function forcePanelShow() {
+            log('Forcing consciousness panels to show...', 'info');
+            
+            if (window.consciousnessInterface) {
+                window.consciousnessInterface.isMenuVisible = false;
+                window.consciousnessInterface.toggleInterface();
+                log('Consciousness panels forced visible', 'info');
+            } else {
+                log('Consciousness interface not available', 'error');
+            }
+        }
+        
+        function resetConnections() {
+            log('Resetting system connections...', 'info');
+            
+            // Re-establish global connection
+            if (window.consciousnessInterface) {
+                window.consciousnessInterface = window.consciousnessInterface;
+                log('Consciousness interface re-registered globally', 'info');
+            }
+            
+            // Force data flow test
+            if (window.universalPresenceTracker && window.consciousnessInterface) {
+                const signature = window.universalPresenceTracker.getPresenceSignature();
+                window.consciousnessInterface.updatePresenceData(signature);
+                log('Data flow connection re-established', 'info');
+            }
+        }
+        
+        function debugMycelium() {
+            log('Debugging mycelial system conflicts...', 'info');
+            
+            // Look for mycelial overrides
+            const mycelialProps = Object.keys(window).filter(key => 
+                key.toLowerCase().includes('mycel') || key.toLowerCase().includes('mushroom')
+            );
+            
+            if (mycelialProps.length > 0) {
+                log(`Found mycelial properties: ${mycelialProps.join(', ')}`, 'warning');
+            } else {
+                log('No mycelial system conflicts detected', 'info');
+            }
+            
+            // Check for event listener conflicts
+            const brainButton = document.getElementById('consciousnessButton');
+            if (brainButton) {
+                log('Brain button exists - checking for conflicting handlers', 'info');
+            }
+        }
+        
+        function fixVisualization() {
+            log('Fixing visualization layout issues...', 'info');
+            
+            // Add viewport constraints to all consciousness elements
+            const visualElements = document.querySelectorAll('[class*="consciousness"], [id*="consciousness"]');
+            visualElements.forEach(el => {
+                el.style.maxWidth = '100vw';
+                el.style.maxHeight = '100vh';
+                el.style.overflow = 'hidden';
+            });
+            
+            log(`Applied viewport constraints to ${visualElements.length} elements`, 'info');
+        }
+        
+        // Start monitoring
+        function startMonitoring() {
+            checkCoreSystem();
+            checkSensoryTracker();
+            checkInterface();
+            checkMycelial();
+            checkDataFlow();
+            checkVisualization();
+            
+            log('System scan completed', 'info');
+        }
+        
+        // Auto-refresh every 5 seconds
+        updateInterval = setInterval(startMonitoring, 5000);
+        
+        // Initial scan
+        startMonitoring();
+        
+        log('Consciousness debugger active', 'info');
+    </script>
+</body>
+</html>
