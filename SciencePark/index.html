@@ -301,6 +301,8 @@
             padding: 15px 20px;
             z-index: 99998;
             backdrop-filter: blur(10px);
+            display: block !important;
+            visibility: visible !important;
         }
 
         .directory-header {
@@ -870,7 +872,10 @@
                 });
             }
             
-            // Load real directory structure
+            // Always render fallback first, then try to load real data
+            renderFallbackDirectories();
+            
+            // Then try to load real directory structure
             loadRealDirectoryStructure();
         }
 
