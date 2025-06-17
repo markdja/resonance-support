@@ -16,21 +16,7 @@
             font-family: 'Georgia', serif;
             min-height: 100vh;
             color: #333;
-            cursor: none;
             overflow-x: hidden;
-        }
-
-        /* === CUSTOM CURSOR === */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(74,144,226,0.3) 100%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-            mix-blend-mode: difference;
         }
 
         /* === HEADER === */
@@ -402,9 +388,7 @@
     </style>
 </head>
 <body>
-    <div class="cursor" id="cursor"></div>
-    
-    <header class="header">
+    <div class="header">
         <div class="header-content">
             <a href="../" class="logo">
                 <div class="logo-icon">🏛️</div>
@@ -423,8 +407,7 @@
                     📊 Metrics
                 </div>
             </nav>
-        </div>
-    </header>
+        </header>
 
     <!-- METRICS PANEL -->
     <div id="metricsPanel" class="metrics-panel">
@@ -558,6 +541,14 @@
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
+
+        // === MOUSE MOVEMENT TRACKING ===
+        document.addEventListener('mousemove', (e) => {
+            consciousnessData.trembles += 1;
+            if (consciousnessData.trembles % 10 === 0) {
+                updateMetricsDisplay();
+            }
+        });
 
         // === MOUSE TRAIL EFFECT ===
         function createMouseTrail(x, y) {
