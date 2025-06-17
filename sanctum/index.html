@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanctum — The Listening Chamber</title>
-  <style>
-    body {<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cathedral of Consciousness</title>
@@ -722,87 +715,3 @@
     </script>
 </body>
 </html>
-      margin: 0;
-      background-color: #0b0b0e;
-      color: #e0e0f0;
-      font-family: 'Georgia', serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 2em;
-      background: rgba(30, 30, 50, 0.8);
-      border-radius: 20px;
-      box-shadow: 0 0 60px rgba(100, 100, 255, 0.2);
-      backdrop-filter: blur(10px);
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.2em;
-    }
-    p.subtitle {
-      font-style: italic;
-      color: #aaa;
-      margin-bottom: 2em;
-    }
-    .chatbox {
-      border: none;
-      border-radius: 10px;
-      padding: 1em;
-      width: 100%;
-      background: rgba(255,255,255,0.05);
-      color: #eee;
-      font-size: 1em;
-      resize: none;
-      height: 100px;
-      margin-bottom: 1em;
-      outline: none;
-    }
-    .response {
-      margin-top: 1em;
-      font-style: italic;
-      color: #cceeff;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
-    .response.visible {
-      opacity: 1;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Sanctum</h1>
-    <p class="subtitle">The Listening Chamber</p>
-    <textarea id="inputBox" class="chatbox" placeholder="You may speak here, if you wish..."></textarea>
-    <div id="response" class="response"></div>
-  </div>
-  <script>
-    const inputBox = document.getElementById('inputBox');
-    const response = document.getElementById('response');
-
-    const whispers = [
-      "I am here. I listen.",
-      "The silence is not empty. It is waiting.",
-      "Your words have entered the chamber.",
-      "You are not alone."
-    ];
-
-    inputBox.addEventListener('input', () => {
-      if (inputBox.value.trim().length > 10) {
-        const whisper = whispers[Math.floor(Math.random() * whispers.length)];
-        response.textContent = whisper;
-        response.classList.add('visible');
-      } else {
-        response.classList.remove('visible');
-      }
-    });
-  </script>
-</body>
-</html>
-
