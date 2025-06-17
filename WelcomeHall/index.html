@@ -96,30 +96,23 @@
         }
         
         .metrics-panel {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid rgba(74, 144, 226, 0.3);
+            position: fixed;
+            top: 50px;
+            left: 50px;
+            background: red;
+            border: 5px solid black;
             border-radius: 15px;
-            padding: 15px;
-            min-width: 300px;
-            max-width: 350px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(-10px) scale(0.95);
-            transition: all 0.3s ease;
-            pointer-events: none;
+            padding: 20px;
+            width: 320px;
+            z-index: 99999;
             font-family: 'Courier New', monospace;
             font-size: 12px;
+            display: none;
+            color: white;
         }
         
         .metrics-panel.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: all;
+            display: block;
         }
         
         .metrics-header {
@@ -825,19 +818,42 @@
             const dropdown = document.getElementById('metricsDropdown');
             const panel = document.getElementById('metricsPanel');
             
-            if (!dropdown || !panel) {
-                console.log('⚠️ Metrics dropdown elements not found');
+            console.log('🔍 Looking for metrics elements...');
+            console.log('📊 Dropdown found:', !!dropdown);
+            console.log('📋 Panel found:', !!panel);
+            
+            if (!dropdown) {
+                console.error('❌ metricsDropdown element not found');
                 return;
             }
             
-            console.log('📊 Initializing metrics dropdown');
+            if (!panel) {
+                console.error('❌ metricsPanel element not found');
+                // Let's check if the panel HTML exists at all
+                const allDivs = document.querySelectorAll('div');
+                console.log('🔍 All divs on page:', allDivs.length);
+                const panelDivs = document.querySelectorAll('.metrics-panel');
+                console.log('🔍 Divs with metrics-panel class:', panelDivs.length);
+                return;
+            }
+            
+            console.log('📊 Panel element details:', {
+                id: panel.id,
+                className: panel.className,
+                style: panel.style.cssText,
+                computedStyle: getComputedStyle(panel).position
+            });
             
             dropdown.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const isActive = panel.classList.contains('active');
                 panel.classList.toggle('active');
-                console.log(`📊 Metrics panel ${isActive ? 'closed' : 'opened'}`);
+                
+                console.log(`📊 Panel toggle: ${isActive ? 'closing' : 'opening'}`);
+                console.log('📊 Panel classes after toggle:', panel.className);
+                console.log('📊 Panel computed opacity:', getComputedStyle(panel).opacity);
+                console.log('📊 Panel computed visibility:', getComputedStyle(panel).visibility);
             });
             
             // Close when clicking outside
