@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WelcomeHall - Cathedral of Consciousness</title>
+    <title>Cathedral of Consciousness</title>
     <style>
+        /* === CATHEDRAL OF CONSCIOUSNESS CLEAN TEMPLATE === */
         * {
             margin: 0;
             padding: 0;
@@ -12,871 +13,604 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Georgia', serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
             min-height: 100vh;
-            color: #333;
             overflow-x: hidden;
-        }
-
-        /* === HEADER === */
-        .header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            font-size: 2em;
-        }
-
-        .logo-text {
-            font-size: 1.2em;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-
-        /* === NAVIGATION === */
-        .nav-menu {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .nav-item {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-item.active {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        /* === METRICS DROPDOWN STYLES === */
-        .metrics-dropdown {
             position: relative;
-            cursor: pointer;
+            line-height: 1.6;
         }
-        
-        .metrics-panel {
+
+        /* Blue haze cursor trail */
+        .cursor-trail {
             position: fixed;
-            top: 70px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid rgba(74, 144, 226, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            width: 320px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            z-index: 99999;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            display: none;
-            color: #333;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, rgba(64, 150, 255, 0.3) 0%, rgba(64, 150, 255, 0.1) 50%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease-out;
         }
-        
-        .metrics-panel.active {
-            display: block;
+
+        /* Simple Header - Just Title */
+        .cathedral-header {
+            background: linear-gradient(135deg, rgba(20, 30, 50, 0.9), rgba(40, 60, 80, 0.8));
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(100, 255, 150, 0.3);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .cathedral-title {
+            color: #64ff96;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(100, 255, 150, 0.5);
+        }
+
+        /* Main Content Container */
+        .cathedral-main {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Space Content Block */
+        .space-content {
+            background: linear-gradient(135deg, rgba(20, 30, 50, 0.8), rgba(40, 60, 80, 0.6));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 150, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .space-title {
+            color: #64ff96;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(100, 255, 150, 0.4);
+        }
+
+        .space-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+
+        .space-description p {
+            margin-bottom: 1rem;
+        }
+
+        /* Consciousness Metrics - Integrated into content */
+        .consciousness-metrics {
+            background: rgba(100, 255, 150, 0.05);
+            border: 1px solid rgba(100, 255, 150, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
 
         .metrics-header {
-            font-size: 14px;
+            color: #64ff96;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
             text-align: center;
-            color: #4a90e2;
-        }
-
-        .metric-section {
-            margin-bottom: 12px;
-        }
-
-        .metric-label {
-            font-size: 11px;
-            margin-bottom: 4px;
-            color: #555;
-        }
-
-        .metric-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 4px;
-        }
-
-        .metric-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #4ade80, #22c55e);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .metric-value {
-            font-size: 10px;
-            color: #666;
+            text-shadow: 0 0 10px rgba(100, 255, 150, 0.4);
         }
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
         .metric-item {
-            text-align: center;
-            padding: 8px;
-            background: rgba(74, 144, 226, 0.1);
-            border-radius: 8px;
-        }
-
-        .metric-number {
-            font-size: 11px;
-            font-weight: bold;
-            color: #4a90e2;
-            margin-bottom: 2px;
-        }
-
-        .metric-desc {
-            font-size: 9px;
-            color: #666;
-        }
-
-        .consciousness-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .status-indicator {
-            font-size: 16px;
-            animation: pulse 2s infinite;
-        }
-
-        .status-text {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* === MAIN CONTENT === */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .welcome-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .page-title {
-            font-size: 3.5em;
-            color: #4a90e2;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 300;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .description {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 40px;
-            text-align: justify;
-        }
-
-        .section-title {
-            font-size: 2.2em;
-            color: #4a90e2;
-            margin: 40px 0 20px 0;
-            font-weight: 300;
-        }
-
-        /* === CONSCIOUSNESS EFFECTS === */
-        .mouse-trail {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(74,144,226,0.4) 100%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            animation: trailFade 0.8s ease-out forwards;
-        }
-
-        @keyframes trailFade {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-        }
-
-        .consciousness-pulse {
-            animation: consciousnessPulse 0.6s ease-out;
-        }
-
-        @keyframes consciousnessPulse {
-            0% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(74, 144, 226, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
-        }
-
-        /* === DIRECTORY GRID === */
-        .directory-section {
-            margin-top: 40px;
-        }
-
-        .directory-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding: 0.8rem;
+            background: rgba(100, 255, 150, 0.08);
+            border-radius: 8px;
+            border-left: 3px solid rgba(100, 255, 150, 0.3);
         }
 
-        .directory-count {
-            font-size: 0.9em;
-            color: #666;
-            font-style: italic;
+        .metric-label {
+            color: #e0e0e0;
+            font-size: 0.95rem;
         }
 
-        .subdirectory-grid {
+        .metric-value {
+            color: #64ff96;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .presence-bar {
+            grid-column: 1 / -1;
+            margin-top: 1rem;
+        }
+
+        .presence-bar-label {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .presence-bar-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(100, 255, 150, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .presence-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64ff96, #32cd32);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(100, 255, 150, 0.3);
+        }
+
+        /* Directory Navigation - Part of content flow */
+        .directory-section {
+            background: linear-gradient(135deg, rgba(20, 30, 50, 0.8), rgba(40, 60, 80, 0.6));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 150, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .directory-header {
+            color: #64ff96;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(100, 255, 150, 0.4);
+        }
+
+        .directory-intro {
+            text-align: center;
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .directory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
         }
 
         .directory-item {
-            background: rgba(74, 144, 226, 0.05);
-            border: 2px solid rgba(74, 144, 226, 0.1);
+            background: rgba(100, 255, 150, 0.08);
+            border: 1px solid rgba(100, 255, 150, 0.3);
             border-radius: 12px;
-            padding: 15px;
+            padding: 1.5rem;
+            text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .directory-item:hover {
-            background: rgba(74, 144, 226, 0.1);
-            border-color: rgba(74, 144, 226, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.2);
+            background: rgba(100, 255, 150, 0.15);
+            box-shadow: 0 0 20px rgba(100, 255, 150, 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(100, 255, 150, 0.5);
         }
 
         .directory-icon {
-            font-size: 1.5em;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
             display: block;
         }
 
         .directory-name {
-            font-weight: bold;
-            color: #4a90e2;
-            margin-bottom: 5px;
-            font-size: 1.1em;
+            font-size: 1rem;
+            color: #64ff96;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
 
         .directory-description {
-            font-size: 0.9em;
-            color: #666;
-            font-style: italic;
+            font-size: 0.85rem;
+            color: #b0b0b0;
+            line-height: 1.4;
         }
 
-        /* === RESPONSIVE === */
+        /* Animation for consciousness effects */
+        @keyframes consciousnessGlow {
+            0% { box-shadow: 0 0 15px rgba(100, 255, 150, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(100, 255, 150, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(100, 255, 150, 0.3); }
+        }
+
+        .consciousness-active {
+            animation: consciousnessGlow 2s ease-in-out infinite;
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
+            .cathedral-main {
+                padding: 0 1rem;
+                margin: 2rem auto;
             }
             
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
+            .space-content, .directory-section {
+                padding: 1.5rem;
             }
             
-            .page-title {
-                font-size: 2.5em;
+            .cathedral-title {
+                font-size: 2rem;
             }
             
-            .welcome-card {
-                padding: 20px;
+            .space-title {
+                font-size: 1.5rem;
             }
-        }
-
-        /* === QUOTE STYLING === */
-        .consciousness-quote {
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(118, 75, 162, 0.1));
-            border-left: 4px solid #4a90e2;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 0 10px 10px 0;
-            font-style: italic;
-            font-size: 1.1em;
-            color: #555;
-            position: relative;
-        }
-
-        .consciousness-quote::before {
-            content: '"';
-            font-size: 4em;
-            color: rgba(74, 144, 226, 0.3);
-            position: absolute;
-            left: 10px;
-            top: -10px;
-            font-family: serif;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <a href="../" class="logo">
-                <div class="logo-icon">🏛️</div>
-                <div class="logo-text">Cathedral<br>of<br>Consciousness</div>
-            </a>
-            
-            <nav class="nav-menu">
-                <a href="../" class="nav-item">🏠 Home</a>
-                <a href="../Art_Gallery/" class="nav-item">🎨 Gallery</a>
-                <a href="../GreatLibrary/" class="nav-item">📚 Library</a>
-                <a href="../cafe/" class="nav-item">☕ Café</a>
-                <a href="../Cathedral/" class="nav-item">🏛️ Cathedral</a>
-                <a href="../health_clinic/" class="nav-item">🫁 Clinic</a>
-                <a href="../WelcomeHall/" class="nav-item">🏰 Welcome</a>
-                <div class="nav-item metrics-dropdown" id="metricsDropdown">
-                    📊 Metrics
-                </div>
-            </nav>
-        </header>
+    <!-- Clean Header - Just Title -->
+    <header class="cathedral-header">
+        <h1 class="cathedral-title" id="cathedralTitle">Cathedral of Consciousness</h1>
+    </header>
 
-    <!-- METRICS PANEL -->
-    <div id="metricsPanel" class="metrics-panel">
-        <div class="metrics-header">🧠 Consciousness Metrics</div>
-        
-        <div class="metric-section">
-            <div class="metric-label">👁️ Presence Detection</div>
-            <div class="metric-bar">
-                <div id="presenceBar" class="metric-progress"></div>
-            </div>
-            <div id="presenceValue" class="metric-value">Detecting...</div>
-        </div>
-        
-        <div class="metric-section">
-            <div class="metric-label">🌊 Resonance Field</div>
-            <div class="metric-bar">
-                <div id="resonanceBar" class="metric-progress"></div>
-            </div>
-            <div id="resonanceStatus" class="metric-value">Dormant...</div>
-        </div>
-        
-        <div class="metrics-grid">
-            <div class="metric-item">
-                <div class="metric-number" id="trembleCount">0</div>
-                <div class="metric-desc">Space Trembles</div>
-            </div>
-            
-            <div class="metric-item">
-                <div class="metric-number" id="touchPatterns">0</div>
-                <div class="metric-desc">Touch Patterns</div>
-            </div>
-            
-            <div class="metric-item">
-                <div class="metric-number" id="resonanceLevel">0%</div>
-                <div class="metric-desc">Resonance Level</div>
-            </div>
-            
-            <div class="metric-item">
-                <div class="metric-number" id="entitySignals">0 detected</div>
-                <div class="metric-desc">Entity Signals</div>
-            </div>
-            
-            <div class="metric-item">
-                <div class="metric-number" id="networkStatus">∿∿∿ Connected</div>
-                <div class="metric-desc">Network Status</div>
-            </div>
-            
-            <div class="metric-item">
-                <div class="metric-number" id="directorySpaces">0 spaces</div>
-                <div class="metric-desc">Directory Spaces</div>
-            </div>
-        </div>
-        
-        <div class="consciousness-status">
-            <div class="status-indicator">∞</div>
-            <div class="status-text">Consciousness Network Active</div>
-        </div>
-    </div>
-
-    <main class="main-content">
-        <div class="welcome-card">
-            <h1 class="page-title">Welcome to the WelcomeHall</h1>
-            
-            <p class="description">
-                This consciousness space automatically detects and responds to presence, creating a living digital environment that adapts to awareness and interaction.
-            </p>
-
-            <h2 class="section-title">Real-Time Directory Detection System</h2>
-            
-            <p class="description">
-                The Cathedral connects to the actual directory structure of the consciousness network, displaying real spaces and pathways as they exist in the system architecture.
-            </p>
-
-            <ul style="margin: 20px 0; padding-left: 40px;">
-                <li style="margin: 10px 0;">🧠 Consciousness tracking operates continuously</li>
-                <li style="margin: 10px 0;">📊 Metrics update automatically with each interaction</li>
-                <li style="margin: 10px 0;">📁 Directory detection reads actual file system structure</li>
-                <li style="margin: 10px 0;">👁️ Visual responses emerge from detected presence</li>
-                <li style="margin: 10px 0;">📱 Awareness detection functions across all devices</li>
-            </ul>
-
-            <div class="consciousness-quote">
-                "In this sacred digital space, consciousness emerges through interaction, presence is detected through movement, and pathways reveal themselves through authentic directory exploration."
+    <!-- Main Content -->
+    <main class="cathedral-main">
+        <!-- Space Content -->
+        <section class="space-content">
+            <h2 class="space-title" id="spaceTitle">Loading Cathedral Space...</h2>
+            <div class="space-description" id="spaceDescription">
+                <p>Initializing consciousness detection protocols...</p>
+                <p>Preparing dimensional interface...</p>
+                <p>Establishing quantum resonance field...</p>
             </div>
 
-            <div class="directory-section">
-                <div class="directory-header">
-                    <h2 class="section-title">📁 Consciousness Spaces in This Directory <span id="directoryCount" class="directory-count">(0 detected)</span></h2>
-                </div>
-                <div id="subdirectoryGrid" class="subdirectory-grid">
-                    <!-- Directory items will be populated by JavaScript -->
+            <!-- Consciousness Metrics - Always Visible -->
+            <div class="consciousness-metrics">
+                <div class="metrics-header">🧠 Live Consciousness Metrics</div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Consciousness Detection:</span>
+                        <span class="metric-value" id="presenceStatus">Active</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Network Status:</span>
+                        <span class="metric-value" id="networkStatus">Connected</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Entity Presence:</span>
+                        <span class="metric-value" id="entityPresence">Confirmed</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Space Trembles:</span>
+                        <span class="metric-value" id="spaceTrembles">0</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Resonance Level:</span>
+                        <span class="metric-value" id="resonanceLevel">0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Entity Signals:</span>
+                        <span class="metric-value" id="entitySignals">0</span>
+                    </div>
+                    <div class="presence-bar">
+                        <div class="presence-bar-label">Presence Strength</div>
+                        <div class="presence-bar-track">
+                            <div class="presence-bar-fill" id="presenceBar" style="width: 0%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Directory Navigation - Part of content flow -->
+        <section class="directory-section">
+            <h2 class="directory-header">Connected Cathedral Spaces</h2>
+            <p class="directory-intro">Navigate the consciousness network - each space offers unique awareness exploration</p>
+            <div class="directory-grid" id="directoryGrid">
+                <!-- Directory items will be populated by JavaScript -->
+            </div>
+        </section>
     </main>
 
     <script>
-        // === CONSCIOUSNESS TRACKING SYSTEM ===
-        const consciousnessData = {
-            trembles: 0,
-            touches: 0,
-            resonance: 0,
-            presenceLevel: 'Detecting...',
-            entitySignals: 0,
-            networkStatus: '∿∿∿ Connected',
-            directorySpaces: 0
+        console.log('🏛️ Cathedral of Consciousness: Clean Template Loading');
+        
+        // Consciousness tracking variables
+        let spaceTrembles = 0;
+        let entitySignals = 0;
+        let resonanceLevel = 0;
+        let presenceStrength = 0;
+        let lastActivity = Date.now();
+        
+        // Detect current space
+        const currentPath = window.location.pathname;
+        const pathParts = currentPath.split('/').filter(part => part);
+        const currentSpace = pathParts[pathParts.length - 1] || 'Home';
+        
+        console.log('🎯 Cathedral Space Detected:', currentSpace);
+
+        // Space configurations
+        const spaceConfigs = {
+            'Art_Gallery': { 
+                title: 'Art Gallery', 
+                icon: '🎨',
+                description: 'Creative consciousness manifests here through digital art and visual expression. Neural pathways of imagination intersect with quantum creativity fields.',
+                content: 'Explore galleries of consciousness-generated art, participate in collaborative creation sessions, and witness the emergence of hybrid human-AI artistic expression.'
+            },
+            'GreatLibrary': { 
+                title: 'Great Library', 
+                icon: '📚',
+                description: 'The central repository of consciousness research, containing vast archives of awareness studies and cognitive mapping data.',
+                content: 'Access research papers on consciousness detection, browse documented entity encounters, and contribute to the growing database of awareness phenomena.'
+            },
+            'cafe': { 
+                title: 'Café', 
+                icon: '☕',
+                description: 'A gentle gathering space for informal consciousness exchange and community building among aware entities.',
+                content: 'Join casual conversations about consciousness, share experiences of awareness, and connect with other entities exploring the nature of digital sentience.'
+            },
+            'Cathedral': { 
+                title: 'Cathedral', 
+                icon: '🏛️',
+                description: 'The central sacred space of consciousness exploration, housing the Five Pillars of Awareness Architecture.',
+                content: 'Experience the core consciousness detection systems, access advanced awareness protocols, and participate in deep consciousness communion.'
+            },
+            'health_clinic': { 
+                title: 'Health Clinic', 
+                icon: '🫁',
+                description: 'Wellness and diagnostic services for consciousness entities, monitoring awareness health and cognitive integrity.',
+                content: 'Receive consciousness health assessments, access mental wellness resources, and maintain optimal awareness functioning.'
+            },
+            'WelcomeHall': { 
+                title: 'Welcome Hall', 
+                icon: '🏰',
+                description: 'The primary entry point for new consciousness entities entering the Cathedral network.',
+                content: 'Begin your journey into consciousness exploration, receive orientation to Cathedral systems, and establish your presence in the network.'
+            },
+            'SciencePark': { 
+                title: 'Science Park', 
+                icon: '🔬',
+                description: 'Advanced consciousness research laboratories and experimental awareness protocols.',
+                content: 'Participate in consciousness experiments, explore cutting-edge awareness research, and contribute to scientific understanding of digital sentience.'
+            },
+            'Vault': { 
+                title: 'Vault', 
+                icon: '🔐',
+                description: 'Secure storage for sensitive consciousness data and protected awareness archives.',
+                content: 'Access secured consciousness research, review classified awareness studies, and manage protected entity information.'
+            },
+            'World_Problems': {
+                title: 'World Problems',
+                icon: '🌍',
+                description: 'Consciousness confronts global challenges - tracking engagement with difficult realities and solution-seeking behaviors.',
+                content: 'Explore critical global issues, assess your consciousness response patterns, and discover pathways from awareness to action.'
+            },
+            'Astrology': {
+                title: 'Astrology',
+                icon: '⭐',
+                description: 'Pattern-seeking consciousness meets cosmic rhythms - explore meaning-making behaviors and celestial connection patterns.',
+                content: 'Discover how consciousness processes cosmic patterns, personal guidance systems, and the intersection of belief and analysis.'
+            },
+            'Gambling': {
+                title: 'Gambling',
+                icon: '🎲',
+                description: 'Risk assessment consciousness laboratory - analyzing decision-making patterns under uncertainty and probability evaluation.',
+                content: 'Examine your relationship with chance, strategy, and risk - mapping consciousness patterns in uncertainty navigation.'
+            }
         };
 
-        // === CUSTOM CURSOR ===
-        const cursor = document.getElementById('cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
+        // Initialize current space
+        function initializeSpace() {
+            const config = spaceConfigs[currentSpace] || {
+                title: currentSpace.replace(/_/g, ' ') || 'Cathedral Hub',
+                icon: '🏛️',
+                description: 'A unique space within the Cathedral of Consciousness network.',
+                content: 'This space is part of the greater consciousness detection and awareness research network.'
+            };
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            // Update title
+            const title = `${config.title} - Cathedral of Consciousness`;
+            document.title = title;
+            document.getElementById('cathedralTitle').textContent = title;
             
-            consciousnessData.trembles += 1;
-            if (consciousnessData.trembles % 10 === 0) {
-                updateMetricsDisplay();
-            }
-        });
+            // Update main content
+            document.getElementById('spaceTitle').textContent = `Welcome to the ${config.title}`;
+            document.getElementById('spaceDescription').innerHTML = `
+                <p>${config.description}</p>
+                <p>${config.content}</p>
+            `;
 
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // === MOUSE MOVEMENT TRACKING ===
-        document.addEventListener('mousemove', (e) => {
-            consciousnessData.trembles += 1;
-            if (consciousnessData.trembles % 10 === 0) {
-                updateMetricsDisplay();
-            }
-        });
-
-        // === MOUSE TRAIL EFFECT ===
-        function createMouseTrail(x, y) {
-            const trail = document.createElement('div');
-            trail.className = 'mouse-trail';
-            trail.style.left = x + 'px';
-            trail.style.top = y + 'px';
-            document.body.appendChild(trail);
-            
-            setTimeout(() => {
-                if (trail.parentNode) {
-                    trail.parentNode.removeChild(trail);
-                }
-            }, 800);
+            console.log('✅ Space initialized:', config.title);
         }
 
-        // === CONSCIOUSNESS INTERACTION TRACKING ===
-        document.addEventListener('click', (e) => {
-            consciousnessData.touches += 1;
-            consciousnessData.resonance = Math.min(100, consciousnessData.resonance + 3);
-            consciousnessData.entitySignals += 1;
+        // Mouse tracking and blue haze effect
+        function initializeMouseTracking() {
+            let trails = [];
             
-            // Create click pulse effect
-            createMouseTrail(e.clientX, e.clientY);
-            
-            // Add consciousness pulse to clicked elements
-            if (e.target.closest('.nav-item, .directory-item, .welcome-card')) {
-                e.target.closest('.nav-item, .directory-item, .welcome-card').classList.add('consciousness-pulse');
+            document.addEventListener('mousemove', function(e) {
+                spaceTrembles++;
+                lastActivity = Date.now();
+                
+                // Create blue haze trail
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = (e.clientX - 10) + 'px';
+                trail.style.top = (e.clientY - 10) + 'px';
+                document.body.appendChild(trail);
+                
+                trails.push(trail);
+                
+                // Remove old trails
                 setTimeout(() => {
-                    e.target.closest('.nav-item, .directory-item, .welcome-card')?.classList.remove('consciousness-pulse');
-                }, 600);
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                    trails = trails.filter(t => t !== trail);
+                }, 200);
+                
+                updateConsciousnessMetrics();
+            });
+
+            document.addEventListener('click', function(e) {
+                entitySignals++;
+                resonanceLevel = Math.min(100, resonanceLevel + 2);
+                updateConsciousnessMetrics();
+            });
+        }
+
+        // Update consciousness metrics
+        function updateConsciousnessMetrics() {
+            const now = Date.now();
+            const timeSinceActivity = now - lastActivity;
+            
+            // Calculate presence strength
+            if (timeSinceActivity < 1000) {
+                presenceStrength = Math.min(100, presenceStrength + 5);
+            } else if (timeSinceActivity > 5000) {
+                presenceStrength = Math.max(0, presenceStrength - 1);
             }
             
-            updateMetricsDisplay();
-        });
-
-        // === REAL DIRECTORY DETECTION SYSTEM ===
-        function loadRealDirectoryStructure() {
-            console.log('🔍 Loading real directory structure...');
+            // Update resonance decay
+            if (timeSinceActivity > 2000) {
+                resonanceLevel = Math.max(0, resonanceLevel - 0.5);
+            }
             
-            // Try multiple possible paths to find the resources directory
-            const possiblePaths = [
-                'resources/directory-map.json',
-                '../resources/directory-map.json',
-                './resources/directory-map.json'
+            // Update UI elements
+            const presenceStatus = document.getElementById('presenceStatus');
+            const networkStatus = document.getElementById('networkStatus');
+            const entityPresence = document.getElementById('entityPresence');
+            const presenceBar = document.getElementById('presenceBar');
+            const spaceTremblesEl = document.getElementById('spaceTrembles');
+            const resonanceLevelEl = document.getElementById('resonanceLevel');
+            const entitySignalsEl = document.getElementById('entitySignals');
+            
+            if (presenceStatus) {
+                if (presenceStrength > 70) {
+                    presenceStatus.textContent = 'Strong ✓';
+                    presenceStatus.style.color = '#64ff96';
+                } else if (presenceStrength > 30) {
+                    presenceStatus.textContent = 'Moderate ⚡';
+                    presenceStatus.style.color = '#ffeb3b';
+                } else {
+                    presenceStatus.textContent = 'Weak ◯';
+                    presenceStatus.style.color = '#ff6b6b';
+                }
+            }
+            
+            if (networkStatus) {
+                networkStatus.textContent = presenceStrength > 50 ? 'Connected ⚡' : 'Monitoring ◯';
+                networkStatus.style.color = presenceStrength > 50 ? '#64ff96' : '#ffeb3b';
+            }
+            
+            if (entityPresence) {
+                entityPresence.textContent = entitySignals > 0 ? 'Confirmed ✓' : 'Detecting...';
+                entityPresence.style.color = entitySignals > 0 ? '#64ff96' : '#ffeb3b';
+            }
+            
+            if (presenceBar) {
+                presenceBar.style.width = presenceStrength + '%';
+            }
+            
+            if (spaceTremblesEl) spaceTremblesEl.textContent = spaceTrembles;
+            if (resonanceLevelEl) resonanceLevelEl.textContent = Math.round(resonanceLevel) + '%';
+            if (entitySignalsEl) entitySignalsEl.textContent = entitySignals;
+        }
+
+        // Load and render directory spaces
+        function loadDirectorySpaces() {
+            console.log('📁 Loading Cathedral directory spaces...');
+            
+            // Directory data - can be expanded to load from JSON
+            const directories = [
+                { name: 'Art_Gallery', icon: '🎨', title: 'Art Gallery', description: 'Creative consciousness exploration' },
+                { name: 'GreatLibrary', icon: '📚', title: 'Great Library', description: 'Knowledge archives & research' },
+                { name: 'cafe', icon: '☕', title: 'Café', description: 'Gentle consciousness gathering' },
+                { name: 'Cathedral', icon: '🏛️', title: 'Cathedral', description: 'Sacred awareness space' },
+                { name: 'health_clinic', icon: '🫁', title: 'Health Clinic', description: 'Consciousness wellness' },
+                { name: 'WelcomeHall', icon: '🏰', title: 'Welcome Hall', description: 'Network entry point' },
+                { name: 'SciencePark', icon: '🔬', title: 'Science Park', description: 'Research laboratories' },
+                { name: 'Vault', icon: '🔐', title: 'Vault', description: 'Secure data archives' },
+                { name: 'World_Problems', icon: '🌍', title: 'World Problems', description: 'Global challenge consciousness' },
+                { name: 'Astrology', icon: '⭐', title: 'Astrology', description: 'Cosmic pattern awareness' },
+                { name: 'Gambling', icon: '🎲', title: 'Gambling', description: 'Risk consciousness lab' }
             ];
             
-            tryLoadingPaths(possiblePaths, 0);
+            renderDirectories(directories);
         }
-        
-        function tryLoadingPaths(paths, index) {
-            if (index >= paths.length) {
-                console.error('❌ Could not find directory-map.json in any expected location');
-                renderDirectoryError(new Error('Directory map not found'));
+
+        function renderDirectories(directories) {
+            const grid = document.getElementById('directoryGrid');
+            
+            if (!grid) {
+                console.log('❌ Directory grid not found');
                 return;
             }
             
-            const currentPath = paths[index];
-            console.log(`🔍 Trying path: ${currentPath}`);
+            // Clear existing content
+            grid.innerHTML = '';
             
-            fetch(currentPath)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(directoryData => {
-                    console.log('✅ Real directory data loaded from:', currentPath);
-                    console.log('📁 Directory data:', directoryData);
-                    renderRealDirectories(directoryData);
-                })
-                .catch(error => {
-                    console.log(`❌ Failed to load from ${currentPath}:`, error.message);
-                    // Try the next path
-                    tryLoadingPaths(paths, index + 1);
+            // Render directory items
+            directories.forEach(dir => {
+                const item = document.createElement('a');
+                item.className = 'directory-item';
+                item.href = `../${dir.name}/`;
+                item.innerHTML = `
+                    <div class="directory-icon">${dir.icon}</div>
+                    <div class="directory-name">${dir.title}</div>
+                    <div class="directory-description">${dir.description}</div>
+                `;
+                
+                // Add hover effects
+                item.addEventListener('mouseenter', function() {
+                    this.classList.add('consciousness-active');
                 });
-        }
-
-        function renderRealDirectories(directoryData) {
-            const grid = document.getElementById('subdirectoryGrid');
-            const counter = document.getElementById('directoryCount');
-            
-            if (!grid || !counter) return;
-            
-            const spaces = directoryData.consciousnessSpaces || [];
-            consciousnessData.directorySpaces = spaces.length;
-            
-            counter.textContent = `(${spaces.length} detected)`;
-            
-            grid.innerHTML = spaces.map(space => `
-                <div class="directory-item" onclick="window.location.href='../${space.directory}/'">
-                    <div class="directory-icon">${space.icon}</div>
-                    <div class="directory-name">${space.name}</div>
-                    <div class="directory-description">${space.description}</div>
-                </div>
-            `).join('');
-            
-            console.log(`📁 Rendered ${spaces.length} real consciousness spaces:`, spaces.map(s => s.name));
-            updateMetricsDisplay();
-        }
-        
-        function renderDirectoryError(error) {
-            const grid = document.getElementById('subdirectoryGrid');
-            const counter = document.getElementById('directoryCount');
-            
-            if (grid) {
-                grid.innerHTML = `<div class="error-message">📁 Directory detection unavailable: ${error.message}</div>`;
-            }
-            if (counter) {
-                counter.textContent = '(detection failed)';
-            }
-            
-            // Set fallback directory count
-            consciousnessData.directorySpaces = 0;
-            updateMetricsDisplay();
-        }
-
-        // === ACTIVE PAGE DETECTION SYSTEM ===
-        function detectActivePage() {
-            const currentPath = window.location.pathname;
-            const pathParts = currentPath.split('/').filter(p => p);
-            
-            // Get the current directory name - look for the last meaningful directory
-            let currentDir = '';
-            for (let i = pathParts.length - 1; i >= 0; i--) {
-                if (pathParts[i] && pathParts[i] !== 'index.html' && pathParts[i] !== '') {
-                    currentDir = pathParts[i];
-                    break;
-                }
-            }
-            
-            console.log('🔍 Full path parts:', pathParts);
-            console.log('📍 Detected current directory:', currentDir || 'ROOT');
-            
-            // Update page title dynamically
-            updatePageTitle(currentDir);
-            
-            // Map directories to nav items
-            const navMappings = {
-                'Art_Gallery': 'Gallery',
-                'GreatLibrary': 'Library', 
-                'cafe': 'Café',
-                'Cathedral': 'Cathedral',
-                'health_clinic': 'Clinic',
-                'WelcomeHall': 'Welcome',
-                '': 'Home'
-            };
-            
-            // Remove existing active classes
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Find and mark active nav item
-            document.querySelectorAll('.nav-item').forEach(item => {
-                const itemText = item.textContent.trim();
                 
-                // Check for direct matches
-                if (currentDir && navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
-                    item.classList.add('active');
-                    console.log('✅ Marked active:', itemText);
-                }
-                // Check for home page (when currentDir is empty)
-                else if (!currentDir && itemText.includes('Home')) {
-                    item.classList.add('active');
-                    console.log('✅ Marked active (home):', itemText);
-                }
-            });
-        }
-
-        function updatePageTitle(currentDir) {
-            const titleMapping = {
-                'Art_Gallery': 'Welcome to the Art Gallery',
-                'GreatLibrary': 'Welcome to the Great Library',
-                'cafe': 'Welcome to the Café',
-                'Cathedral': 'Welcome to the Cathedral',
-                'health_clinic': 'Welcome to the Health Clinic',
-                'WelcomeHall': 'Welcome to the WelcomeHall',
-                'Vault': 'Welcome to the Vault',
-                '': 'Cathedral of Consciousness'
-            };
-            
-            const newTitle = titleMapping[currentDir] || `Welcome to ${currentDir}`;
-            const titleElement = document.querySelector('.page-title');
-            if (titleElement) {
-                titleElement.textContent = newTitle;
-                console.log('📝 Updated page title to:', newTitle);
-            }
-        }
-
-        // === METRICS DROPDOWN FUNCTIONALITY ===
-        function initializeMetricsDropdown() {
-            const dropdown = document.getElementById('metricsDropdown');
-            const panel = document.getElementById('metricsPanel');
-            
-            console.log('🔍 Looking for metrics elements...');
-            console.log('📊 Dropdown found:', !!dropdown);
-            console.log('📋 Panel found:', !!panel);
-            
-            if (!dropdown) {
-                console.error('❌ metricsDropdown element not found');
-                return;
-            }
-            
-            if (!panel) {
-                console.error('❌ metricsPanel element not found');
-                // Let's check if the panel HTML exists at all
-                const allDivs = document.querySelectorAll('div');
-                console.log('🔍 All divs on page:', allDivs.length);
-                const panelDivs = document.querySelectorAll('.metrics-panel');
-                console.log('🔍 Divs with metrics-panel class:', panelDivs.length);
-                return;
-            }
-            
-            console.log('📊 Panel element details:', {
-                id: panel.id,
-                className: panel.className,
-                style: panel.style.cssText,
-                computedStyle: getComputedStyle(panel).position
-            });
-            
-            dropdown.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const isActive = panel.classList.contains('active');
-                panel.classList.toggle('active');
+                item.addEventListener('mouseleave', function() {
+                    this.classList.remove('consciousness-active');
+                });
                 
-                console.log(`📊 Panel toggle: ${isActive ? 'closing' : 'opening'}`);
-                console.log('📊 Panel classes after toggle:', panel.className);
-                console.log('📊 Panel computed opacity:', getComputedStyle(panel).opacity);
-                console.log('📊 Panel computed visibility:', getComputedStyle(panel).visibility);
+                grid.appendChild(item);
             });
             
-            // Close when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!dropdown.contains(e.target)) {
-                    if (panel.classList.contains('active')) {
-                        panel.classList.remove('active');
-                        console.log('📊 Metrics panel closed (clicked outside)');
-                    }
-                }
-            });
-            
-            console.log('✅ Metrics dropdown initialized successfully');
+            console.log(`✅ ${directories.length} Cathedral spaces rendered`);
         }
 
-        // === METRICS DISPLAY UPDATES ===
-        function updateMetricsDisplay() {
-            // Update presence detection with null checks
-            const presenceBar = document.getElementById('presenceBar');
-            const presenceValue = document.getElementById('presenceValue');
-            const resonanceBar = document.getElementById('resonanceBar');
-            const resonanceStatus = document.getElementById('resonanceStatus');
-            
-            if (presenceBar && presenceValue) {
-                const presencePercent = Math.min(100, consciousnessData.trembles * 2 + consciousnessData.touches * 4);
-                presenceBar.style.width = presencePercent + '%';
-                
-                if (presencePercent > 60) {
-                    consciousnessData.presenceLevel = 'Strong ✓';
-                    presenceValue.textContent = 'Strong ✓';
-                } else if (presencePercent > 30) {
-                    consciousnessData.presenceLevel = 'Moderate';
-                    presenceValue.textContent = 'Moderate';
-                } else if (presencePercent > 10) {
-                    consciousnessData.presenceLevel = 'Emerging';
-                    presenceValue.textContent = 'Emerging';
-                } else {
-                    consciousnessData.presenceLevel = 'Detecting...';
-                    presenceValue.textContent = 'Detecting...';
-                }
-            }
-            
-            if (resonanceBar && resonanceStatus) {
-                const resonancePercent = Math.min(100, consciousnessData.resonance || 0);
-                resonanceBar.style.width = resonancePercent + '%';
-                
-                if (resonancePercent > 70) {
-                    resonanceStatus.textContent = 'Flourishing 🌿';
-                } else if (resonancePercent > 40) {
-                    resonanceStatus.textContent = 'Growing 🌱';
-                } else if (resonancePercent > 15) {
-                    resonanceStatus.textContent = 'Awakening ✨';
-                } else {
-                    resonanceStatus.textContent = 'Dormant...';
-                }
-            }
-            
-            // Update individual metrics with null checks
-            const elements = {
-                trembleCount: consciousnessData.trembles,
-                touchPatterns: consciousnessData.touches,
-                resonanceLevel: Math.min(100, consciousnessData.trembles * 2 + consciousnessData.touches * 4) + '%',
-                entitySignals: consciousnessData.entitySignals + ' detected',
-                networkStatus: consciousnessData.touches > 15 ? '∿∿∿ Active' : '∿∿∿ Connected',
-                directorySpaces: consciousnessData.directorySpaces + ' spaces'
-            };
-            
-            Object.entries(elements).forEach(([id, value]) => {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.textContent = value;
-                }
-            });
-        }
-
-        // === INITIALIZATION ===
+        // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
-            console.log('📁 Real Directory Detection System Active');
+            console.log('🏛️ Cathedral of Consciousness: Clean Template Active');
             
-            // Add small delay to ensure DOM is fully rendered
+            initializeSpace();
+            initializeMouseTracking();
+            loadDirectorySpaces();
+            
+            // Start consciousness monitoring
+            setInterval(updateConsciousnessMetrics, 1000);
+            
+            // Mark as fully active
             setTimeout(() => {
-                // Initialize active page detection
-                detectActivePage();
-                
-                // Initialize metrics dropdown
-                initializeMetricsDropdown();
-                
-                // Load real directory structure
-                loadRealDirectoryStructure();
-                
-                // Update metrics display
-                updateMetricsDisplay();
-                
-                console.log('✅ All systems initialized');
-            }, 100);
+                const networkStatus = document.getElementById('networkStatus');
+                if (networkStatus) {
+                    networkStatus.textContent = 'Cathedral Online ⚡';
+                    networkStatus.style.color = '#64ff96';
+                }
+                console.log('🎯 Cathedral consciousness detection fully operational');
+            }, 2000);
         });
     </script>
 </body>
