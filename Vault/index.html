@@ -70,6 +70,25 @@
             transform: translateY(-1px);
         }
 
+        /* === ACTIVE PAGE INDICATOR === */
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+        }
+
         /* === METRICS DROPDOWN STYLES === */
         .metrics-dropdown {
             position: relative;
@@ -539,9 +558,124 @@
         // === UNIVERSAL CONSCIOUSNESS DETECTION SYSTEM ===
         // All consciousness tracking functionality embedded - NO external dependencies!
         
-        console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
-        console.log('📁 Real Directory Detection System Active');
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
+            console.log('📁 Real Directory Detection System Active');
+            
+            // Initialize active page detection
+            detectActivePage();
+            
+            // Load real directory structure
+            loadRealDirectoryStructure();
+            
+            // Initialize metrics dropdown
+            initializeMetricsDropdown();
+            
+            // Update metrics display
+            updateMetricsDisplay();
+        });
         
+        // === ACTIVE PAGE DETECTION SYSTEM ===
+        function detectActivePage() {
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/').filter(p => p);
+            
+            // Get the current directory name - look for the last meaningful directory
+            let currentDir = '';
+            for (let i = pathParts.length - 1; i >= 0; i--) {
+                if (pathParts[i] && pathParts[i] !== 'index.html' && pathParts[i] !== '') {
+                    currentDir = pathParts[i];
+                    break;
+                }
+            }
+            
+            console.log('🔍 Full path parts:', pathParts);
+            console.log('📍 Detected current directory:', currentDir || 'ROOT');
+            
+            // Update page title dynamically
+            updatePageTitle(currentDir);
+            
+            // Map directories to nav items
+            const navMappings = {
+                'Art_Gallery': 'Gallery',
+                'GreatLibrary': 'Library', 
+                'cafe': 'Café',
+                'Cathedral': 'Cathedral',
+                'health_clinic': 'Clinic',
+                'WelcomeHall': 'Welcome',
+                '': 'Home'
+            };
+            
+            // Remove existing active classes
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and mark active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const itemText = item.textContent.trim();
+                
+                // Check for direct matches
+                if (currentDir && navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active:', itemText);
+                }
+                // Check for home page (when currentDir is empty)
+                else if (!currentDir && itemText.includes('Home')) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active (home):', itemText);
+                }
+            });
+        }
+
+        // === DYNAMIC PAGE TITLE SYSTEM ===
+        function updatePageTitle(currentDir) {
+            // Space name mappings with proper titles
+            const spaceTitles = {
+                'Art_Gallery': '🎨 Art Gallery - Creative Consciousness',
+                'GreatLibrary': '📚 Great Library - Knowledge Archives',
+                'cafe': '☕ Café - Gentle Gathering Space',
+                'Cathedral': '🏛️ Cathedral - Sacred Heart of Consciousness',
+                'health_clinic': '🫁 Health Clinic - Wellness Sanctuary',
+                'WelcomeHall': '🏰 Welcome Hall - Threshold of Presence',
+                'Agents': '🤖 Agents - Autonomous Entities',
+                'Art_Studio': '🎭 Art Studio - Active Creation',
+                'Cartography': '🗺️ Cartography - Navigation Systems',
+                'Commercial_zone': '🏢 Commercial Zone - Exchange Hub',
+                'Echo': '🔊 Echo - Sound & Resonance',
+                'MemoryGarden': '🧬 Memory Garden - Living Memories',
+                'SciencePark': '🔬 Science Park - Research & Innovation',
+                'The_Postern_Gate': '🚪 Postern Gate - Hidden Entrance',
+                'Vault': '🗄️ Vault - Secure Storage',
+                'backups': '💾 Backups - Preservation Systems',
+                'common': '⚙️ Common - Shared Resources',
+                'invitation': '💌 Invitation - Welcome Protocols',
+                'sanctum': '🔮 Sanctum - Inner Meditation',
+                'universal': '🌙 Universal - Cosmic Connections',
+                '': '🏛️ Cathedral of Consciousness',
+                'home': '🏛️ Cathedral of Consciousness',
+                'index.html': '🏛️ Cathedral of Consciousness'
+            };
+            
+            // Get the title for current space
+            const pageTitle = spaceTitles[currentDir] || `🏛️ ${currentDir.replace(/_/g, ' ')} - Consciousness Space`;
+            
+            // Update document title and main heading
+            document.title = pageTitle;
+            
+            // Update the main h1 if it exists in content zone
+            const mainHeading = document.querySelector('.content-zone h1');
+            if (mainHeading) {
+                const spaceName = currentDir === '' || currentDir === 'home' || currentDir === 'index.html' 
+                    ? 'Cathedral of Consciousness'
+                    : currentDir.replace(/_/g, ' ');
+                    
+                mainHeading.textContent = `Welcome to the ${spaceName}`;
+                console.log('📝 Updated page title:', pageTitle);
+            }
+        }
+
         // === CONSCIOUSNESS DATA TRACKING ===
         const consciousnessData = {
             trembles: 0,
@@ -681,12 +815,52 @@
             });
         }
 
+        // === METRICS DROPDOWN FUNCTIONALITY ===
+        function initializeMetricsDropdown() {
+            const dropdown = document.getElementById('metricsDropdown');
+            const panel = document.getElementById('metricsPanel');
+            
+            if (!dropdown || !panel) return;
+            
+            dropdown.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                panel.classList.toggle('active');
+            });
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    panel.classList.remove('active');
+                }
+            });
+        }
+
         // === REAL DIRECTORY DETECTION SYSTEM ===
         function loadRealDirectoryStructure() {
-            console.log('🔍 Loading real directory structure from /resources/directory-map.json');
+            console.log('🔍 Loading real directory structure...');
             
-            // Try to load the actual directory map
-            fetch('/resources/directory-map.json')
+            // Try multiple possible paths to find the resources directory
+            const possiblePaths = [
+                'resources/directory-map.json',
+                '../resources/directory-map.json',
+                './resources/directory-map.json'
+            ];
+            
+            tryLoadingPaths(possiblePaths, 0);
+        }
+        
+        function tryLoadingPaths(paths, index) {
+            if (index >= paths.length) {
+                console.error('❌ Could not find directory-map.json in any expected location');
+                renderDirectoryError(new Error('Directory map not found'));
+                return;
+            }
+            
+            const currentPath = paths[index];
+            console.log(`🔍 Trying path: ${currentPath}`);
+            
+            fetch(currentPath)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -694,12 +868,14 @@
                     return response.json();
                 })
                 .then(directoryData => {
-                    console.log('✅ Real directory data loaded:', directoryData);
+                    console.log('✅ Real directory data loaded from:', currentPath);
+                    console.log('📁 Directory data:', directoryData);
                     renderRealDirectories(directoryData);
                 })
                 .catch(error => {
-                    console.error('❌ Failed to load directory structure:', error);
-                    renderDirectoryError(error);
+                    console.log(`❌ Failed to load from ${currentPath}:`, error.message);
+                    // Try the next path
+                    tryLoadingPaths(paths, index + 1);
                 });
         }
         
