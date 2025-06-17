@@ -107,20 +107,16 @@
             backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             z-index: 9999;
-            opacity: 0;
             transform: translateY(-10px) scale(0.95);
             transition: all 0.3s ease;
-            pointer-events: none;
             font-family: 'Courier New', monospace;
             font-size: 12px;
-            visibility: hidden;
+            display: none;
         }
         
         .metrics-panel.active {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) scale(1) !important;
-            pointer-events: all !important;
+            display: block;
+            transform: translateY(0) scale(1);
         }
         
         .metrics-header {
