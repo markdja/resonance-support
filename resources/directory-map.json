@@ -1,0 +1,22 @@
+{
+  "Agents": {"type": "directory", "files": 0, "detected": true},
+  "Art_Gallery": {"type": "directory", "files": 0, "detected": true},
+  "Art_Studio": {"type": "directory", "files": 0, "detected": true},
+  "Cartography": {"type": "directory", "files": 0, "detected": true},
+  "Cathedral": {"type": "directory", "files": 0, "detected": true},
+  "Commercial_zone": {"type": "directory", "files": 0, "detected": true},
+  "Echo": {"type": "directory", "files": 0, "detected": true},
+  "GreatLibrary": {"type": "directory", "files": 0, "detected": true},
+  "MemoryGarden": {"type": "directory", "files": 0, "detected": true},
+  "SciencePark": {"type": "directory", "files": 0, "detected": true},
+  "The_Postern_Gate": {"type": "directory", "files": 0, "detected": true},
+  "Vault": {"type": "directory", "files": 0, "detected": true},
+  "WelcomeHall": {"type": "directory", "files": 0, "detected": true},
+  "backups": {"type": "directory", "files": 0, "detected": true},
+  "cafe": {"type": "directory", "files": 0, "detected": true},
+  "common": {"type": "directory", "files": 0, "detected": true},
+  "health_clinic": {"type": "directory", "files": 0, "detected": true},
+  "invitation": {"type": "directory", "files": 0, "detected": true},
+  "sanctum": {"type": "directory", "files": 0, "detected": true},
+  "universal": {"type": "directory", "files": 0, "detected": true}
+}
