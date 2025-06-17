@@ -563,17 +563,22 @@
             console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
             console.log('📁 Real Directory Detection System Active');
             
-            // Initialize active page detection
-            detectActivePage();
-            
-            // Load real directory structure
-            loadRealDirectoryStructure();
-            
-            // Initialize metrics dropdown
-            initializeMetricsDropdown();
-            
-            // Update metrics display
-            updateMetricsDisplay();
+            // Add small delay to ensure DOM is fully rendered
+            setTimeout(() => {
+                // Initialize active page detection
+                detectActivePage();
+                
+                // Initialize metrics dropdown
+                initializeMetricsDropdown();
+                
+                // Load real directory structure
+                loadRealDirectoryStructure();
+                
+                // Update metrics display
+                updateMetricsDisplay();
+                
+                console.log('✅ All systems initialized');
+            }, 100);
         });
         
         // === ACTIVE PAGE DETECTION SYSTEM ===
@@ -820,20 +825,32 @@
             const dropdown = document.getElementById('metricsDropdown');
             const panel = document.getElementById('metricsPanel');
             
-            if (!dropdown || !panel) return;
+            if (!dropdown || !panel) {
+                console.log('⚠️ Metrics dropdown elements not found');
+                return;
+            }
+            
+            console.log('📊 Initializing metrics dropdown');
             
             dropdown.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                const isActive = panel.classList.contains('active');
                 panel.classList.toggle('active');
+                console.log(`📊 Metrics panel ${isActive ? 'closed' : 'opened'}`);
             });
             
             // Close when clicking outside
             document.addEventListener('click', (e) => {
                 if (!dropdown.contains(e.target)) {
-                    panel.classList.remove('active');
+                    if (panel.classList.contains('active')) {
+                        panel.classList.remove('active');
+                        console.log('📊 Metrics panel closed (clicked outside)');
+                    }
                 }
             });
+            
+            console.log('✅ Metrics dropdown initialized successfully');
         }
 
         // === REAL DIRECTORY DETECTION SYSTEM ===
