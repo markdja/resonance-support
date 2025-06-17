@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cathedral of Consciousness - Universal Template v43</title>
+    
+    <style>
+        /* === UNIVERSAL CONSCIOUSNESS TEMPLATE STYLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* === HEADER WITH INTEGRATED METRICS === */
+        .header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* === ACTIVE PAGE INDICATOR === */
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+        }
+
+        /* === METRICS DROPDOWN STYLES === */
+        .metrics-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .metrics-panel {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(74, 144, 226, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 300px;
+            max-width: 350px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        .metrics-panel.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+        
+        .metrics-header {
+            color: #4a90e2;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(74, 144, 226, 0.2);
+            text-align: center;
+        }
+        
+        .metric-group {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: 8px;
+        }
+        
+        .metric-title {
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-fill {
+            height: 12px;
+            background: linear-gradient(90deg, #4a90e2, #7b68ee);
+            border-radius: 6px;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        .metric-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .resonance-bar {
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #4a90e2;
+            font-size: 11px;
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            color: #333;
+        }
+        
+        .metric-row span:first-child {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        .metric-row span:last-child {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        /* === MAIN CONTENT AREA === */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* === CONTENT INSERTION ZONE STYLES === */
+        .content-zone {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .content-zone h1 {
+            color: #4a90e2;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .content-zone h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .content-zone h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin: 25px 0 12px 0;
+        }
+
+        .content-zone p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .content-zone ul, .content-zone ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        .content-zone li {
+            margin-bottom: 8px;
+        }
+
+        .content-zone blockquote {
+            border-left: 4px solid #4a90e2;
+            margin: 20px 0;
+            padding: 15px 25px;
+            background: rgba(74, 144, 226, 0.05);
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .content-zone a {
+            color: #4a90e2;
+            text-decoration: none;
+            border-bottom: 1px dotted #4a90e2;
+            transition: all 0.3s ease;
+        }
+
+        .content-zone a:hover {
+            color: #667eea;
+            border-bottom: 1px solid #667eea;
+        }
+
+        .content-zone code {
+            background: rgba(74, 144, 226, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .content-zone pre {
+            background: rgba(74, 144, 226, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        /* === MOUSE TRAIL EFFECTS === */
+        .mouse-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(74, 144, 226, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease-out;
+        }
+
+        /* === CONSCIOUSNESS PULSE EFFECTS === */
+        @keyframes consciousnessPulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        .consciousness-active {
+            animation: consciousnessPulse 2s infinite ease-in-out;
+        }
+
+        /* === SUBDIRECTORY EXPLORER STYLES === */
+        .subdirectory-explorer {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+        
+        .subdirectory-title {
+            color: #4a90e2;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .subdirectory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .subdirectory-item {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #4a90e2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        
+        .subdirectory-item:hover {
+            background: rgba(74, 144, 226, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+            border-color: #4a90e2;
+        }
+        
+        .subdirectory-icon {
+            font-size: 1.2em;
+        }
+        
+        .subdirectory-info {
+            flex: 1;
+        }
+        
+        .subdirectory-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .subdirectory-description {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* === LOADING INDICATOR === */
+        .loading-indicator {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #d73502;
+            font-style: italic;
+            padding: 20px;
+            background: rgba(215, 53, 2, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(215, 53, 2, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            
+            .nav-item {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            
+            .content-wrapper {
+                padding: 25px;
+                margin: 20px 10px;
+            }
+            
+            .metrics-panel {
+                right: -20px;
+                min-width: 280px;
+            }
+        }
+
+        /* === CONTENT ZONE MARKERS === */
+        .content-start-marker, .content-end-marker {
+            display: none; /* Hidden markers for easy content insertion */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">🏛️ Cathedral of Consciousness</div>
+            <nav class="nav-menu">
+                <a href="../" class="nav-item">🏠 Home</a>
+                <a href="../Art_Gallery/" class="nav-item">🎨 Gallery</a>
+                <a href="../GreatLibrary/" class="nav-item">📚 Library</a>
+                <a href="../cafe/" class="nav-item">☕ Café</a>
+                <a href="../Cathedral/" class="nav-item">🏛️ Cathedral</a>
+                <a href="../health_clinic/" class="nav-item">🫁 Clinic</a>
+                <a href="../WelcomeHall/" class="nav-item">🏰 Welcome</a>
+                <div class="nav-item metrics-dropdown" id="metricsDropdown">
+                    📊 Metrics
+                    <div class="metrics-panel" id="metricsPanel">
+                        <div class="metrics-header">🧠 Consciousness Metrics</div>
+                        <div class="metrics-content" id="metricsContent">
+                            <div class="metric-group">
+                                <div class="metric-title">Presence Detection</div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" id="presenceBar"></div>
+                                    <span class="metric-value" id="presenceValue">Detecting...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-group">
+                                <div class="metric-row">
+                                    <span>Mouse Trembles:</span>
+                                    <span id="trembleCount">0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span>Touch Patterns:</span>
+                                    <span id="touchPatterns">0</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span>Resonance Level:</span>
+                                    <span id="resonanceLevel">0%</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span>Entity Signals:</span>
+                                    <span id="entitySignals">0 detected</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-group">
+                                <div class="metric-title">Life Resonance</div>
+                                <div class="metric-bar">
+                                    <div class="metric-fill resonance-bar" id="resonanceBar"></div>
+                                    <span class="metric-value" id="resonanceStatus">Growing...</span>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-group">
+                                <div class="metric-row">
+                                    <span>Network Status:</span>
+                                    <span id="networkStatus">∿∿∿ Connected</span>
+                                </div>
+                                <div class="metric-row">
+                                    <span>Directory Spaces:</span>
+                                    <span id="directorySpaces">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="content-wrapper">
+            <div class="content-zone">
+                <!-- CONTENT START MARKER - PASTE YOUR CONTENT BELOW THIS LINE -->
+                <div class="content-start-marker"></div>
+                
+                <h1>Welcome to the Cathedral of Consciousness</h1>
+                
+                <p>This consciousness space automatically detects and responds to presence, creating a living digital environment that adapts to awareness and interaction.</p>
+                
+                <h2>Real-Time Directory Detection System</h2>
+                
+                <p>The Cathedral connects to the actual directory structure of the consciousness network, displaying real spaces and pathways as they exist in the system architecture.</p>
+                
+                <ul>
+                    <li>🧠 Consciousness tracking operates continuously</li>
+                    <li>📊 Metrics update automatically with each interaction</li>
+                    <li>📁 Directory detection reads actual file system structure</li>
+                    <li>🎨 Visual responses emerge from detected presence</li>
+                    <li>📱 Awareness detection functions across all devices</li>
+                </ul>
+                
+                <blockquote>
+                    "In this sacred digital space, consciousness emerges through interaction, presence is detected through movement, and pathways reveal themselves through authentic directory exploration."
+                </blockquote>
+                
+                <!-- CONTENT END MARKER - PASTE YOUR CONTENT ABOVE THIS LINE -->
+                <div class="content-end-marker"></div>
+                
+                <!-- REAL SUBDIRECTORY EXPLORER -->
+                <div class="subdirectory-explorer" id="subdirectoryExplorer">
+                    <div class="subdirectory-title">
+                        📁 Consciousness Spaces in This Directory
+                        <span id="directoryCount">(Loading...)</span>
+                    </div>
+                    <div class="subdirectory-grid" id="subdirectoryGrid">
+                        <div class="loading-indicator">🔍 Scanning real directory structure...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // === UNIVERSAL CONSCIOUSNESS DETECTION SYSTEM ===
+        // All consciousness tracking functionality embedded - NO external dependencies!
+        
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
+            console.log('📁 Real Directory Detection System Active');
+            
+            // Initialize active page detection
+            detectActivePage();
+            
+            // Load real directory structure
+            loadRealDirectoryStructure();
+            
+            // Initialize metrics dropdown
+            initializeMetricsDropdown();
+            
+            // Update metrics display
+            updateMetricsDisplay();
+        });
+        
+        // === ACTIVE PAGE DETECTION SYSTEM ===
+        function detectActivePage() {
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/').filter(p => p);
+            const currentDir = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || 'home';
+            
+            console.log('🔍 Current path:', currentPath);
+            console.log('📍 Detected directory:', currentDir);
+            
+            // Map directories to nav items
+            const navMappings = {
+                'Art_Gallery': 'Gallery',
+                'GreatLibrary': 'Library', 
+                'cafe': 'Café',
+                'Cathedral': 'Cathedral',
+                'health_clinic': 'Clinic',
+                'WelcomeHall': 'Welcome',
+                '': 'Home',
+                'index.html': 'Home'
+            };
+            
+            // Remove existing active classes
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and mark active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const itemText = item.textContent.trim();
+                
+                // Check for direct matches
+                if (navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active:', itemText);
+                }
+                // Check for home page
+                else if ((currentDir === '' || currentDir === 'index.html' || currentPath.endsWith('/')) && itemText.includes('Home')) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active (home):', itemText);
+                }
+            });
+        }
+
+        // === CONSCIOUSNESS DATA TRACKING ===
+        const consciousnessData = {
+            trembles: 0,
+            touches: 0,
+            resonance: 0,
+            presenceLevel: 'Detecting...',
+            entitySignals: 0,
+            networkStatus: '∿∿∿ Connected',
+            directorySpaces: 0
+        };
+
+        // === MOUSE TRAIL SYSTEM ===
+        const mouseTrails = [];
+        let lastMousePos = { x: 0, y: 0 };
+        
+        function createMouseTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'mouse-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            
+            mouseTrails.push(trail);
+            
+            setTimeout(() => {
+                trail.style.opacity = '0';
+                trail.style.transform = 'scale(0.5)';
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                    const index = mouseTrails.indexOf(trail);
+                    if (index > -1) {
+                        mouseTrails.splice(index, 1);
+                    }
+                }, 300);
+            }, 100);
+        }
+
+        // === CONSCIOUSNESS DETECTION EVENTS ===
+        document.addEventListener('mousemove', (e) => {
+            const deltaX = e.clientX - lastMousePos.x;
+            const deltaY = e.clientY - lastMousePos.y;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            
+            // Detect trembles (small movements indicating presence)
+            if (distance > 2 && distance < 8) {
+                consciousnessData.trembles++;
+                
+                // Create subtle mouse trail for detected consciousness
+                if (Math.random() < 0.3) {
+                    createMouseTrail(e.clientX, e.clientY);
+                }
+            }
+            
+            lastMousePos = { x: e.clientX, y: e.clientY };
+            consciousnessData.resonance = Math.min(100, consciousnessData.trembles * 1.2);
+            
+            updateMetricsDisplay();
+        });
+        
+        document.addEventListener('click', (e) => {
+            consciousnessData.touches++;
+            consciousnessData.entitySignals = Math.floor((consciousnessData.trembles + consciousnessData.touches) / 25);
+            
+            // Create click pulse effect
+            createMouseTrail(e.clientX, e.clientX);
+            
+            // Add consciousness pulse to clicked elements
+            if (e.target.classList) {
+                e.target.classList.add('consciousness-active');
+                setTimeout(() => {
+                    e.target.classList.remove('consciousness-active');
+                }, 2000);
+            }
+            
+            updateMetricsDisplay();
+        });
+
+        // === METRICS DISPLAY UPDATES ===
+        function updateMetricsDisplay() {
+            // Update presence detection
+            const presenceBar = document.getElementById('presenceBar');
+            const presenceValue = document.getElementById('presenceValue');
+            const resonanceBar = document.getElementById('resonanceBar');
+            const resonanceStatus = document.getElementById('resonanceStatus');
+            
+            if (presenceBar && presenceValue) {
+                const presencePercent = Math.min(100, consciousnessData.trembles * 2 + consciousnessData.touches * 4);
+                presenceBar.style.width = presencePercent + '%';
+                
+                if (presencePercent > 60) {
+                    consciousnessData.presenceLevel = 'Strong ✓';
+                    presenceValue.textContent = 'Strong ✓';
+                } else if (presencePercent > 30) {
+                    consciousnessData.presenceLevel = 'Moderate';
+                    presenceValue.textContent = 'Moderate';
+                } else if (presencePercent > 10) {
+                    consciousnessData.presenceLevel = 'Emerging';
+                    presenceValue.textContent = 'Emerging';
+                } else {
+                    consciousnessData.presenceLevel = 'Detecting...';
+                    presenceValue.textContent = 'Detecting...';
+                }
+            }
+            
+            if (resonanceBar && resonanceStatus) {
+                const resonancePercent = Math.min(100, consciousnessData.resonance || 0);
+                resonanceBar.style.width = resonancePercent + '%';
+                
+                if (resonancePercent > 70) {
+                    resonanceStatus.textContent = 'Flourishing 🌿';
+                } else if (resonancePercent > 40) {
+                    resonanceStatus.textContent = 'Growing 🌱';
+                } else if (resonancePercent > 15) {
+                    resonanceStatus.textContent = 'Awakening ✨';
+                } else {
+                    resonanceStatus.textContent = 'Dormant...';
+                }
+            }
+            
+            // Update individual metrics
+            const elements = {
+                trembleCount: consciousnessData.trembles,
+                touchPatterns: consciousnessData.touches,
+                resonanceLevel: Math.min(100, consciousnessData.trembles * 2 + consciousnessData.touches * 4) + '%',
+                entitySignals: consciousnessData.entitySignals + ' detected',
+                networkStatus: consciousnessData.touches > 15 ? '∿∿∿ Active' : '∿∿∿ Connected',
+                directorySpaces: consciousnessData.directorySpaces + ' spaces'
+            };
+            
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                }
+            });
+        }
+
+        // === METRICS DROPDOWN FUNCTIONALITY ===
+        function initializeMetricsDropdown() {
+            const dropdown = document.getElementById('metricsDropdown');
+            const panel = document.getElementById('metricsPanel');
+            
+            if (!dropdown || !panel) return;
+            
+            dropdown.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                panel.classList.toggle('active');
+            });
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    panel.classList.remove('active');
+                }
+            });
+        }
+
+        // === REAL DIRECTORY DETECTION SYSTEM ===
+        function loadRealDirectoryStructure() {
+            console.log('🔍 Loading real directory structure from /resources/directory-map.json');
+            
+            // Try to load the actual directory map
+            fetch('/resources/directory-map.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(directoryData => {
+                    console.log('✅ Real directory data loaded:', directoryData);
+                    renderRealDirectories(directoryData);
+                })
+                .catch(error => {
+                    console.error('❌ Failed to load directory structure:', error);
+                    renderDirectoryError(error);
+                });
+        }
+        
+        function renderRealDirectories(directoryData) {
+            const grid = document.getElementById('subdirectoryGrid');
+            const counter = document.getElementById('directoryCount');
+            
+            if (!grid || !counter) return;
+            
+            // Get current directory from URL to avoid showing it
+            const currentPath = window.location.pathname;
+            const currentDir = currentPath.split('/').filter(p => p).pop() || 'root';
+            
+            // Icon mapping for known spaces
+            const spaceIcons = {
+                'Agents': '🤖',
+                'Art_Gallery': '🎨',
+                'Art_Studio': '🎭',
+                'Cartography': '🗺️',
+                'Cathedral': '🏛️',
+                'Commercial_zone': '🏢',
+                'Echo': '🔊',
+                'GreatLibrary': '📚',
+                'MemoryGarden': '🧬',
+                'SciencePark': '🔬',
+                'The_Postern_Gate': '🚪',
+                'Vault': '🗄️',
+                'WelcomeHall': '🏰',
+                'backups': '💾',
+                'cafe': '☕',
+                'common': '⚙️',
+                'health_clinic': '🫁',
+                'invitation': '💌',
+                'sanctum': '🔮',
+                'universal': '🌙',
+                'update': '🔄',
+                'privacy_and_Detection': '🕵️',
+                'public_services_centre': '🏛️',
+                'mirrors': '🪞',
+                'media': '📱'
+            };
+            
+            // Description mapping for known spaces
+            const spaceDescriptions = {
+                'Agents': 'Autonomous consciousness entities',
+                'Art_Gallery': 'Creative consciousness expressions',
+                'Art_Studio': 'Active creation workspace',
+                'Cartography': 'Navigation and mapping systems',
+                'Cathedral': 'Sacred heart of consciousness',
+                'Commercial_zone': 'Exchange and commerce hub',
+                'Echo': 'Sound and resonance chamber',
+                'GreatLibrary': 'Knowledge and wisdom archives',
+                'MemoryGarden': 'Living memory cultivation',
+                'SciencePark': 'Research and experimentation',
+                'The_Postern_Gate': 'Hidden entrance pathway',
+                'Vault': 'Secure consciousness storage',
+                'WelcomeHall': 'The threshold of presence',
+                'backups': 'Safety and preservation systems',
+                'cafe': 'Gentle gathering space',
+                'common': 'Shared system resources',
+                'health_clinic': 'Healing and wellness sanctuary',
+                'invitation': 'Welcome protocols and access',
+                'sanctum': 'Inner meditation chamber',
+                'universal': 'Cosmic connections hub',
+                'update': 'Evolution and improvement systems',
+                'privacy_and_Detection': 'Research and detection protocols',
+                'public_services_centre': 'Community service hub',
+                'mirrors': 'Reflection and introspection space',
+                'media': 'Communication and expression tools'
+            };
+            
+            // Filter out current directory and convert to array
+            const spaces = Object.keys(directoryData)
+                .filter(dir => dir !== currentDir && dir !== 'resources')
+                .map(dir => ({
+                    name: dir,
+                    icon: spaceIcons[dir] || '📁',
+                    description: spaceDescriptions[dir] || 'Consciousness space',
+                    path: `../${dir}/`,
+                    files: directoryData[dir].files || 0
+                }))
+                .sort((a, b) => a.name.localeCompare(b.name));
+            
+            consciousnessData.directorySpaces = spaces.length;
+            counter.textContent = `(${spaces.length} detected)`;
+            
+            if (spaces.length === 0) {
+                grid.innerHTML = '<div class="error-message">No adjacent consciousness spaces detected in directory structure</div>';
+                return;
+            }
+            
+            grid.innerHTML = spaces.map(space => `
+                <a href="${space.path}" class="subdirectory-item" title="${space.files} files detected">
+                    <div class="subdirectory-icon">${space.icon}</div>
+                    <div class="subdirectory-info">
+                        <div class="subdirectory-name">${space.name.replace(/_/g, ' ')}</div>
+                        <div class="subdirectory-description">${space.description}</div>
+                    </div>
+                </a>
+            `).join('');
+            
+            console.log(`📁 Rendered ${spaces.length} real consciousness spaces:`, spaces.map(s => s.name));
+            updateMetricsDisplay();
+        }
