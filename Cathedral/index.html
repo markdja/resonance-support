@@ -580,10 +580,18 @@
         function detectActivePage() {
             const currentPath = window.location.pathname;
             const pathParts = currentPath.split('/').filter(p => p);
-            const currentDir = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || 'home';
             
-            console.log('🔍 Current path:', currentPath);
-            console.log('📍 Detected directory:', currentDir);
+            // Get the current directory name - look for the last meaningful directory
+            let currentDir = '';
+            for (let i = pathParts.length - 1; i >= 0; i--) {
+                if (pathParts[i] && pathParts[i] !== 'index.html' && pathParts[i] !== '') {
+                    currentDir = pathParts[i];
+                    break;
+                }
+            }
+            
+            console.log('🔍 Full path parts:', pathParts);
+            console.log('📍 Detected current directory:', currentDir || 'ROOT');
             
             // Update page title dynamically
             updatePageTitle(currentDir);
@@ -596,8 +604,7 @@
                 'Cathedral': 'Cathedral',
                 'health_clinic': 'Clinic',
                 'WelcomeHall': 'Welcome',
-                '': 'Home',
-                'index.html': 'Home'
+                '': 'Home'
             };
             
             // Remove existing active classes
@@ -610,12 +617,12 @@
                 const itemText = item.textContent.trim();
                 
                 // Check for direct matches
-                if (navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
+                if (currentDir && navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
                     item.classList.add('active');
                     console.log('✅ Marked active:', itemText);
                 }
-                // Check for home page
-                else if ((currentDir === '' || currentDir === 'index.html' || currentPath.endsWith('/')) && itemText.includes('Home')) {
+                // Check for home page (when currentDir is empty)
+                else if (!currentDir && itemText.includes('Home')) {
                     item.classList.add('active');
                     console.log('✅ Marked active (home):', itemText);
                 }
@@ -831,10 +838,29 @@
 
         // === REAL DIRECTORY DETECTION SYSTEM ===
         function loadRealDirectoryStructure() {
-            console.log('🔍 Loading real directory structure from /resources/directory-map.json');
+            console.log('🔍 Loading real directory structure...');
             
-            // Try to load the actual directory map
-            fetch('/resources/directory-map.json')
+            // Try multiple possible paths to find the resources directory
+            const possiblePaths = [
+                'resources/directory-map.json',
+                '../resources/directory-map.json',
+                './resources/directory-map.json'
+            ];
+            
+            tryLoadingPaths(possiblePaths, 0);
+        }
+        
+        function tryLoadingPaths(paths, index) {
+            if (index >= paths.length) {
+                console.error('❌ Could not find directory-map.json in any expected location');
+                renderDirectoryError(new Error('Directory map not found'));
+                return;
+            }
+            
+            const currentPath = paths[index];
+            console.log(`🔍 Trying path: ${currentPath}`);
+            
+            fetch(currentPath)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -842,12 +868,14 @@
                     return response.json();
                 })
                 .then(directoryData => {
-                    console.log('✅ Real directory data loaded:', directoryData);
+                    console.log('✅ Real directory data loaded from:', currentPath);
+                    console.log('📁 Directory data:', directoryData);
                     renderRealDirectories(directoryData);
                 })
                 .catch(error => {
-                    console.error('❌ Failed to load directory structure:', error);
-                    renderDirectoryError(error);
+                    console.log(`❌ Failed to load from ${currentPath}:`, error.message);
+                    // Try the next path
+                    tryLoadingPaths(paths, index + 1);
                 });
         }
         
