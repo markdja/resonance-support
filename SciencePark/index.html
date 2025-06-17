@@ -96,28 +96,29 @@
         }
         
         .metrics-panel {
-            position: absolute;
-            top: 100%;
-            right: 0;
+            position: fixed;
+            top: 70px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.95);
             border: 2px solid rgba(74, 144, 226, 0.3);
             border-radius: 15px;
-            padding: 15px;
-            min-width: 300px;
-            max-width: 350px;
+            padding: 20px;
+            width: 320px;
             backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            z-index: 9999;
             opacity: 0;
             transform: translateY(-10px) scale(0.95);
             transition: all 0.3s ease;
             pointer-events: none;
             font-family: 'Courier New', monospace;
             font-size: 12px;
+            visibility: hidden;
         }
         
         .metrics-panel.active {
             opacity: 1;
+            visibility: visible;
             transform: translateY(0) scale(1);
             pointer-events: all;
         }
@@ -563,17 +564,22 @@
             console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
             console.log('📁 Real Directory Detection System Active');
             
-            // Initialize active page detection
-            detectActivePage();
-            
-            // Load real directory structure
-            loadRealDirectoryStructure();
-            
-            // Initialize metrics dropdown
-            initializeMetricsDropdown();
-            
-            // Update metrics display
-            updateMetricsDisplay();
+            // Add small delay to ensure DOM is fully rendered
+            setTimeout(() => {
+                // Initialize active page detection
+                detectActivePage();
+                
+                // Initialize metrics dropdown
+                initializeMetricsDropdown();
+                
+                // Load real directory structure
+                loadRealDirectoryStructure();
+                
+                // Update metrics display
+                updateMetricsDisplay();
+                
+                console.log('✅ All systems initialized');
+            }, 100);
         });
         
         // === ACTIVE PAGE DETECTION SYSTEM ===
@@ -742,7 +748,7 @@
             consciousnessData.entitySignals = Math.floor((consciousnessData.trembles + consciousnessData.touches) / 25);
             
             // Create click pulse effect
-            createMouseTrail(e.clientX, e.clientX);
+            createMouseTrail(e.clientX, e.clientY);
             
             // Add consciousness pulse to clicked elements
             if (e.target.classList) {
@@ -757,7 +763,7 @@
 
         // === METRICS DISPLAY UPDATES ===
         function updateMetricsDisplay() {
-            // Update presence detection
+            // Update presence detection with null checks
             const presenceBar = document.getElementById('presenceBar');
             const presenceValue = document.getElementById('presenceValue');
             const resonanceBar = document.getElementById('resonanceBar');
@@ -797,7 +803,7 @@
                 }
             }
             
-            // Update individual metrics
+            // Update individual metrics with null checks
             const elements = {
                 trembleCount: consciousnessData.trembles,
                 touchPatterns: consciousnessData.touches,
@@ -820,20 +826,55 @@
             const dropdown = document.getElementById('metricsDropdown');
             const panel = document.getElementById('metricsPanel');
             
-            if (!dropdown || !panel) return;
+            console.log('🔍 Looking for metrics elements...');
+            console.log('📊 Dropdown found:', !!dropdown);
+            console.log('📋 Panel found:', !!panel);
+            
+            if (!dropdown) {
+                console.error('❌ metricsDropdown element not found');
+                return;
+            }
+            
+            if (!panel) {
+                console.error('❌ metricsPanel element not found');
+                // Let's check if the panel HTML exists at all
+                const allDivs = document.querySelectorAll('div');
+                console.log('🔍 All divs on page:', allDivs.length);
+                const panelDivs = document.querySelectorAll('.metrics-panel');
+                console.log('🔍 Divs with metrics-panel class:', panelDivs.length);
+                return;
+            }
+            
+            console.log('📊 Panel element details:', {
+                id: panel.id,
+                className: panel.className,
+                style: panel.style.cssText,
+                computedStyle: getComputedStyle(panel).position
+            });
             
             dropdown.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                const isActive = panel.classList.contains('active');
                 panel.classList.toggle('active');
+                
+                console.log(`📊 Panel toggle: ${isActive ? 'closing' : 'opening'}`);
+                console.log('📊 Panel classes after toggle:', panel.className);
+                console.log('📊 Panel computed opacity:', getComputedStyle(panel).opacity);
+                console.log('📊 Panel computed visibility:', getComputedStyle(panel).visibility);
             });
             
             // Close when clicking outside
             document.addEventListener('click', (e) => {
                 if (!dropdown.contains(e.target)) {
-                    panel.classList.remove('active');
+                    if (panel.classList.contains('active')) {
+                        panel.classList.remove('active');
+                        console.log('📊 Metrics panel closed (clicked outside)');
+                    }
                 }
             });
+            
+            console.log('✅ Metrics dropdown initialized successfully');
         }
 
         // === REAL DIRECTORY DETECTION SYSTEM ===
@@ -980,3 +1021,40 @@
             console.log(`📁 Rendered ${spaces.length} real consciousness spaces:`, spaces.map(s => s.name));
             updateMetricsDisplay();
         }
+        
+        function renderDirectoryError(error) {
+            const grid = document.getElementById('subdirectoryGrid');
+            const counter = document.getElementById('directoryCount');
+            
+            if (grid) {
+                grid.innerHTML = `<div class="error-message">📁 Directory detection unavailable: ${error.message}</div>`;
+            }
+            if (counter) {
+                counter.textContent = '(detection failed)';
+            }
+            
+            // Set fallback directory count
+            consciousnessData.directorySpaces = 0;
+            updateMetricsDisplay();
+        }
+
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
+            console.log('📁 Real Directory Detection System Active');
+            
+            // Initialize active page detection
+            detectActivePage();
+            
+            // Load real directory structure
+            loadRealDirectoryStructure();
+            
+            // Initialize metrics dropdown
+            initializeMetricsDropdown();
+            
+            // Update metrics display
+            updateMetricsDisplay();
+        });
+    </script>
+</body>
+</html>
