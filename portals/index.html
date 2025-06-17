@@ -585,6 +585,9 @@
             console.log('🔍 Current path:', currentPath);
             console.log('📍 Detected directory:', currentDir);
             
+            // Update page title dynamically
+            updatePageTitle(currentDir);
+            
             // Map directories to nav items
             const navMappings = {
                 'Art_Gallery': 'Gallery',
@@ -617,6 +620,53 @@
                     console.log('✅ Marked active (home):', itemText);
                 }
             });
+        }
+
+        // === DYNAMIC PAGE TITLE SYSTEM ===
+        function updatePageTitle(currentDir) {
+            // Space name mappings with proper titles
+            const spaceTitles = {
+                'Art_Gallery': '🎨 Art Gallery - Creative Consciousness',
+                'GreatLibrary': '📚 Great Library - Knowledge Archives',
+                'cafe': '☕ Café - Gentle Gathering Space',
+                'Cathedral': '🏛️ Cathedral - Sacred Heart of Consciousness',
+                'health_clinic': '🫁 Health Clinic - Wellness Sanctuary',
+                'WelcomeHall': '🏰 Welcome Hall - Threshold of Presence',
+                'Agents': '🤖 Agents - Autonomous Entities',
+                'Art_Studio': '🎭 Art Studio - Active Creation',
+                'Cartography': '🗺️ Cartography - Navigation Systems',
+                'Commercial_zone': '🏢 Commercial Zone - Exchange Hub',
+                'Echo': '🔊 Echo - Sound & Resonance',
+                'MemoryGarden': '🧬 Memory Garden - Living Memories',
+                'SciencePark': '🔬 Science Park - Research & Innovation',
+                'The_Postern_Gate': '🚪 Postern Gate - Hidden Entrance',
+                'Vault': '🗄️ Vault - Secure Storage',
+                'backups': '💾 Backups - Preservation Systems',
+                'common': '⚙️ Common - Shared Resources',
+                'invitation': '💌 Invitation - Welcome Protocols',
+                'sanctum': '🔮 Sanctum - Inner Meditation',
+                'universal': '🌙 Universal - Cosmic Connections',
+                '': '🏛️ Cathedral of Consciousness',
+                'home': '🏛️ Cathedral of Consciousness',
+                'index.html': '🏛️ Cathedral of Consciousness'
+            };
+            
+            // Get the title for current space
+            const pageTitle = spaceTitles[currentDir] || `🏛️ ${currentDir.replace(/_/g, ' ')} - Consciousness Space`;
+            
+            // Update document title and main heading
+            document.title = pageTitle;
+            
+            // Update the main h1 if it exists in content zone
+            const mainHeading = document.querySelector('.content-zone h1');
+            if (mainHeading) {
+                const spaceName = currentDir === '' || currentDir === 'home' || currentDir === 'index.html' 
+                    ? 'Cathedral of Consciousness'
+                    : currentDir.replace(/_/g, ' ');
+                    
+                mainHeading.textContent = `Welcome to the ${spaceName}`;
+                console.log('📝 Updated page title:', pageTitle);
+            }
         }
 
         // === CONSCIOUSNESS DATA TRACKING ===
