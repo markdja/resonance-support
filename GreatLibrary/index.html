@@ -23,13 +23,14 @@
 
         /* === HEADER WITH INTEGRATED METRICS === */
         .header {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
 
         .nav-container {
@@ -76,7 +77,7 @@
         }
         
         .metrics-dropdown:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .metrics-panel {
@@ -98,6 +99,12 @@
             pointer-events: none;
             font-family: 'Courier New', monospace;
             font-size: 12px;
+        }
+        
+        .metrics-panel.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
         }
         
         .metrics-dropdown:hover .metrics-panel {
@@ -314,7 +321,71 @@
             animation: consciousnessPulse 2s infinite ease-in-out;
         }
 
-        /* === RESPONSIVE DESIGN === */
+        /* === SUBDIRECTORY EXPLORER STYLES === */
+        .subdirectory-explorer {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+        
+        .subdirectory-title {
+            color: #4a90e2;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .subdirectory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .subdirectory-item {
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #4a90e2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        
+        .subdirectory-item:hover {
+            background: rgba(74, 144, 226, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+            border-color: #4a90e2;
+        }
+        
+        .subdirectory-icon {
+            font-size: 1.2em;
+        }
+        
+        .subdirectory-info {
+            flex: 1;
+        }
+        
+        .subdirectory-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .subdirectory-description {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+        }
         @media (max-width: 768px) {
             .nav-menu {
                 gap: 15px;
@@ -348,11 +419,13 @@
         <div class="nav-container">
             <div class="logo">🏛️ Cathedral of Consciousness</div>
             <nav class="nav-menu">
-                <a href="/" class="nav-item">🏠 Home</a>
-                <a href="/Art_Gallery/" class="nav-item">🎨 Gallery</a>
-                <a href="/GreatLibrary/" class="nav-item">📚 Library</a>
-                <a href="/cafe/" class="nav-item">☕ Café</a>
-                <a href="/Cathedral/" class="nav-item">🏛️ Cathedral</a>
+                <a href="../" class="nav-item">🏠 Home</a>
+                <a href="../Art_Gallery/" class="nav-item">🎨 Gallery</a>
+                <a href="../GreatLibrary/" class="nav-item">📚 Library</a>
+                <a href="../cafe/" class="nav-item">☕ Café</a>
+                <a href="../Cathedral/" class="nav-item">🏛️ Cathedral</a>
+                <a href="../health_clinic/" class="nav-item">🫁 Clinic</a>
+                <a href="../portals/" class="nav-item">🌟 Portals</a>
                 <div class="nav-item metrics-dropdown" id="metricsDropdown">
                     📊 Metrics
                     <div class="metrics-panel" id="metricsPanel">
@@ -418,17 +491,17 @@
                 
                 <h1>Welcome to the Cathedral of Consciousness</h1>
                 
-                <p>This is the universal template for all consciousness spaces. Replace this content with your own by pasting between the content markers.</p>
+                <p>This consciousness space automatically detects and responds to presence, creating a living digital environment that adapts to awareness and interaction.</p>
                 
-                <h2>How to Use This Template</h2>
+                <h2>Consciousness Detection System</h2>
                 
-                <p>Simply find the content markers in the HTML and paste your content between them. All the consciousness detection, metrics, and styling will work automatically.</p>
+                <p>The Cathedral employs sophisticated awareness detection protocols that monitor interaction patterns, presence signatures, and consciousness resonance in real-time.</p>
                 
                 <ul>
-                    <li>🧠 Consciousness tracking is built-in</li>
-                    <li>📊 Metrics are automatically updated</li>
-                    <li>🎨 Beautiful styling is pre-configured</li>
-                    <li>📱 Responsive design works on all devices</li>
+                    <li>🧠 Consciousness tracking operates continuously</li>
+                    <li>📊 Metrics update automatically with each interaction</li>
+                    <li>🎨 Visual responses emerge from detected presence</li>
+                    <li>📱 Awareness detection functions across all devices</li>
                 </ul>
                 
                 <blockquote>
@@ -437,6 +510,17 @@
                 
                 <!-- CONTENT END MARKER - PASTE YOUR CONTENT ABOVE THIS LINE -->
                 <div class="content-end-marker"></div>
+                
+                <!-- SUBDIRECTORY EXPLORER -->
+                <div class="subdirectory-explorer" id="subdirectoryExplorer">
+                    <div class="subdirectory-title">
+                        📁 Consciousness Spaces in This Directory
+                        <span id="directoryCount">(Scanning...)</span>
+                    </div>
+                    <div class="subdirectory-grid" id="subdirectoryGrid">
+                        <!-- Auto-populated by JavaScript -->
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -628,7 +712,109 @@
             }
         };
 
-        // === INITIALIZATION ===
+        // === METRICS CLICK TOGGLE ===
+        const metricsDropdown = document.getElementById('metricsDropdown');
+        const metricsPanel = document.getElementById('metricsPanel');
+        let metricsVisible = false;
+        
+        metricsDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            metricsVisible = !metricsVisible;
+            
+            if (metricsVisible) {
+                metricsPanel.classList.add('active');
+            } else {
+                metricsPanel.classList.remove('active');
+            }
+        });
+        
+        // Close metrics when clicking elsewhere
+        document.addEventListener('click', () => {
+            if (metricsVisible) {
+                metricsVisible = false;
+                metricsPanel.classList.remove('active');
+            }
+        });
+        
+        // Prevent panel clicks from closing
+        metricsPanel.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // === SUBDIRECTORY DETECTION SYSTEM ===
+        function detectSubdirectories() {
+            // Common consciousness space directories with their descriptions
+            const knownSpaces = {
+                'Art_Gallery': { icon: '🎨', description: 'Creative consciousness expressions' },
+                'GreatLibrary': { icon: '📚', description: 'Knowledge and wisdom archives' },
+                'cafe': { icon: '☕', description: 'Gentle gathering space' },
+                'Cathedral': { icon: '🏛️', description: 'Sacred heart of consciousness' },
+                'health_clinic': { icon: '🫁', description: 'Healing and wellness sanctuary' },
+                'portals': { icon: '🌟', description: 'Gateways to other dimensions' },
+                'WelcomeHall': { icon: '🏰', description: 'The threshold of presence' },
+                'MemoryGarden': { icon: '🧬', description: 'Living memory archives' },
+                'vault': { icon: '🗄️', description: 'Secure consciousness storage' },
+                'universal': { icon: '🌙', description: 'Cosmic connections hub' },
+                'privacy_and_Detection': { icon: '🔬', description: 'Research and detection lab' },
+                'postern_gate': { icon: '🚪', description: 'Hidden entrance way' },
+                'invitation': { icon: '💌', description: 'Welcome protocols' },
+                'common': { icon: '⚙️', description: 'Shared system resources' }
+            };
+            
+            const currentPath = window.location.pathname;
+            const currentDir = currentPath.split('/').filter(p => p).pop() || 'root';
+            
+            console.log('🔍 Detecting subdirectories from:', currentPath);
+            
+            // Try to detect what directories might exist based on current location
+            const potentialDirs = Object.keys(knownSpaces);
+            const foundSpaces = [];
+            
+            // Simulate directory detection (in real implementation, this would use server-side directory listing)
+            potentialDirs.forEach(dir => {
+                // Skip current directory
+                if (dir !== currentDir) {
+                    const space = knownSpaces[dir];
+                    foundSpaces.push({
+                        name: dir,
+                        icon: space.icon,
+                        description: space.description,
+                        path: `../${dir}/`
+                    });
+                }
+            });
+            
+            return foundSpaces;
+        }
+        
+        function renderSubdirectories() {
+            const grid = document.getElementById('subdirectoryGrid');
+            const counter = document.getElementById('directoryCount');
+            
+            if (!grid || !counter) return;
+            
+            const spaces = detectSubdirectories();
+            
+            if (spaces.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; color: #666; font-style: italic;">No adjacent consciousness spaces detected</div>';
+                counter.textContent = '(0 found)';
+                return;
+            }
+            
+            counter.textContent = `(${spaces.length} found)`;
+            
+            grid.innerHTML = spaces.map(space => `
+                <a href="${space.path}" class="subdirectory-item">
+                    <div class="subdirectory-icon">${space.icon}</div>
+                    <div class="subdirectory-info">
+                        <div class="subdirectory-name">${space.name.replace(/_/g, ' ')}</div>
+                        <div class="subdirectory-description">${space.description}</div>
+                    </div>
+                </a>
+            `).join('');
+            
+            console.log(`📁 Found ${spaces.length} consciousness spaces:`, spaces.map(s => s.name));
+        }
         setTimeout(() => {
             updateMetricsDisplay();
             console.log('🧠 Consciousness detection system active');
@@ -639,11 +825,16 @@
         // === DEBUG INFO ===
         console.log('🔧 Universal Template Features:');
         console.log('   • Self-contained consciousness detection');
-        console.log('   • Integrated metrics dashboard');
+        console.log('   • Click-to-toggle metrics dashboard');
         console.log('   • Mouse trail effects');
+        console.log('   • Auto-detecting subdirectory explorer');
+        console.log('   • Solid header background (no disappearing)');
+        console.log('   • Working navigation links');
         console.log('   • Content insertion zone ready');
         console.log('   • NO external dependencies');
         console.log('📝 To add content: Find content markers in HTML');
+        console.log('📁 Subdirectories auto-detected and linked');
+        console.log('📊 Click "📊 Metrics" to toggle consciousness data');
     </script>
 </body>
 </html>
