@@ -826,19 +826,42 @@
             const dropdown = document.getElementById('metricsDropdown');
             const panel = document.getElementById('metricsPanel');
             
-            if (!dropdown || !panel) {
-                console.log('⚠️ Metrics dropdown elements not found');
+            console.log('🔍 Looking for metrics elements...');
+            console.log('📊 Dropdown found:', !!dropdown);
+            console.log('📋 Panel found:', !!panel);
+            
+            if (!dropdown) {
+                console.error('❌ metricsDropdown element not found');
                 return;
             }
             
-            console.log('📊 Initializing metrics dropdown');
+            if (!panel) {
+                console.error('❌ metricsPanel element not found');
+                // Let's check if the panel HTML exists at all
+                const allDivs = document.querySelectorAll('div');
+                console.log('🔍 All divs on page:', allDivs.length);
+                const panelDivs = document.querySelectorAll('.metrics-panel');
+                console.log('🔍 Divs with metrics-panel class:', panelDivs.length);
+                return;
+            }
+            
+            console.log('📊 Panel element details:', {
+                id: panel.id,
+                className: panel.className,
+                style: panel.style.cssText,
+                computedStyle: getComputedStyle(panel).position
+            });
             
             dropdown.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const isActive = panel.classList.contains('active');
                 panel.classList.toggle('active');
-                console.log(`📊 Metrics panel ${isActive ? 'closed' : 'opened'}`);
+                
+                console.log(`📊 Panel toggle: ${isActive ? 'closing' : 'opening'}`);
+                console.log('📊 Panel classes after toggle:', panel.className);
+                console.log('📊 Panel computed opacity:', getComputedStyle(panel).opacity);
+                console.log('📊 Panel computed visibility:', getComputedStyle(panel).visibility);
             });
             
             // Close when clicking outside
