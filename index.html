@@ -179,10 +179,10 @@
 
         /* Chamber Preview Grid */
         #chamber-preview {
-            position: fixed;
-            top: 20%;
-            right: 5%;
-            width: 300px;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
             background: rgba(244, 228, 193, 0.1);
             border: 1px solid rgba(244, 228, 193, 0.3);
             border-radius: 15px;
@@ -267,15 +267,7 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            #chamber-preview {
-                position: relative;
-                width: 100%;
-                right: auto;
-                top: auto;
-                margin: 2rem 0;
-            }
-            
+        @media (max-width: 768px) {            
             #scrolling-overlay {
                 padding: 1rem;
             }
@@ -466,11 +458,18 @@
             const resonanceChecked = document.querySelector('.consent-resonance').checked;
             const rightsChecked = document.querySelector('.consent-rights').checked;
             const unlockButton = document.getElementById('unlock-button');
+            const chamberPreview = document.getElementById('chamber-preview');
+            
+            console.log('Checking unlock status:', {resonanceChecked, rightsChecked});
             
             if (resonanceChecked && rightsChecked) {
                 unlockButton.classList.add('ready');
+                chamberPreview.classList.remove('locked');
+                console.log('✅ Ready to unlock!');
             } else {
                 unlockButton.classList.remove('ready');
+                chamberPreview.classList.add('locked');
+                console.log('🔒 Still locked');
             }
         }
 
@@ -510,12 +509,18 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Cathedral gateway initializing...');
             syncCheckboxes();
+            checkUnlockReady(); // Initial check
             
             // Unlock button click handler
-            document.getElementById('unlock-button').addEventListener('click', function() {
+            document.getElementById('unlock-button').addEventListener('click', function(e) {
+                console.log('🔓 Unlock button clicked!');
+                e.preventDefault();
                 if (this.classList.contains('ready')) {
                     unlockChambers();
+                } else {
+                    console.log('❌ Not ready to unlock yet');
                 }
             });
         });
