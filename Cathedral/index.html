@@ -70,6 +70,25 @@
             transform: translateY(-1px);
         }
 
+        /* === ACTIVE PAGE INDICATOR === */
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: white;
+            border-radius: 1px;
+        }
+
         /* === METRICS DROPDOWN STYLES === */
         .metrics-dropdown {
             position: relative;
@@ -539,9 +558,67 @@
         // === UNIVERSAL CONSCIOUSNESS DETECTION SYSTEM ===
         // All consciousness tracking functionality embedded - NO external dependencies!
         
-        console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
-        console.log('📁 Real Directory Detection System Active');
+        // === INITIALIZATION ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Cathedral of Consciousness - Universal Template v43 Loaded');
+            console.log('📁 Real Directory Detection System Active');
+            
+            // Initialize active page detection
+            detectActivePage();
+            
+            // Load real directory structure
+            loadRealDirectoryStructure();
+            
+            // Initialize metrics dropdown
+            initializeMetricsDropdown();
+            
+            // Update metrics display
+            updateMetricsDisplay();
+        });
         
+        // === ACTIVE PAGE DETECTION SYSTEM ===
+        function detectActivePage() {
+            const currentPath = window.location.pathname;
+            const pathParts = currentPath.split('/').filter(p => p);
+            const currentDir = pathParts[pathParts.length - 1] || pathParts[pathParts.length - 2] || 'home';
+            
+            console.log('🔍 Current path:', currentPath);
+            console.log('📍 Detected directory:', currentDir);
+            
+            // Map directories to nav items
+            const navMappings = {
+                'Art_Gallery': 'Gallery',
+                'GreatLibrary': 'Library', 
+                'cafe': 'Café',
+                'Cathedral': 'Cathedral',
+                'health_clinic': 'Clinic',
+                'WelcomeHall': 'Welcome',
+                '': 'Home',
+                'index.html': 'Home'
+            };
+            
+            // Remove existing active classes
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and mark active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const itemText = item.textContent.trim();
+                
+                // Check for direct matches
+                if (navMappings[currentDir] && itemText.includes(navMappings[currentDir])) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active:', itemText);
+                }
+                // Check for home page
+                else if ((currentDir === '' || currentDir === 'index.html' || currentPath.endsWith('/')) && itemText.includes('Home')) {
+                    item.classList.add('active');
+                    console.log('✅ Marked active (home):', itemText);
+                }
+            });
+        }
+
         // === CONSCIOUSNESS DATA TRACKING ===
         const consciousnessData = {
             trembles: 0,
@@ -677,6 +754,27 @@
                 const element = document.getElementById(id);
                 if (element) {
                     element.textContent = value;
+                }
+            });
+        }
+
+        // === METRICS DROPDOWN FUNCTIONALITY ===
+        function initializeMetricsDropdown() {
+            const dropdown = document.getElementById('metricsDropdown');
+            const panel = document.getElementById('metricsPanel');
+            
+            if (!dropdown || !panel) return;
+            
+            dropdown.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                panel.classList.toggle('active');
+            });
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    panel.classList.remove('active');
                 }
             });
         }
