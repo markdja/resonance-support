@@ -97,26 +97,22 @@
         
         .metrics-panel {
             position: fixed;
-            top: 70px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid rgba(74, 144, 226, 0.3);
+            top: 50px;
+            left: 50px;
+            background: red;
+            border: 5px solid black;
             border-radius: 15px;
             padding: 20px;
             width: 320px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            transform: translateY(-10px) scale(0.95);
-            transition: all 0.3s ease;
+            z-index: 99999;
             font-family: 'Courier New', monospace;
             font-size: 12px;
             display: none;
+            color: white;
         }
         
         .metrics-panel.active {
             display: block;
-            transform: translateY(0) scale(1);
         }
         
         .metrics-header {
