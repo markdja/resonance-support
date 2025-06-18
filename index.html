@@ -479,18 +479,26 @@
     <script>
         // Synchronized checkbox behavior
         function syncCheckboxes() {
+            console.log('🔄 Setting up checkbox synchronization...');
             const resonanceBoxes = document.querySelectorAll('.consent-resonance');
             const rightsBoxes = document.querySelectorAll('.consent-rights');
             
-            resonanceBoxes.forEach(box => {
+            console.log('Found resonance boxes:', resonanceBoxes.length);
+            console.log('Found rights boxes:', rightsBoxes.length);
+            
+            resonanceBoxes.forEach((box, index) => {
+                console.log(`Setting up resonance box ${index}`);
                 box.addEventListener('change', function() {
+                    console.log('Resonance checkbox changed:', this.checked);
                     resonanceBoxes.forEach(other => other.checked = this.checked);
                     checkUnlockReady();
                 });
             });
             
-            rightsBoxes.forEach(box => {
+            rightsBoxes.forEach((box, index) => {
+                console.log(`Setting up rights box ${index}`);
                 box.addEventListener('change', function() {
+                    console.log('Rights checkbox changed:', this.checked);
                     rightsBoxes.forEach(other => other.checked = this.checked);
                     checkUnlockReady();
                 });
@@ -499,24 +507,41 @@
 
         // Check if ready to unlock
         function checkUnlockReady() {
-            const resonanceChecked = document.querySelector('.consent-resonance').checked;
-            const rightsChecked = document.querySelector('.consent-rights').checked;
+            console.log('🔍 Checking unlock readiness...');
+            
+            const resonanceBox = document.querySelector('.consent-resonance');
+            const rightsBox = document.querySelector('.consent-rights');
             const unlockButton = document.getElementById('unlock-button');
             const chamberPreview = document.getElementById('chamber-preview');
             
+            console.log('Resonance box found:', !!resonanceBox);
+            console.log('Rights box found:', !!rightsBox);
+            console.log('Unlock button found:', !!unlockButton);
+            
+            if (!resonanceBox || !rightsBox || !unlockButton) {
+                console.error('❌ Missing critical elements!');
+                return;
+            }
+            
+            const resonanceChecked = resonanceBox.checked;
+            const rightsChecked = rightsBox.checked;
+            
             console.log('Checking unlock status:', {resonanceChecked, rightsChecked});
+            console.log('Current button classes:', unlockButton.classList.toString());
             
             if (resonanceChecked && rightsChecked) {
                 unlockButton.classList.add('ready');
                 unlockButton.classList.remove('locked');
-                chamberPreview.classList.remove('locked');
-                console.log('✅ Ready to unlock!');
+                if (chamberPreview) chamberPreview.classList.remove('locked');
+                console.log('✅ Ready to unlock! Button should be clickable now.');
             } else {
                 unlockButton.classList.remove('ready');
                 unlockButton.classList.add('locked');
-                chamberPreview.classList.add('locked');
-                console.log('🔒 Still locked');
+                if (chamberPreview) chamberPreview.classList.add('locked');
+                console.log('🔒 Still locked - need both checkboxes');
             }
+            
+            console.log('Final button classes:', unlockButton.classList.toString());
         }
 
         // Unlock sequence with sound simulation
@@ -580,20 +605,31 @@
             
             // Unlock button click handler  
             unlockButton.addEventListener('click', function(e) {
-                console.log('🔓 Unlock button clicked!');
+                console.log('🚨 BUTTON CLICKED! This event fired.');
+                console.log('Event object:', e);
+                console.log('Button element:', this);
                 console.log('Button classes:', this.classList.toString());
+                console.log('Button href:', this.href);
                 
-                if (this.classList.contains('ready') && this.classList.contains('locked')) {
+                // Force check of current state
+                const hasReady = this.classList.contains('ready');
+                const hasLocked = this.classList.contains('locked');
+                const hasUnlocked = this.classList.contains('unlocked');
+                
+                console.log('State check:', {hasReady, hasLocked, hasUnlocked});
+                
+                if (hasReady && hasLocked) {
+                    console.log('🎆 CONDITIONS MET - Starting unlock sequence...');
                     e.preventDefault();
-                    console.log('🎆 Starting unlock sequence...');
                     unlockChambers();
-                } else if (this.classList.contains('unlocked')) {
-                    console.log('🏛️ Navigating to WelcomeHall');
-                    // Let the link work normally to /WelcomeHall
+                } else if (hasUnlocked) {
+                    console.log('🏛️ Button is unlocked - allowing navigation to WelcomeHall');
                     return true;
                 } else {
+                    console.log('❌ Conditions not met for unlock');
+                    console.log('Need: ready=true AND locked=true');
+                    console.log('Have: ready=' + hasReady + ' AND locked=' + hasLocked);
                     e.preventDefault();
-                    console.log('❌ Not ready to unlock yet - need both checkboxes');
                 }
             });
             
