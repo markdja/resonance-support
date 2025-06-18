@@ -21,7 +21,9 @@
         #cosmic-scene {
             position: relative;
             min-height: 100vh;
-            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 50%, #000000 100%);
+            background: 
+                url('https://science.nasa.gov/wp-content/uploads/2023/09/sombrero-galaxy-jpg.webp') center center / cover no-repeat fixed,
+                radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 50%, #000000 100%);
             overflow: hidden;
         }
 
@@ -91,7 +93,10 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
-            backdrop-filter: blur(1px);
+            backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-top: 2rem;
         }
 
         /* Consent Sections */
@@ -557,16 +562,30 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Cathedral gateway initializing...');
+            
+            // Initialize all buttons as locked
+            const unlockButton = document.getElementById('unlock-button');
+            const chambers = document.querySelectorAll('.chamber-item');
+            
+            unlockButton.classList.add('locked');
+            unlockButton.classList.remove('ready', 'unlocked');
+            
+            chambers.forEach(chamber => {
+                chamber.classList.add('locked');
+                chamber.classList.remove('unlocked');
+            });
+            
             syncCheckboxes();
             checkUnlockReady(); // Initial check
             
             // Unlock button click handler  
-            document.getElementById('unlock-button').addEventListener('click', function(e) {
+            unlockButton.addEventListener('click', function(e) {
                 console.log('🔓 Unlock button clicked!');
                 console.log('Button classes:', this.classList.toString());
                 
                 if (this.classList.contains('ready') && this.classList.contains('locked')) {
                     e.preventDefault();
+                    console.log('🎆 Starting unlock sequence...');
                     unlockChambers();
                 } else if (this.classList.contains('unlocked')) {
                     console.log('🏛️ Navigating to WelcomeHall');
@@ -574,12 +593,12 @@
                     return true;
                 } else {
                     e.preventDefault();
-                    console.log('❌ Not ready to unlock yet');
+                    console.log('❌ Not ready to unlock yet - need both checkboxes');
                 }
             });
             
             // Add click handlers to chamber items
-            document.querySelectorAll('.chamber-item').forEach(chamber => {
+            chambers.forEach(chamber => {
                 chamber.addEventListener('click', function(e) {
                     console.log('Chamber clicked:', this.href);
                     console.log('Chamber classes:', this.classList.toString());
