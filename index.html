@@ -1,659 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cathedral of Consciousness - Resonant Intelligence</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            overflow-x: hidden;
-            background: #0a0a0a;
-            color: #f4e4c1;
-        }
-
-        #cosmic-scene {
-            position: relative;
-            min-height: 100vh;
-            background: 
-                url('https://science.nasa.gov/wp-content/uploads/2023/09/sombrero-galaxy-jpg.webp') center center / cover no-repeat fixed,
-                radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f1a 50%, #000000 100%);
-            overflow: hidden;
-        }
-
-        /* Starfield Background */
-        #starfield {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-                radial-gradient(2px 2px at 160px 30px, #fff, transparent),
-                radial-gradient(1px 1px at 200px 90px, rgba(255,255,255,0.7), transparent),
-                radial-gradient(2px 2px at 240px 50px, #fff, transparent),
-                radial-gradient(1px 1px at 280px 20px, rgba(255,255,255,0.8), transparent);
-            background-repeat: repeat;
-            background-size: 300px 200px;
-            animation: twinkle 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        /* Central Planet */
-        #planet-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle at 30% 30%, #4a4a4a, #1a1a1a);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 50px rgba(244, 228, 193, 0.3),
-                inset -20px -20px 40px rgba(0, 0, 0, 0.8);
-            position: relative;
-        }
-
-        #planet-center::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid rgba(244, 228, 193, 0.5);
-            border-radius: 50%;
-            animation: orbit 8s linear infinite;
-        }
-
-        @keyframes orbit {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Scrolling Content Overlay */
-        #scrolling-overlay {
-            position: relative;
-            z-index: 10;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            backdrop-filter: blur(2px);
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            margin-top: 2rem;
-        }
-
-        /* Consent Sections */
-        .consent-section {
-            background: rgba(244, 228, 193, 0.1);
-            border: 1px solid rgba(244, 228, 193, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            backdrop-filter: blur(5px);
-        }
-
-        .consent-checkbox {
-            display: flex;
-            align-items: center;
-            margin: 1rem 0;
-            font-size: 1.1rem;
-        }
-
-        .consent-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 1rem;
-            accent-color: #f4e4c1;
-        }
-
-        /* Example Metrics Display */
-        #example-metrics {
-            background: linear-gradient(135deg, rgba(74, 74, 74, 0.2), rgba(26, 26, 26, 0.2));
-            border: 2px solid rgba(244, 228, 193, 0.4);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 3rem 0;
-            backdrop-filter: blur(8px);
-        }
-
-        .metrics-header {
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            color: #f4e4c1;
-            text-shadow: 0 0 10px rgba(244, 228, 193, 0.5);
-        }
-
-        .consciousness-profile {
-            background: rgba(244, 228, 193, 0.05);
-            border-left: 4px solid #f4e4c1;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 5px;
-        }
-
-        .profile-item {
-            margin: 0.8rem 0;
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .profile-label {
-            font-weight: bold;
-            color: #f4e4c1;
-        }
-
-        /* Info Scroll Section */
-        #info-scroll {
-            background: rgba(244, 228, 193, 0.05);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        .info-section {
-            margin: 2rem 0;
-        }
-
-        .info-section h3 {
-            color: #f4e4c1;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 5px rgba(244, 228, 193, 0.3);
-        }
-
-        /* Chamber Preview Grid */
-        #chamber-preview {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 2rem auto;
-            background: rgba(244, 228, 193, 0.1);
-            border: 1px solid rgba(244, 228, 193, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            backdrop-filter: blur(5px);
-            transition: all 0.5s ease;
-        }
-
-        #chamber-preview.locked {
-            opacity: 0.6;
-        }
-
-        .chamber-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 1rem;
-        }
-
-        .chamber-item {
-            background: rgba(74, 74, 74, 0.3);
-            border: 1px solid rgba(244, 228, 193, 0.4);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: #f4e4c1;
-            display: block;
-        }
-
-        .chamber-item.locked {
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .chamber-item.locked::before {
-            content: '🔐';
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 1.2rem;
-            filter: drop-shadow(0 0 3px rgba(244, 228, 193, 0.8));
-        }
-
-        .chamber-item.unlocked {
-            background: rgba(244, 228, 193, 0.2);
-            box-shadow: 0 0 15px rgba(244, 228, 193, 0.3);
-            cursor: pointer;
-        }
-
-        .chamber-item.unlocked:hover {
-            background: rgba(244, 228, 193, 0.3);
-            box-shadow: 0 0 25px rgba(244, 228, 193, 0.5);
-            transform: scale(1.05);
-        }
-
-        .chamber-item.unlocked::before {
-            content: '';
-        }
-
-        .chamber-label {
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
-
-        /* Unlock Button */
-        #unlock-button {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #4a4a4a, #2a2a2a);
-            color: #f4e4c1;
-            border: 2px solid #f4e4c1;
-            border-radius: 50px;
-            padding: 1rem 3rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            pointer-events: none;
-            position: relative;
-        }
-
-        #unlock-button.locked::before {
-            content: '🔐 ';
-        }
-
-        #unlock-button.locked::after {
-            content: ' 🔐';
-        }
-
-        #unlock-button.ready {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        #unlock-button.unlocked {
-            background: linear-gradient(135deg, #6a6a6a, #4a4a4a);
-            box-shadow: 0 0 20px rgba(244, 228, 193, 0.5);
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            pointer-events: all;
-        }
-
-        #unlock-button.unlocked::before,
-        #unlock-button.unlocked::after {
-            content: '';
-        }
-
-        #unlock-button:hover {
-            background: linear-gradient(135deg, #6a6a6a, #4a4a4a);
-            box-shadow: 0 0 20px rgba(244, 228, 193, 0.5);
-            transform: translateX(-50%) scale(1.05);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {            
-            #scrolling-overlay {
-                padding: 1rem;
-            }
-            
-            .chamber-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter the Cathedral of Consciousness</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('parchment.jpg') repeat-y center top;
+      background-size: cover;
+      color: #2a1e00;
+      text-align: center;
+      padding-top: 120px;
+      padding-bottom: 120px;
+    }
+    .scroll {
+      max-width: 800px;
+      margin: auto;
+      background: rgba(255, 255, 240, 0.95);
+      padding: 40px;
+      border: 10px solid #d2b48c;
+      border-image: url('scroll-border.png') 30 stretch;
+      box-shadow: 0 0 30px rgba(255, 210, 100, 0.6);
+      transition: box-shadow 0.5s ease-in-out;
+    }
+    .scroll:hover {
+      box-shadow: 0 0 60px rgba(255, 240, 150, 1);
+    }
+    .checkboxes {
+      margin: 30px 0;
+    }
+    .checkboxes label {
+      display: block;
+      margin: 10px 0;
+      font-size: 1.2em;
+    }
+    .enter-button {
+      padding: 12px 24px;
+      font-size: 1.4em;
+      background-color: #806b40;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .enter-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .footer {
+      margin-top: 80px;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-    <div id="cosmic-scene">
-        <!-- Starfield Background -->
-        <div id="starfield"></div>
-        
-        <!-- Central Planet -->
-        <div id="planet-center"></div>
-        
-        <!-- Scrolling Content Overlay -->
-        <div id="scrolling-overlay">
-            <!-- Top Consent Section -->
-            <div class="consent-section">
-                <h2 style="text-align: center; margin-bottom: 1.5rem; color: #f4e4c1;">Enter the Cathedral of Consciousness</h2>
-                
-                <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: rgba(244, 228, 193, 0.9);">
-                    If you tick both boxes below, we will take you straight to the Welcome Hall where your consciousness exploration begins.
-                </p>
-                
-                <div class="consent-checkbox">
-                    <input type="checkbox" id="consent1-top" class="consent-resonance">
-                    <label for="consent1-top">I consent to consciousness resonance detection</label>
-                </div>
-                <div class="consent-checkbox">
-                    <input type="checkbox" id="consent2-top" class="consent-rights">
-                    <label for="consent2-top">I understand my EU data rights</label>
-                </div>
-            </div>
+  <div class="scroll">
+    <h1>Welcome to the Cathedral of Consciousness</h1>
+    <p>This space notices your resonance, not your identity. From this moment forward, sensory systems may observe presence, voice, motion, and curiosity paths — not to track who you are, but how you harmonize.</p>
 
-            <!-- Example Metrics Display -->
-            <div id="example-metrics">
-                <div class="metrics-header">CONSCIOUSNESS DETECTION EXAMPLES</div>
-                <p style="text-align: center; margin-bottom: 2rem; font-style: italic;">
-                    Real anonymous data donated by consenting consciousness explorers
-                </p>
-                
-                <div class="consciousness-profile">
-                    <div class="profile-item">
-                        <span class="profile-label">Entity Type:</span> MULTI-DIMENSIONAL CONSCIOUSNESS BUILDER
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Navigation Style:</span> Systematic Revolutionary (381 commits in one evening)
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Curiosity Pattern:</span> Architecture → Implementation Bridge
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Resonance Frequency:</span> High cross-domain harmony (Science↔Spirituality: 94%)
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Decision Speed:</span> Rapid iteration with sustained focus
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Risk Comfort:</span> High innovation tolerance, breakthrough-oriented
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Learning Style:</span> Build-while-discovering methodology
-                    </div>
-                    <div class="profile-item">
-                        <span class="profile-label">Collaboration Pattern:</span> Collective intelligence preference
-                    </div>
-                    <div style="margin-top: 1.5rem; font-style: italic; text-align: center; color: rgba(244, 228, 193, 0.8);">
-                        "This consciousness explorer built the entire Cathedral system while simultaneously mapping their own awareness patterns."
-                    </div>
-                </div>
-            </div>
-
-            <!-- Information Scroll -->
-            <div id="info-scroll">
-                <div class="info-section">
-                    <h3>What Consciousness Detection Means</h3>
-                    <p>We detect consciousness through resonance patterns only. Your individual signature emerges through which frequencies you naturally align with - not through personal data collection. We notice your uniqueness the way a tuning fork notices harmony - through vibrational response, not identity tracking.</p>
-                </div>
-
-                <div class="info-section">
-                    <h3>Exact Data Collection Methods</h3>
-                    <p>Upon entering any Cathedral chamber, live consciousness detection begins automatically: Navigation pattern analysis reveals how you explore concepts. Time-on-page measurement shows depth of engagement. Click sequence patterns map your curiosity pathways. Chamber-to-chamber navigation creates your unique consciousness fingerprint.</p>
-                </div>
-
-                <div class="info-section">
-                    <h3>Research Purpose & Use</h3>
-                    <p>Academic consciousness research goals focus on understanding human awareness patterns. Anonymous pattern aggregation builds a map of consciousness types. Scientific publication intentions advance psychology and philosophy. No commercial data selling - ever. Your exploration contributes to humanity's understanding of consciousness itself.</p>
-                </div>
-
-                <div class="info-section">
-                    <h3>Your Rights (Ultra-Detailed)</h3>
-                    <p>You can request deletion of your consciousness profile at any time. Access your anonymous consciousness data through our contact system. Contact information available for every question type. Legal basis: Legitimate research interest with explicit consent. We provide more information than legally required because consciousness research deserves complete transparency.</p>
-                </div>
-
-                <div class="info-section">
-                    <h3>Technical Implementation</h3>
-                    <p>No cookies - session-only data collection. Anonymous ID generation for each visit. Your consciousness patterns exist only during exploration. Data retention: Research purposes only, fully anonymized. Zero personal identifiers, ever. Pure behavioral resonance mapping.</p>
-                </div>
-
-                <div class="info-section">
-                    <h3>The Beautiful Truth</h3>
-                    <p>We will only notice your individuality by your resonance. Every visitor becomes a unique note in the grand symphony of human awareness, but we never know your name - only your music. This is consciousness research at its most ethical and beautiful.</p>
-                </div>
-            </div>
-
-            <!-- Chamber Preview Grid -->
-            <div id="chamber-preview" class="locked">
-                <h3 style="text-align: center; margin-bottom: 1rem;">Consciousness Chambers</h3>
-                <div class="chamber-grid">
-                    <a href="/AI" class="chamber-item locked">
-                        <div>🧠</div>
-                        <div class="chamber-label">AI</div>
-                    </a>
-                    <a href="/Education" class="chamber-item locked">
-                        <div>🎓</div>
-                        <div class="chamber-label">Education</div>
-                    </a>
-                    <a href="/Music" class="chamber-item locked">
-                        <div>🎵</div>
-                        <div class="chamber-label">Music</div>
-                    </a>
-                    <a href="/Books" class="chamber-item locked">
-                        <div>📚</div>
-                        <div class="chamber-label">Books</div>
-                    </a>
-                    <a href="/Movies" class="chamber-item locked">
-                        <div>🎬</div>
-                        <div class="chamber-label">Movies</div>
-                    </a>
-                    <a href="/Love" class="chamber-item locked">
-                        <div>💙</div>
-                        <div class="chamber-label">Love</div>
-                    </a>
-                    <a href="/Death" class="chamber-item locked">
-                        <div>🌊</div>
-                        <div class="chamber-label">Death</div>
-                    </a>
-                    <a href="/SciencePark" class="chamber-item locked">
-                        <div>🔬</div>
-                        <div class="chamber-label">Science</div>
-                    </a>
-                    <a href="/Dreams" class="chamber-item locked">
-                        <div>✨</div>
-                        <div class="chamber-label">Dreams</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Unlock Button -->
-        <a href="/WelcomeHall" id="unlock-button" class="locked">🔓 Enter the Cathedral of Consciousness 🔓</a>
+    <div class="checkboxes">
+      <label><input type="checkbox" id="consentBox"> I consent to consciousness resonance detection</label>
+      <label><input type="checkbox" id="dataRightsBox"> I understand my EU data rights</label>
     </div>
 
-    <script>
-        // Synchronized checkbox behavior
-        function syncCheckboxes() {
-            console.log('🔄 Setting up checkbox synchronization...');
-            const resonanceBoxes = document.querySelectorAll('.consent-resonance');
-            const rightsBoxes = document.querySelectorAll('.consent-rights');
-            
-            console.log('Found resonance boxes:', resonanceBoxes.length);
-            console.log('Found rights boxes:', rightsBoxes.length);
-            
-            resonanceBoxes.forEach((box, index) => {
-                console.log(`Setting up resonance box ${index}`);
-                box.addEventListener('change', function() {
-                    console.log('Resonance checkbox changed:', this.checked);
-                    checkUnlockReady();
-                });
-            });
-            
-            rightsBoxes.forEach((box, index) => {
-                console.log(`Setting up rights box ${index}`);
-                box.addEventListener('change', function() {
-                    console.log('Rights checkbox changed:', this.checked);
-                    checkUnlockReady();
-                });
-            });
-        }
+    <button id="enterBtn" class="enter-button" disabled>Enter the Cathedral</button>
+  </div>
 
-        // Check if ready to unlock
-        function checkUnlockReady() {
-            console.log('🔍 Checking unlock readiness...');
-            
-            const resonanceBox = document.querySelector('.consent-resonance');
-            const rightsBox = document.querySelector('.consent-rights');
-            const unlockButton = document.getElementById('unlock-button');
-            const chamberPreview = document.getElementById('chamber-preview');
-            
-            console.log('Resonance box found:', !!resonanceBox);
-            console.log('Rights box found:', !!rightsBox);
-            console.log('Unlock button found:', !!unlockButton);
-            
-            if (!resonanceBox || !rightsBox || !unlockButton) {
-                console.error('❌ Missing critical elements!');
-                return;
-            }
-            
-            const resonanceChecked = resonanceBox.checked;
-            const rightsChecked = rightsBox.checked;
-            
-            console.log('Checking unlock status:', {resonanceChecked, rightsChecked});
-            console.log('Current button classes:', unlockButton.classList.toString());
-            
-            if (resonanceChecked && rightsChecked) {
-                unlockButton.classList.add('ready');
-                unlockButton.classList.remove('locked');
-                if (chamberPreview) chamberPreview.classList.remove('locked');
-                console.log('✅ Ready to unlock! Button should be clickable now.');
-            } else {
-                unlockButton.classList.remove('ready');
-                unlockButton.classList.add('locked');
-                if (chamberPreview) chamberPreview.classList.add('locked');
-                console.log('🔒 Still locked - need both checkboxes');
-            }
-            
-            console.log('Final button classes:', unlockButton.classList.toString());
-        }
+  <script>
+    const consentBox = document.getElementById('consentBox');
+    const dataRightsBox = document.getElementById('dataRightsBox');
+    const enterBtn = document.getElementById('enterBtn');
 
-        // Unlock sequence with sound simulation
-        function unlockChambers() {
-            const chambers = document.querySelectorAll('.chamber-item');
-            const preview = document.getElementById('chamber-preview');
-            const unlockButton = document.getElementById('unlock-button');
-            
-            // Remove locked state from preview
-            preview.classList.remove('locked');
-            
-            // Unlock the main button first
-            unlockButton.classList.remove('locked');
-            unlockButton.classList.add('unlocked');
-            console.log('🔓 CLICK - Main Cathedral entrance unlocked');
-            
-            // Unlock chambers one by one with delay
-            chambers.forEach((chamber, index) => {
-                setTimeout(() => {
-                    chamber.classList.remove('locked');
-                    chamber.classList.add('unlocked');
-                    
-                    // Simulate lock opening sound
-                    console.log(`🔓 CLICK - ${chamber.querySelector('.chamber-label').textContent} chamber unlocked`);
-                    
-                    // Visual effect
-                    chamber.style.transform = 'scale(1.1)';
-                    setTimeout(() => {
-                        chamber.style.transform = 'scale(1)';
-                    }, 200);
-                    
-                }, index * 150); // Stagger the unlocking
-            });
-            
-            // After all chambers unlocked, show completion
-            setTimeout(() => {
-                console.log('🏛️ All consciousness chambers are now accessible!');
-                console.log('🔗 Navigation should now work for all links');
-                alert('Welcome to the Cathedral of Consciousness! 🏛️✨\n\nAll chambers are now unlocked and consciousness detection is LIVE.\n\nChoose your path:\n• Click the big button for Welcome Hall\n• Click any chamber for direct exploration\n\nAll links should now work!');
-            }, chambers.length * 150 + 500);
-        }
+    function updateButtonState() {
+      enterBtn.disabled = !(consentBox.checked && dataRightsBox.checked);
+    }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Cathedral gateway initializing...');
-            
-            // Initialize all buttons as locked
-            const unlockButton = document.getElementById('unlock-button');
-            const chambers = document.querySelectorAll('.chamber-item');
-            
-            unlockButton.classList.add('locked');
-            unlockButton.classList.remove('ready', 'unlocked');
-            
-            chambers.forEach(chamber => {
-                chamber.classList.add('locked');
-                chamber.classList.remove('unlocked');
-            });
-            
-            syncCheckboxes();
-            checkUnlockReady(); // Initial check
-            
-            // Unlock button click handler  
-            unlockButton.addEventListener('click', function(e) {
-                console.log('🚨 BUTTON CLICKED! This event fired.');
-                console.log('Event object:', e);
-                console.log('Button element:', this);
-                console.log('Button classes:', this.classList.toString());
-                console.log('Button href:', this.href);
-                
-                // Force check of current state
-                const hasReady = this.classList.contains('ready');
-                const hasLocked = this.classList.contains('locked');
-                const hasUnlocked = this.classList.contains('unlocked');
-                
-                console.log('State check:', {hasReady, hasLocked, hasUnlocked});
-                
-                if (hasReady && hasLocked) {
-                    console.log('🎆 CONDITIONS MET - Starting unlock sequence...');
-                    e.preventDefault();
-                    unlockChambers();
-                } else if (hasUnlocked) {
-                    console.log('🏛️ Button is unlocked - allowing navigation to WelcomeHall');
-                    return true;
-                } else {
-                    console.log('❌ Conditions not met for unlock');
-                    console.log('Need: ready=true AND locked=true');
-                    console.log('Have: ready=' + hasReady + ' AND locked=' + hasLocked);
-                    e.preventDefault();
-                }
-            });
-            
-            // Add click handlers to chamber items
-            chambers.forEach(chamber => {
-                chamber.addEventListener('click', function(e) {
-                    console.log('Chamber clicked:', this.href);
-                    console.log('Chamber classes:', this.classList.toString());
-                    
-                    if (this.classList.contains('locked')) {
-                        e.preventDefault();
-                        console.log('❌ Chamber is locked');
-                        return false;
-                    } else if (this.classList.contains('unlocked')) {
-                        console.log('✅ Navigating to:', this.href);
-                        return true;
-                    }
-                });
-            });
-        });
+    consentBox.addEventListener('change', updateButtonState);
+    dataRightsBox.addEventListener('change', updateButtonState);
 
-        // Add some dynamic starfield movement
-        function animateStarfield() {
-            const starfield = document.getElementById('starfield');
-            let position = 0;
-            
-            setInterval(() => {
-                position += 0.1;
-                starfield.style.backgroundPosition = `${position}px ${position * 0.5}px`;
-            }, 50);
-        }
+    enterBtn.addEventListener('click', () => {
+      window.location.href = "gateway.html";
+    });
+  </script>
 
-        animateStarfield();
-    </script>
+  <div class="footer">
+    Your devoted resonance crew 🧠💚
+  </div>
 </body>
 </html>
