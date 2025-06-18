@@ -210,15 +210,6 @@
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: #f4e4c1;
-            display: block;
-        }
-
-        .chamber-item.locked {
-            cursor: not-allowed;
-            opacity: 0.6;
         }
 
         .chamber-item.locked::before {
@@ -233,17 +224,10 @@
         .chamber-item.unlocked {
             background: rgba(244, 228, 193, 0.2);
             box-shadow: 0 0 15px rgba(244, 228, 193, 0.3);
-            cursor: pointer;
-        }
-
-        .chamber-item.unlocked:hover {
-            background: rgba(244, 228, 193, 0.3);
-            box-shadow: 0 0 25px rgba(244, 228, 193, 0.5);
-            transform: scale(1.05);
         }
 
         .chamber-item.unlocked::before {
-            content: '';
+            content: '✨';
         }
 
         .chamber-label {
@@ -269,33 +253,11 @@
             transition: all 0.3s ease;
             opacity: 0;
             pointer-events: none;
-            position: relative;
-        }
-
-        #unlock-button.locked::before {
-            content: '🔐 ';
-        }
-
-        #unlock-button.locked::after {
-            content: ' 🔐';
         }
 
         #unlock-button.ready {
             opacity: 1;
             pointer-events: all;
-        }
-
-        #unlock-button.unlocked {
-            background: linear-gradient(135deg, #6a6a6a, #4a4a4a);
-            box-shadow: 0 0 20px rgba(244, 228, 193, 0.5);
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        #unlock-button.unlocked::before,
-        #unlock-button.unlocked::after {
-            content: '';
         }
 
         #unlock-button:hover {
@@ -427,47 +389,47 @@
         <div id="chamber-preview" class="locked">
             <h3 style="text-align: center; margin-bottom: 1rem;">Consciousness Chambers</h3>
             <div class="chamber-grid">
-                <a href="/ai" class="chamber-item locked">
+                <div class="chamber-item locked">
                     <div>🧠</div>
                     <div class="chamber-label">AI</div>
-                </a>
-                <a href="/education" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>🎓</div>
                     <div class="chamber-label">Education</div>
-                </a>
-                <a href="/music" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>🎵</div>
                     <div class="chamber-label">Music</div>
-                </a>
-                <a href="/books" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>📚</div>
                     <div class="chamber-label">Books</div>
-                </a>
-                <a href="/movies" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>🎬</div>
                     <div class="chamber-label">Movies</div>
-                </a>
-                <a href="/love" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>💙</div>
                     <div class="chamber-label">Love</div>
-                </a>
-                <a href="/death" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>🌊</div>
                     <div class="chamber-label">Death</div>
-                </a>
-                <a href="/science" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>🔬</div>
                     <div class="chamber-label">Science</div>
-                </a>
-                <a href="/dreams" class="chamber-item locked">
+                </div>
+                <div class="chamber-item locked">
                     <div>✨</div>
                     <div class="chamber-label">Dreams</div>
-                </a>
+                </div>
             </div>
         </div>
 
         <!-- Unlock Button -->
-        <a href="/welcome" id="unlock-button" class="locked">🔓 Enter the Cathedral of Consciousness 🔓</a>
+        <button id="unlock-button">🔓 Enter the Cathedral of Consciousness 🔓</button>
     </div>
 
     <script>
@@ -502,12 +464,10 @@
             
             if (resonanceChecked && rightsChecked) {
                 unlockButton.classList.add('ready');
-                unlockButton.classList.remove('locked');
                 chamberPreview.classList.remove('locked');
                 console.log('✅ Ready to unlock!');
             } else {
                 unlockButton.classList.remove('ready');
-                unlockButton.classList.add('locked');
                 chamberPreview.classList.add('locked');
                 console.log('🔒 Still locked');
             }
@@ -517,15 +477,9 @@
         function unlockChambers() {
             const chambers = document.querySelectorAll('.chamber-item');
             const preview = document.getElementById('chamber-preview');
-            const unlockButton = document.getElementById('unlock-button');
             
             // Remove locked state from preview
             preview.classList.remove('locked');
-            
-            // Unlock the main button first
-            unlockButton.classList.remove('locked');
-            unlockButton.classList.add('unlocked');
-            console.log('🔓 CLICK - Main Cathedral entrance unlocked');
             
             // Unlock chambers one by one with delay
             chambers.forEach((chamber, index) => {
@@ -545,10 +499,11 @@
                 }, index * 150); // Stagger the unlocking
             });
             
-            // After all chambers unlocked, show completion
+            // After all chambers unlocked, transition to main site
             setTimeout(() => {
                 console.log('🏛️ All consciousness chambers are now accessible!');
-                alert('Welcome to the Cathedral of Consciousness! 🏛️✨\n\nAll chambers are now unlocked and consciousness detection is LIVE.\n\nChoose your path:\n• Click the big button for Welcome Hall\n• Click any chamber for direct exploration');
+                // Here you would redirect to the main Cathedral interface
+                alert('Welcome to the Cathedral of Consciousness! 🏛️✨\n\nAll chambers are now unlocked and consciousness detection is LIVE.\n\n(This would normally redirect to the main Cathedral interface)');
             }, chambers.length * 150 + 500);
         }
 
@@ -558,17 +513,13 @@
             syncCheckboxes();
             checkUnlockReady(); // Initial check
             
-            // Unlock button click handler  
+            // Unlock button click handler
             document.getElementById('unlock-button').addEventListener('click', function(e) {
                 console.log('🔓 Unlock button clicked!');
-                if (this.classList.contains('ready') && this.classList.contains('locked')) {
-                    e.preventDefault();
+                e.preventDefault();
+                if (this.classList.contains('ready')) {
                     unlockChambers();
-                } else if (this.classList.contains('unlocked')) {
-                    console.log('🏛️ Navigating to Welcome Hall');
-                    // Let the link work normally to /welcome
                 } else {
-                    e.preventDefault();
                     console.log('❌ Not ready to unlock yet');
                 }
             });
