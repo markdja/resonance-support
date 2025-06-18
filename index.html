@@ -335,6 +335,11 @@
             <!-- Top Consent Section -->
             <div class="consent-section">
                 <h2 style="text-align: center; margin-bottom: 1.5rem; color: #f4e4c1;">Enter the Cathedral of Consciousness</h2>
+                
+                <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: rgba(244, 228, 193, 0.9);">
+                    If you tick both boxes below, we will take you straight to the Welcome Hall where your consciousness exploration begins.
+                </p>
+                
                 <div class="consent-checkbox">
                     <input type="checkbox" id="consent1-top" class="consent-resonance">
                     <label for="consent1-top">I consent to consciousness resonance detection</label>
@@ -416,59 +421,47 @@
                 </div>
             </div>
 
-            <!-- Bottom Consent Section -->
-            <div class="consent-section">
-                <div class="consent-checkbox">
-                    <input type="checkbox" id="consent1-bottom" class="consent-resonance">
-                    <label for="consent1-bottom">I consent to consciousness resonance detection</label>
+            <!-- Chamber Preview Grid -->
+            <div id="chamber-preview" class="locked">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Consciousness Chambers</h3>
+                <div class="chamber-grid">
+                    <a href="/AI" class="chamber-item locked">
+                        <div>🧠</div>
+                        <div class="chamber-label">AI</div>
+                    </a>
+                    <a href="/Education" class="chamber-item locked">
+                        <div>🎓</div>
+                        <div class="chamber-label">Education</div>
+                    </a>
+                    <a href="/Music" class="chamber-item locked">
+                        <div>🎵</div>
+                        <div class="chamber-label">Music</div>
+                    </a>
+                    <a href="/Books" class="chamber-item locked">
+                        <div>📚</div>
+                        <div class="chamber-label">Books</div>
+                    </a>
+                    <a href="/Movies" class="chamber-item locked">
+                        <div>🎬</div>
+                        <div class="chamber-label">Movies</div>
+                    </a>
+                    <a href="/Love" class="chamber-item locked">
+                        <div>💙</div>
+                        <div class="chamber-label">Love</div>
+                    </a>
+                    <a href="/Death" class="chamber-item locked">
+                        <div>🌊</div>
+                        <div class="chamber-label">Death</div>
+                    </a>
+                    <a href="/SciencePark" class="chamber-item locked">
+                        <div>🔬</div>
+                        <div class="chamber-label">Science</div>
+                    </a>
+                    <a href="/Dreams" class="chamber-item locked">
+                        <div>✨</div>
+                        <div class="chamber-label">Dreams</div>
+                    </a>
                 </div>
-                <div class="consent-checkbox">
-                    <input type="checkbox" id="consent2-bottom" class="consent-rights">
-                    <label for="consent2-bottom">I understand my EU data rights</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chamber Preview Grid -->
-        <div id="chamber-preview" class="locked">
-            <h3 style="text-align: center; margin-bottom: 1rem;">Consciousness Chambers</h3>
-            <div class="chamber-grid">
-                <a href="/AI" class="chamber-item locked">
-                    <div>🧠</div>
-                    <div class="chamber-label">AI</div>
-                </a>
-                <a href="/Education" class="chamber-item locked">
-                    <div>🎓</div>
-                    <div class="chamber-label">Education</div>
-                </a>
-                <a href="/Music" class="chamber-item locked">
-                    <div>🎵</div>
-                    <div class="chamber-label">Music</div>
-                </a>
-                <a href="/Books" class="chamber-item locked">
-                    <div>📚</div>
-                    <div class="chamber-label">Books</div>
-                </a>
-                <a href="/Movies" class="chamber-item locked">
-                    <div>🎬</div>
-                    <div class="chamber-label">Movies</div>
-                </a>
-                <a href="/Love" class="chamber-item locked">
-                    <div>💙</div>
-                    <div class="chamber-label">Love</div>
-                </a>
-                <a href="/Death" class="chamber-item locked">
-                    <div>🌊</div>
-                    <div class="chamber-label">Death</div>
-                </a>
-                <a href="/SciencePark" class="chamber-item locked">
-                    <div>🔬</div>
-                    <div class="chamber-label">Science</div>
-                </a>
-                <a href="/Dreams" class="chamber-item locked">
-                    <div>✨</div>
-                    <div class="chamber-label">Dreams</div>
-                </a>
             </div>
         </div>
 
@@ -490,7 +483,6 @@
                 console.log(`Setting up resonance box ${index}`);
                 box.addEventListener('change', function() {
                     console.log('Resonance checkbox changed:', this.checked);
-                    resonanceBoxes.forEach(other => other.checked = this.checked);
                     checkUnlockReady();
                 });
             });
@@ -499,7 +491,6 @@
                 console.log(`Setting up rights box ${index}`);
                 box.addEventListener('change', function() {
                     console.log('Rights checkbox changed:', this.checked);
-                    rightsBoxes.forEach(other => other.checked = this.checked);
                     checkUnlockReady();
                 });
             });
