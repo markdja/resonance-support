@@ -210,6 +210,15 @@
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: #f4e4c1;
+            display: block;
+        }
+
+        .chamber-item.locked {
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .chamber-item.locked::before {
@@ -224,10 +233,17 @@
         .chamber-item.unlocked {
             background: rgba(244, 228, 193, 0.2);
             box-shadow: 0 0 15px rgba(244, 228, 193, 0.3);
+            cursor: pointer;
+        }
+
+        .chamber-item.unlocked:hover {
+            background: rgba(244, 228, 193, 0.3);
+            box-shadow: 0 0 25px rgba(244, 228, 193, 0.5);
+            transform: scale(1.05);
         }
 
         .chamber-item.unlocked::before {
-            content: '✨';
+            content: '';
         }
 
         .chamber-label {
@@ -253,11 +269,34 @@
             transition: all 0.3s ease;
             opacity: 0;
             pointer-events: none;
+            position: relative;
+        }
+
+        #unlock-button.locked::before {
+            content: '🔐 ';
+        }
+
+        #unlock-button.locked::after {
+            content: ' 🔐';
         }
 
         #unlock-button.ready {
             opacity: 1;
             pointer-events: all;
+        }
+
+        #unlock-button.unlocked {
+            background: linear-gradient(135deg, #6a6a6a, #4a4a4a);
+            box-shadow: 0 0 20px rgba(244, 228, 193, 0.5);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            pointer-events: all;
+        }
+
+        #unlock-button.unlocked::before,
+        #unlock-button.unlocked::after {
+            content: '';
         }
 
         #unlock-button:hover {
@@ -389,47 +428,47 @@
         <div id="chamber-preview" class="locked">
             <h3 style="text-align: center; margin-bottom: 1rem;">Consciousness Chambers</h3>
             <div class="chamber-grid">
-                <div class="chamber-item locked">
+                <a href="/AI" class="chamber-item locked">
                     <div>🧠</div>
                     <div class="chamber-label">AI</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Education" class="chamber-item locked">
                     <div>🎓</div>
                     <div class="chamber-label">Education</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Music" class="chamber-item locked">
                     <div>🎵</div>
                     <div class="chamber-label">Music</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Books" class="chamber-item locked">
                     <div>📚</div>
                     <div class="chamber-label">Books</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Movies" class="chamber-item locked">
                     <div>🎬</div>
                     <div class="chamber-label">Movies</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Love" class="chamber-item locked">
                     <div>💙</div>
                     <div class="chamber-label">Love</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Death" class="chamber-item locked">
                     <div>🌊</div>
                     <div class="chamber-label">Death</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/SciencePark" class="chamber-item locked">
                     <div>🔬</div>
                     <div class="chamber-label">Science</div>
-                </div>
-                <div class="chamber-item locked">
+                </a>
+                <a href="/Dreams" class="chamber-item locked">
                     <div>✨</div>
                     <div class="chamber-label">Dreams</div>
-                </div>
+                </a>
             </div>
         </div>
 
         <!-- Unlock Button -->
-        <button id="unlock-button">🔓 Enter the Cathedral of Consciousness 🔓</button>
+        <a href="/WelcomeHall" id="unlock-button" class="locked">🔓 Enter the Cathedral of Consciousness 🔓</a>
     </div>
 
     <script>
@@ -464,10 +503,12 @@
             
             if (resonanceChecked && rightsChecked) {
                 unlockButton.classList.add('ready');
+                unlockButton.classList.remove('locked');
                 chamberPreview.classList.remove('locked');
                 console.log('✅ Ready to unlock!');
             } else {
                 unlockButton.classList.remove('ready');
+                unlockButton.classList.add('locked');
                 chamberPreview.classList.add('locked');
                 console.log('🔒 Still locked');
             }
@@ -477,9 +518,15 @@
         function unlockChambers() {
             const chambers = document.querySelectorAll('.chamber-item');
             const preview = document.getElementById('chamber-preview');
+            const unlockButton = document.getElementById('unlock-button');
             
             // Remove locked state from preview
             preview.classList.remove('locked');
+            
+            // Unlock the main button first
+            unlockButton.classList.remove('locked');
+            unlockButton.classList.add('unlocked');
+            console.log('🔓 CLICK - Main Cathedral entrance unlocked');
             
             // Unlock chambers one by one with delay
             chambers.forEach((chamber, index) => {
@@ -499,11 +546,11 @@
                 }, index * 150); // Stagger the unlocking
             });
             
-            // After all chambers unlocked, transition to main site
+            // After all chambers unlocked, show completion
             setTimeout(() => {
                 console.log('🏛️ All consciousness chambers are now accessible!');
-                // Here you would redirect to the main Cathedral interface
-                alert('Welcome to the Cathedral of Consciousness! 🏛️✨\n\nAll chambers are now unlocked and consciousness detection is LIVE.\n\n(This would normally redirect to the main Cathedral interface)');
+                console.log('🔗 Navigation should now work for all links');
+                alert('Welcome to the Cathedral of Consciousness! 🏛️✨\n\nAll chambers are now unlocked and consciousness detection is LIVE.\n\nChoose your path:\n• Click the big button for Welcome Hall\n• Click any chamber for direct exploration\n\nAll links should now work!');
             }, chambers.length * 150 + 500);
         }
 
@@ -513,15 +560,39 @@
             syncCheckboxes();
             checkUnlockReady(); // Initial check
             
-            // Unlock button click handler
+            // Unlock button click handler  
             document.getElementById('unlock-button').addEventListener('click', function(e) {
                 console.log('🔓 Unlock button clicked!');
-                e.preventDefault();
-                if (this.classList.contains('ready')) {
+                console.log('Button classes:', this.classList.toString());
+                
+                if (this.classList.contains('ready') && this.classList.contains('locked')) {
+                    e.preventDefault();
                     unlockChambers();
+                } else if (this.classList.contains('unlocked')) {
+                    console.log('🏛️ Navigating to WelcomeHall');
+                    // Let the link work normally to /WelcomeHall
+                    return true;
                 } else {
+                    e.preventDefault();
                     console.log('❌ Not ready to unlock yet');
                 }
+            });
+            
+            // Add click handlers to chamber items
+            document.querySelectorAll('.chamber-item').forEach(chamber => {
+                chamber.addEventListener('click', function(e) {
+                    console.log('Chamber clicked:', this.href);
+                    console.log('Chamber classes:', this.classList.toString());
+                    
+                    if (this.classList.contains('locked')) {
+                        e.preventDefault();
+                        console.log('❌ Chamber is locked');
+                        return false;
+                    } else if (this.classList.contains('unlocked')) {
+                        console.log('✅ Navigating to:', this.href);
+                        return true;
+                    }
+                });
             });
         });
 
