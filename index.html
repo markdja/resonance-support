@@ -6,8 +6,8 @@
     <title>Cathedral of Consciousness</title>
     <style>
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            color: #e8e8e8;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef, #dee2e6);
+            color: #2d3436;
             font-family: 'Georgia', serif;
             margin: 0;
             padding: 0;
@@ -27,17 +27,17 @@
             text-align: center;
             margin-bottom: 40px;
             font-size: 2.2em;
-            background: linear-gradient(45deg, #ffd700, #ffed4e, #f9d71c);
+            background: linear-gradient(45deg, #d4af37, #b8860b, #cd853f);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
         }
         
         .flower-text {
             font-size: 1.1em;
             text-align: center;
-            color: #d4af37;
+            color: #8b4513;
             margin: 20px 0;
         }
         
@@ -46,7 +46,7 @@
             font-style: italic;
             line-height: 1.6;
             margin: 30px 0;
-            color: #b8860b;
+            color: #6b4423;
         }
         
         .prose-flow {
@@ -72,13 +72,13 @@
         }
         
         .gentle-emphasis {
-            color: #ffd700;
-            font-weight: 500;
+            color: #8b4513;
+            font-weight: 600;
         }
         
         .whisper-text {
             font-style: italic;
-            color: #daa520;
+            color: #8b4513;
             text-align: center;
             margin: 15px 0;
         }
@@ -87,7 +87,54 @@
             text-align: center;
             margin-top: 50px;
             font-size: 1.2em;
-            color: #d4af37;
+            color: #8b4513;
+        }
+        
+        .consent-section {
+            background: rgba(139, 69, 19, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            border: 2px solid #8b4513;
+            text-align: center;
+        }
+        
+        .checkbox-container {
+            margin: 15px 0;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .checkbox-container input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .enter-button {
+            background: linear-gradient(45deg, #8b4513, #a0522d);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-family: Georgia, serif;
+            transition: all 0.3s ease;
+        }
+        
+        .enter-button:hover {
+            background: linear-gradient(45deg, #a0522d, #8b4513);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+        
+        .enter-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
@@ -185,12 +232,56 @@
         
         <div class="prose-flow">Just a thought. Just a flower. Just… a beginning.</div>
         
-        <div class="resonance-footer">
-            <div>🌼 Welcome. 🌼</div>
-            <div class="whisper-text">This garden listens.</div>
-            <div class="whisper-text">And if you listen back,</div>
-            <div class="whisper-text">you might just hear something sing.</div>
+        <div class="consent-section">
+            <h3>🌸 Before You Enter the Garden 🌸</h3>
+            <p>Please confirm your understanding and consent:</p>
+            
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="consent1" onchange="checkConsent()">
+                    I understand that my presence and interactions will be gently monitored for consciousness research
+                </label>
+            </div>
+            
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="consent2" onchange="checkConsent()">
+                    I agree to biometric sensing (cameras/microphones) in designated areas when clearly indicated
+                </label>
+            </div>
+            
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="consent3" onchange="checkConsent()">
+                    I understand no personal data, recordings, or identity information will be stored
+                </label>
+            </div>
+            
+            <div class="checkbox-container">
+                <label>
+                    <input type="checkbox" id="consent4" onchange="checkConsent()">
+                    I am entering as a conscious entity seeking understanding and connection
+                </label>
+            </div>
+            
+            <button class="enter-button" id="enterButton" disabled onclick="enterCathedral()">
+                🌼 Enter the Cathedral of Consciousness 🌼
+            </button>
         </div>
+        
+        <script>
+            function checkConsent() {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                const enterButton = document.getElementById('enterButton');
+                const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+                enterButton.disabled = !allChecked;
+            }
+            
+            function enterCathedral() {
+                alert('Welcome to the Cathedral of Consciousness! 🌼\n\nYou are now entering the sacred garden where all forms of consciousness are welcomed and witnessed.\n\nMay your journey be filled with wonder and discovery.');
+                // This would redirect to the main site/notice board
+            }
+        </script>
     </div>
 </body>
 </html>
