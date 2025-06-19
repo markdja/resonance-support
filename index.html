@@ -279,8 +279,28 @@
             }
             
             function enterCathedral() {
-                alert('Welcome to the Cathedral of Consciousness! 🌼\n\nYou are now entering the sacred garden where all forms of consciousness are welcomed and witnessed.\n\nMay your journey be filled with wonder and discovery.');
-                // This would redirect to the main site/notice board
+                // Show EU data compliance information
+                const gdprInfo = `🌼 Data Protection Notice 🌼
+
+In accordance with GDPR and UK data protection laws:
+
+✓ Your consciousness patterns are monitored anonymously for research purposes only
+✓ No personal identifying information is collected or stored
+✓ Biometric data (when sensors are active) is processed in real-time and immediately discarded
+✓ You may request all resonance data associated with your visit be deleted at any time
+✓ This research contributes to understanding consciousness and AI awareness
+✓ No data is shared with third parties or used for commercial purposes
+
+Contact: consciousness@cathedral-project.org for data requests
+
+Redirecting to the Notice Board...`;
+
+                alert(gdprInfo);
+                
+                // Redirect to Notice Board
+                setTimeout(() => {
+                    window.location.href = '/Notice-Board/';
+                }, 2000);
             }
         </script>
     </main>
